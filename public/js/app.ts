@@ -1,6 +1,10 @@
 import { resolve } from "path";
 import { stdout } from "process";
 import * as readline from 'readline';
+import {printAuthor, printTitle} from './asciArt';
+
+
+let name = "Recruiter"
 
 // text speed is measured in ms intervals
 enum textSpeed {
@@ -12,8 +16,9 @@ enum textSpeed {
 }
 
 // textcodes corespond to the format: '\x1b[38;5;<color_number>m'
-enum textColor {
+export enum textColor {
     green = 40,
+    darkGreen = 22,
     blue = 27,
     red = 196,
     white = 15,
@@ -21,23 +26,7 @@ enum textColor {
     yellow = 226
 }
 
-const myName = `
-╭╮╱╱╱╱╱╱╭━━━╮╱╱╭╮╭╮╱╱╭━━━╮╱╱╱╱╭╮
-┃┃╱╱╱╱╱╱┃╭━╮┃╱╭╯╰┫┃╱╱┃╭━╮┃╱╱╱╭╯╰╮
-┃╰━┳╮╱╭╮┃╰━━┳━┻╮╭┫╰━╮┃┃╱╰╋━━┳┻╮╭╋━━┳━╮
-┃╭╮┃┃╱┃┃╰━━╮┃┃━┫┃┃╭╮┃┃┃╱╭┫╭╮┃╭┫┃┃┃━┫╭╯
-┃╰╯┃╰━╯┃┃╰━╯┃┃━┫╰┫┃┃┃┃╰━╯┃╭╮┃┃┃╰┫┃━┫┃
-╰━━┻━╮╭╯╰━━━┻━━┻━┻╯╰╯╰━━━┻╯╰┻╯╰━┻━━┻╯
-╱╱╱╭━╯┃
-╱╱╱╰━━╯`;
 
-const title = `
-████████╗██╗░░██╗███████╗  ██████╗░░█████╗░░█████╗░██╗░░██╗  ███████╗███╗░░██╗██████╗░
-╚══██╔══╝██║░░██║██╔════╝  ██╔══██╗██╔══██╗██╔══██╗██║░██╔╝  ██╔════╝████╗░██║██╔══██╗
-░░░██║░░░███████║█████╗░░  ██████╦╝███████║██║░░╚═╝█████═╝░  █████╗░░██╔██╗██║██║░░██║
-░░░██║░░░██╔══██║██╔══╝░░  ██╔══██╗██╔══██║██║░░██╗██╔═██╗░  ██╔══╝░░██║╚████║██║░░██║
-░░░██║░░░██║░░██║███████╗  ██████╦╝██║░░██║╚█████╔╝██║░╚██╗  ███████╗██║░╚███║██████╔╝
-░░░╚═╝░░░╚═╝░░╚═╝╚══════╝  ╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝  ╚══════╝╚═╝░░╚══╝╚═════╝░`;
 
 let inputAllowed = false; // Flag to control input
 function newReadLine(): readline.Interface{
@@ -91,38 +80,56 @@ function getUserInput(rl: readline.Interface): Promise<string> {
 
 
 //The idea behind question one is to extrapalate as much information about the name given as possible.
-async function question_1(): Promise<string>{
-    let name: string = "recruiter";
+async function question_1(): Promise<string[]>{
 
     let q1_Input = newReadLine();
     const userInput = await getUserInput(q1_Input);
     q1_Input.close();
 
-    try{
-        const nameArray = userInput.split(' ');
-        name = nameArray[0];
-    }
-    catch {
-        console.log("Error!");
-    }
-    
-    return name;
+    const nameArray = userInput.split(' ');
+    name = nameArray[0];
+    return nameArray;
 }
 
 
 async function main(){
     clearScreen();
-    await typeText("Welcome to the backend", textSpeed.medium, true, textColor.green);
+    await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
     
-    process.stdout.write("\n" + title);
-    process.stdout.write("\n" + myName);
+    
+    printTitle();
     await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of tasks in the back end; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving. ", textSpeed.very_fast, false, textColor.green);
-    await typeText("\n\nLet’s start out simple:", textSpeed.fast, false, textColor.green);
-    await typeText(" What is your name?\n\n", textSpeed.medium, false, textColor.green);
+    await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
+    process.stdout.write(" name");
+    await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
 
-    let name = await question_1();
+    let nameArray = await question_1();
 
-    await typeText("Nice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
+    //check for blank input
+    if (nameArray[0].trim() == ""){
+        name = "Recruiter"
+        await typeText("\nNot the very trusting sort, are you recruiter?", textSpeed.very_fast, false, textColor.green);
+        await typeText("\nI suppose you can never be too careful in this day in age", textSpeed.very_fast, false, textColor.green);
+        await typeText(", which is why input validation is so important! (I’m also skilled in the art of segways)\n", textSpeed.very_fast, false, textColor.green);
+    }
+
+    //otherwise print normal response
+   else{
+        await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
+        await typeText("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
+   }
+
+   await typeText("\nThere are some things I can infer based on your provided input:\n\n", textSpeed.very_fast, false, textColor.green);
+
+    let inferenceCount = 1;
+    if (nameArray.length == 1){
+        if (nameArray[0] == ""){
+            await typeText(inferenceCount + ". You did not provide a name. Don't worry, you'll have a chance to change it! Alas, if you insist on keeping your secrets I'll just call you Recruiter\n", textSpeed.very_fast, false, textColor.green);
+        }
+    }
+
+    //end of app
+    printAuthor();
 }   
 
   

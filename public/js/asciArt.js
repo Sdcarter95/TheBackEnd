@@ -1,7 +1,9 @@
-import { textColor } from "./app";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.printAuthor = exports.printTitle = exports.title = exports.author = void 0;
+const app_1 = require("./app");
 const resetCode = '\x1b[0m'; // Reset code is to set text color to default after colored text is printed
-
-export const author = `\n\n
+exports.author = `\n\n
 ╭╮╱╱╱╱╱╱╭━━━╮╱╱╭╮╭╮╱╱╭━━━╮╱╱╱╱╭╮
 ┃┃╱╱╱╱╱╱┃╭━╮┃╱╭╯╰┫┃╱╱┃╭━╮┃╱╱╱╭╯╰╮
 ┃╰━┳╮╱╭╮┃╰━━┳━┻╮╭┫╰━╮┃┃╱╰╋━━┳┻╮╭╋━━┳━╮
@@ -10,52 +12,42 @@ export const author = `\n\n
 ╰━━┻━╮╭╯╰━━━┻━━┻━┻╯╰╯╰━━━┻╯╰┻╯╰━┻━━┻╯
 ╱╱╱╭━╯┃
 ╱╱╱╰━━╯`;
-
-export const title = `\n
+exports.title = `\n
 ████████╗██╗░░██╗███████╗  ██████╗░░█████╗░░█████╗░██╗░░██╗  ███████╗███╗░░██╗██████╗░
 ╚══██╔══╝██║░░██║██╔════╝  ██╔══██╗██╔══██╗██╔══██╗██║░██╔╝  ██╔════╝████╗░██║██╔══██╗
 ░░░██║░░░███████║█████╗░░  ██████╦╝███████║██║░░╚═╝█████═╝░  █████╗░░██╔██╗██║██║░░██║
 ░░░██║░░░██╔══██║██╔══╝░░  ██╔══██╗██╔══██║██║░░██╗██╔═██╗░  ██╔══╝░░██║╚████║██║░░██║
 ░░░██║░░░██║░░██║███████╗  ██████╦╝██║░░██║╚█████╔╝██║░╚██╗  ███████╗██║░╚███║██████╔╝
 ░░░╚═╝░░░╚═╝░░╚═╝╚══════╝  ╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝  ╚══════╝╚═╝░░╚══╝╚═════╝░`;
-
-export function printTitle(){
-    
-    for (let index = 0; index < title.length; index++) {
-        const character = title[index];
+function printTitle() {
+    for (let index = 0; index < exports.title.length; index++) {
+        const character = exports.title[index];
         if (character == "█") {
-            printDarkGreen(title[index]);
+            printDarkGreen(exports.title[index]);
         }
-        else{
-            printGreen(title[index]);
+        else {
+            printGreen(exports.title[index]);
         }
     }
 }
-
-export function printAuthor(){
-    
-    for (let index = 0; index < author.length; index++) {
-        const character = author[index];
+exports.printTitle = printTitle;
+function printAuthor() {
+    for (let index = 0; index < exports.author.length; index++) {
+        const character = exports.author[index];
         if (character == "╱") {
-            printDarkGreen(author[index]);
+            printDarkGreen(exports.author[index]);
         }
-        else{
-            printGreen(author[index]);
+        else {
+            printGreen(exports.author[index]);
         }
     }
 }
-
-function printGreen(input: string){
-    const text = `\x1b[38;5;${textColor.green}m${input}${resetCode}`;
+exports.printAuthor = printAuthor;
+function printGreen(input) {
+    const text = `\x1b[38;5;${app_1.textColor.green}m${input}${resetCode}`;
     process.stdout.write(text);
-
 }
-
-function printDarkGreen(input: string){
-    const text = `\x1b[38;5;${textColor.white}m${input}${resetCode}`;
+function printDarkGreen(input) {
+    const text = `\x1b[38;5;${app_1.textColor.white}m${input}${resetCode}`;
     process.stdout.write(text);
-
 }
-
-
-

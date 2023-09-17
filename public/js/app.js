@@ -22,17 +22,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.textColor = void 0;
 const readline = __importStar(require("readline"));
+const asciArt_1 = require("./asciArt");
+let name = "Recruiter";
 // text speed is measured in ms intervals
 var textSpeed;
 (function (textSpeed) {
@@ -46,28 +40,13 @@ var textSpeed;
 var textColor;
 (function (textColor) {
     textColor[textColor["green"] = 40] = "green";
+    textColor[textColor["darkGreen"] = 22] = "darkGreen";
     textColor[textColor["blue"] = 27] = "blue";
     textColor[textColor["red"] = 196] = "red";
     textColor[textColor["white"] = 15] = "white";
     textColor[textColor["cyan"] = 45] = "cyan";
     textColor[textColor["yellow"] = 226] = "yellow";
-})(textColor || (textColor = {}));
-const myName = `
-╭╮╱╱╱╱╱╱╭━━━╮╱╱╭╮╭╮╱╱╭━━━╮╱╱╱╱╭╮
-┃┃╱╱╱╱╱╱┃╭━╮┃╱╭╯╰┫┃╱╱┃╭━╮┃╱╱╱╭╯╰╮
-┃╰━┳╮╱╭╮┃╰━━┳━┻╮╭┫╰━╮┃┃╱╰╋━━┳┻╮╭╋━━┳━╮
-┃╭╮┃┃╱┃┃╰━━╮┃┃━┫┃┃╭╮┃┃┃╱╭┫╭╮┃╭┫┃┃┃━┫╭╯
-┃╰╯┃╰━╯┃┃╰━╯┃┃━┫╰┫┃┃┃┃╰━╯┃╭╮┃┃┃╰┫┃━┫┃
-╰━━┻━╮╭╯╰━━━┻━━┻━┻╯╰╯╰━━━┻╯╰┻╯╰━┻━━┻╯
-╱╱╱╭━╯┃
-╱╱╱╰━━╯`;
-const title = `
-████████╗██╗░░██╗███████╗  ██████╗░░█████╗░░█████╗░██╗░░██╗  ███████╗███╗░░██╗██████╗░
-╚══██╔══╝██║░░██║██╔════╝  ██╔══██╗██╔══██╗██╔══██╗██║░██╔╝  ██╔════╝████╗░██║██╔══██╗
-░░░██║░░░███████║█████╗░░  ██████╦╝███████║██║░░╚═╝█████═╝░  █████╗░░██╔██╗██║██║░░██║
-░░░██║░░░██╔══██║██╔══╝░░  ██╔══██╗██╔══██║██║░░██╗██╔═██╗░  ██╔══╝░░██║╚████║██║░░██║
-░░░██║░░░██║░░██║███████╗  ██████╦╝██║░░██║╚█████╔╝██║░╚██╗  ███████╗██║░╚███║██████╔╝
-░░░╚═╝░░░╚═╝░░╚═╝╚══════╝  ╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝  ╚══════╝╚═╝░░╚══╝╚═════╝░`;
+})(textColor || (exports.textColor = textColor = {}));
 let inputAllowed = false; // Flag to control input
 function newReadLine() {
     const rl = readline.createInterface({
@@ -76,32 +55,28 @@ function newReadLine() {
     });
     return rl;
 }
-function typeText(text, speed, isCentered, colorCode = 0) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let index = 0;
-        const interval = speed; // Adjust the interval (in milliseconds) as needed
-        const resetCode = '\x1b[0m'; // Reset code is to set text color to default after colored text is printed
-        text = `\x1b[38;5;${colorCode}m${text}${resetCode}`;
-        //determine the center of the terminal if text needs to be centered
-        if (isCentered) {
-            const terminalWidth = process.stdout.columns || 80; // Default to 80 columns if unable to determine terminal width
-            const spacesToAdd = Math.max(0, Math.floor((terminalWidth - text.length) / 2));
-            const centeredBuffer = ' '.repeat(spacesToAdd);
-            process.stdout.write(centeredBuffer);
+async function typeText(text, speed, isCentered, colorCode = 0) {
+    let index = 0;
+    const interval = speed; // Adjust the interval (in milliseconds) as needed
+    const resetCode = '\x1b[0m'; // Reset code is to set text color to default after colored text is printed
+    text = `\x1b[38;5;${colorCode}m${text}${resetCode}`;
+    //determine the center of the terminal if text needs to be centered
+    if (isCentered) {
+        const terminalWidth = process.stdout.columns || 80; // Default to 80 columns if unable to determine terminal width
+        const spacesToAdd = Math.max(0, Math.floor((terminalWidth - text.length) / 2));
+        const centeredBuffer = ' '.repeat(spacesToAdd);
+        process.stdout.write(centeredBuffer);
+    }
+    // type out letters one at a time
+    async function printNextLetter() {
+        if (index < text.length) {
+            process.stdout.write(text.charAt(index));
+            index++;
+            await new Promise(resolve => setTimeout(resolve, interval)); // Await the setTimeout
+            await printNextLetter(); // Recursively call itself
         }
-        // type out letters one at a time
-        function printNextLetter() {
-            return __awaiter(this, void 0, void 0, function* () {
-                if (index < text.length) {
-                    process.stdout.write(text.charAt(index));
-                    index++;
-                    yield new Promise(resolve => setTimeout(resolve, interval)); // Await the setTimeout
-                    yield printNextLetter(); // Recursively call itself
-                }
-            });
-        }
-        yield printNextLetter();
-    });
+    }
+    await printNextLetter();
 }
 function clearScreen() {
     process.stdout.write('\x1b[2J\x1b[0f');
@@ -114,33 +89,43 @@ function getUserInput(rl) {
     });
 }
 //The idea behind question one is to extrapalate as much information about the name given as possible.
-function question_1() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let name = "recruiter";
-        let q1_Input = newReadLine();
-        const userInput = yield getUserInput(q1_Input);
-        q1_Input.close();
-        try {
-            const nameArray = userInput.split(' ');
-            name = nameArray[0];
-        }
-        catch (_a) {
-            console.log("Error!");
-        }
-        return name;
-    });
+async function question_1() {
+    let q1_Input = newReadLine();
+    const userInput = await getUserInput(q1_Input);
+    q1_Input.close();
+    const nameArray = userInput.split(' ');
+    name = nameArray[0];
+    return nameArray;
 }
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        clearScreen();
-        yield typeText("Welcome to the backend", textSpeed.medium, true, textColor.green);
-        process.stdout.write("\n" + title);
-        process.stdout.write("\n" + myName);
-        yield typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of tasks in the back end; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving. ", textSpeed.very_fast, false, textColor.green);
-        yield typeText("\n\nLet’s start out simple:", textSpeed.fast, false, textColor.green);
-        yield typeText(" What is your name?\n\n", textSpeed.medium, false, textColor.green);
-        let name = yield question_1();
-        yield typeText("Nice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
-    });
+async function main() {
+    clearScreen();
+    await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
+    (0, asciArt_1.printTitle)();
+    await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of tasks in the back end; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving. ", textSpeed.very_fast, false, textColor.green);
+    await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
+    process.stdout.write(" name");
+    await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
+    let nameArray = await question_1();
+    //check for blank input
+    if (nameArray[0].trim() == "") {
+        name = "Recruiter";
+        await typeText("\nNot the very trusting sort, are you recruiter?", textSpeed.very_fast, false, textColor.green);
+        await typeText("\nI suppose you can never be too careful in this day in age", textSpeed.very_fast, false, textColor.green);
+        await typeText(", which is why input validation is so important! (I’m also skilled in the art of segways)\n", textSpeed.very_fast, false, textColor.green);
+    }
+    //otherwise print normal response
+    else {
+        await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
+        await typeText("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
+    }
+    await typeText("\nThere are some things I can infer based on your provided input:\n\n", textSpeed.very_fast, false, textColor.green);
+    let inferenceCount = 1;
+    if (nameArray.length == 1) {
+        if (nameArray[0] == "") {
+            await typeText(inferenceCount + ". You did not provide a name. Don't worry, you'll have a chance to change it! Alas, if you insist on keeping your secrets I'll just call you Recruiter\n", textSpeed.very_fast, false, textColor.green);
+        }
+    }
+    //end of app
+    (0, asciArt_1.printAuthor)();
 }
 main();
