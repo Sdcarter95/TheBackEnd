@@ -23,7 +23,7 @@ function printTitle() {
     for (let index = 0; index < exports.title.length; index++) {
         const character = exports.title[index];
         if (character == "█") {
-            printDarkGreen(exports.title[index]);
+            printWhite(exports.title[index]);
         }
         else {
             printGreen(exports.title[index]);
@@ -47,7 +47,11 @@ function printGreen(input) {
     const text = `\x1b[38;5;${app_1.textColor.green}m${input}${resetCode}`;
     process.stdout.write(text);
 }
-function printDarkGreen(input) {
+function printWhite(input) {
     const text = `\x1b[38;5;${app_1.textColor.white}m${input}${resetCode}`;
+    process.stdout.write(text);
+}
+function printDarkGreen(input) {
+    const text = `\x1b[38;5;${app_1.textColor.darkGreen}m${input}${resetCode}`;
     process.stdout.write(text);
 }

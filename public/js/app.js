@@ -102,29 +102,91 @@ async function main() {
     await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
     (0, asciArt_1.printTitle)();
     await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of tasks in the back end; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving. ", textSpeed.very_fast, false, textColor.green);
-    await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
-    process.stdout.write(" name");
-    await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
-    let nameArray = await question_1();
-    //check for blank input
-    if (nameArray[0].trim() == "") {
-        name = "Recruiter";
-        await typeText("\nNot the very trusting sort, are you recruiter?", textSpeed.very_fast, false, textColor.green);
-        await typeText("\nI suppose you can never be too careful in this day in age", textSpeed.very_fast, false, textColor.green);
-        await typeText(", which is why input validation is so important! (I’m also skilled in the art of segways)\n", textSpeed.very_fast, false, textColor.green);
-    }
-    //otherwise print normal response
-    else {
-        await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
-        await typeText("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
-    }
-    await typeText("\nThere are some things I can infer based on your provided input:\n\n", textSpeed.very_fast, false, textColor.green);
-    let inferenceCount = 1;
-    if (nameArray.length == 1) {
-        if (nameArray[0] == "") {
-            await typeText(inferenceCount + ". You did not provide a name. Don't worry, you'll have a chance to change it! Alas, if you insist on keeping your secrets I'll just call you Recruiter\n", textSpeed.very_fast, false, textColor.green);
+    let questonOneDone = false;
+    while (!questonOneDone) {
+        await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
+        process.stdout.write(" name");
+        await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
+        let nameArray = await question_1();
+        //check for blank input
+        if (nameArray[0].trim() == "") {
+            name = "Recruiter";
+            await typeText("\nNot the very trusting sort, are you recruiter?", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nI suppose you can never be too careful in this day in age", textSpeed.very_fast, false, textColor.green);
+            await typeText(", which is why input validation is so important!", textSpeed.very_fast, false, textColor.green);
+            await typeText("(I’m also skilled in the art of segways)\n", textSpeed.very_fast, false, textColor.green);
+        }
+        //otherwise print normal response
+        else {
+            await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
+            await typeText("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
+        }
+        await typeText("\nThere are some things I can infer based on your provided input:\n\n", textSpeed.very_fast, false, textColor.green);
+        let inferenceCount = 0;
+        if (nameArray.length == 1) {
+            if (nameArray[0] == "") {
+                inferenceCount++;
+                await typeText(inferenceCount + ". You did not provide a name. Maybe you got hasty, or maybe you’re testing my program? Whatever the case, you'll have a chance to change it! Alas, if you insist on keeping your secrets I can just call you Recruiter\n", textSpeed.very_fast, false, textColor.green);
+            }
+            else {
+                inferenceCount++;
+                await typeText(inferenceCount + ". " + nameArray[0] + " is your first name. And what a great name!\n", textSpeed.very_fast, false, textColor.green);
+            }
+            //check length
+        }
+        else if (nameArray.length == 2) {
+            inferenceCount++;
+            await typeText(inferenceCount + ". " + nameArray[0] + " is your first name\n", textSpeed.very_fast, false, textColor.green);
+            inferenceCount++;
+            await typeText(inferenceCount + ". " + nameArray[1] + " is your last name\n", textSpeed.very_fast, false, textColor.green);
+            //check length
+        }
+        else if (nameArray.length == 3) {
+            inferenceCount++;
+            await typeText(inferenceCount + ". " + nameArray[0] + " is your first name\n", textSpeed.very_fast, false, textColor.green);
+            inferenceCount++;
+            await typeText(inferenceCount + ". " + nameArray[1] + " is your middle name\n", textSpeed.very_fast, false, textColor.green);
+            inferenceCount++;
+            await typeText(inferenceCount + ". " + nameArray[2] + " is your last name\n", textSpeed.very_fast, false, textColor.green);
+            //check length
+        }
+        else {
+            inferenceCount++;
+            await typeText(inferenceCount + ". You did not enter a name, as there are more than three detected words.\n", textSpeed.very_fast, false, textColor.green);
+            //check length
+        }
+        await typeText("\n Before we continue " + name + ", would you like to try a different name?\n\n", textSpeed.very_fast, false, textColor.green);
+        await typeText("1. Yes\n2. No\n3. Maybe so\n", textSpeed.very_fast, false, textColor.green);
+        let renameReader = newReadLine();
+        const renameChoice = await getUserInput(renameReader);
+        renameReader.close();
+        switch (renameChoice) {
+            case "1":
+                clearScreen();
+                await typeText("\n I'll just wipe my memory...\n", textSpeed.very_fast, false, textColor.green);
+                break;
+            case "2":
+                clearScreen();
+                questonOneDone = true;
+                break;
+            case "3":
+                clearScreen();
+                questonOneDone = true;
+                break;
+            default:
+                clearScreen();
+                await typeText("\nOh, very funny!", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nYou’re testing input validation on a question asking if you want to continue testing input validation. ", textSpeed.very_fast, false, textColor.green);
+                await typeText("But you’ve fallen right into my trap!", textSpeed.very_fast, false, textColor.green);
+                questonOneDone = true;
+                break;
         }
     }
+    await typeText("\n\n The method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
+    await typeText("\nThe front-end equivalent of whitelisting might be a dropdown box with predefined values to select.", textSpeed.very_fast, false, textColor.green);
+    await typeText(`Of course, we’re in the\n`, textSpeed.very_fast, false, textColor.green);
+    (0, asciArt_1.printTitle)();
+    await typeText(`\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     //end of app
     (0, asciArt_1.printAuthor)();
 }
