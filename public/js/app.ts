@@ -2,10 +2,12 @@ import { resolve } from "path";
 import { stdout } from "process";
 import * as readline from 'readline';
 import { printAuthor, printTitle } from './asciArt';
+import { quickSort} from "./sortingAlgs";
 
 
 let name = "Recruiter";
 let fullName = "Recruiter";
+let debugMode = true;
 
 // text speed is measured in ms intervals
 enum textSpeed {
@@ -95,22 +97,39 @@ async function question_1(): Promise<string[]> {
 
 function containsBlacklistedCharacters(inputString: string, charBlackList: string[]): boolean {
     for (const char of charBlackList) {
-      if (inputString.includes(char)) {
-        return true; // The input string contains a blacklisted character
-      }
+        if (inputString.includes(char)) {
+            return true; // The input string contains a blacklisted character
+        }
     }
     return false; // None of the blacklisted characters were found in the input string
-  }
+}
+
+function stringToAsciiArray(input: string): number[] {
+    const asciiArray: number[] = [];
+
+    for (let i = 0; i < input.length; i++) {
+        const charCode = input.charCodeAt(i);
+        asciiArray.push(charCode);
+    }
+
+    return asciiArray;
+}
+
+
 
 async function main() {
     clearScreen();
-    await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
 
+    if (!debugMode) {
+        await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
 
-    printTitle();
-    await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of tasks in the back end; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving. ", textSpeed.very_fast, false, textColor.green);
+        printTitle();
+        await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving. ", textSpeed.very_fast, false, textColor.green);
+    }
 
     let questonOneDone = false;
+    if (debugMode) questonOneDone = true;
+
     while (!questonOneDone) {
         await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
         process.stdout.write(" name");
@@ -132,11 +151,11 @@ async function main() {
         //otherwise print normal response
         else {
             await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
-            if (nameArray[0].length > nameLimit || containsBlacklistedCharacters(fullName,charBlackList)){
+            if (nameArray[0].length > nameLimit || containsBlacklistedCharacters(fullName, charBlackList) || nameArray.length > 3) {
                 await typeText("\n(Although I doubt that's your real name...)", textSpeed.very_fast, false, textColor.green);
                 await typeText("\n\nWhatever your name may be, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
             }
-            else{
+            else {
                 await typeText("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
             }
         }
@@ -159,15 +178,15 @@ async function main() {
             //check length
             if (nameArray[0].length <= nameLimit) {
                 inferenceCount++;
-                await typeText(inferenceCount + ". The name you entered is not longer than 10 characters, which is generally the length limit for most names. (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(inferenceCount + ". The name you entered is not longer than 10 characters (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
             }
-            else{
+            else {
                 inferenceCount++;
                 await typeText(inferenceCount + ". " + nameArray[0] + " is probably not your real name, as it is longer than 10 characters. (Or maybe you just have a fancy name).\n", textSpeed.very_fast, false, textColor.green);
             }
 
         }
-        else if (nameArray.length == 2){
+        else if (nameArray.length == 2) {
             inferenceCount++;
             await typeText(inferenceCount + ". " + nameArray[0] + " is your first name\n", textSpeed.very_fast, false, textColor.green);
             inferenceCount++;
@@ -176,15 +195,15 @@ async function main() {
             //check length
             if (nameArray[0].length <= nameLimit && nameArray[1].length <= nameLimit) {
                 inferenceCount++;
-                await typeText(inferenceCount + ". the names you entered are a reasonable length. They are not longer than 10 characters, which is generally the length limit for most names. (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(inferenceCount + ". the names you entered are a reasonable length. (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
             }
-            else{
+            else {
                 inferenceCount++;
                 await typeText(inferenceCount + ". Your input is probably not your real name, as it contains an entry longer than 10 characters. (Or maybe you just have a fancy name).\n", textSpeed.very_fast, false, textColor.green);
             }
         }
 
-        else if (nameArray.length == 3){
+        else if (nameArray.length == 3) {
             inferenceCount++;
             await typeText(inferenceCount + ". " + nameArray[0] + " is your first name\n", textSpeed.very_fast, false, textColor.green);
             inferenceCount++;
@@ -195,9 +214,9 @@ async function main() {
             //check length
             if (nameArray[0].length <= nameLimit && nameArray[1].length <= nameLimit && nameArray[2].length <= nameLimit) {
                 inferenceCount++;
-                await typeText(inferenceCount + ". the names you entered are a reasonable length. They are not longer than 10 characters, which is generally the length limit for most names. (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(inferenceCount + ". the names you entered are a reasonable length. (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
             }
-            else{
+            else {
                 inferenceCount++;
                 await typeText(inferenceCount + ". Your input is probably not your real name, as it contains an entry longer than 10 characters. (Or maybe you just have a fancy name).\n", textSpeed.very_fast, false, textColor.green);
             }
@@ -205,22 +224,24 @@ async function main() {
 
         else {
             inferenceCount++;
-            await typeText(inferenceCount + ". You did not enter a name, as there are more than three detected words.\n", textSpeed.very_fast, false, textColor.green);
+            await typeText(inferenceCount + ". You did not enter a name, as there are more than three detected words.\n", textSpeed.uber_speed, false, textColor.green);
         }
 
         //check blacklist 
-        if (containsBlacklistedCharacters(fullName,charBlackList)){
+        if (containsBlacklistedCharacters(fullName, charBlackList)) {
             inferenceCount++;
             await typeText(inferenceCount + ". There are blacklisted characters in your input! I've got my eye on you!\n", textSpeed.very_fast, false, textColor.green);
         }
-        else{
+        else {
             inferenceCount++;
             await typeText(inferenceCount + ". There are no blacklisted characters in your input.\n", textSpeed.very_fast, false, textColor.green);
         }
 
-        await typeText(`\nThe last point is extra important! \n\nBlacklisting is a tool used to make sure input does not contain illegal characters. This is important when protecting against SQL injections and other hacking shenanigans.\n`, textSpeed.uber_speed, false, textColor.green);
-        await typeText("\n Before we continue " + name +", would you like to try a different name? (Select a number)\n\n", textSpeed.very_fast, false, textColor.green);
-        await typeText("1. Yes\n2. No\n3. Just get on with it\n", textSpeed.very_fast, false, textColor.green);
+
+        await typeText(`\nThe last point is extra important! \n\nBlacklisting is a tool used to make sure input does not contain illegal characters. This is important when protecting against SQL injections and other hacking shenanigans.\n`, textSpeed.very_fast, false, textColor.green);
+        await typeText("\n Before we continue " + name + ", would you like to try a different name? (Select a number)\n\n", textSpeed.very_fast, false, textColor.green);
+        await typeText("1. Yes\n2. No\n3. Just get on with it\n", textSpeed.uber_speed, false, textColor.green);
+
 
         let renameReader = newReadLine();
         const renameChoice = await getUserInput(renameReader);
@@ -249,14 +270,14 @@ async function main() {
         }
     }
 
-    await typeText("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
-    await typeText("\nThis is different from the blacklisting methods I used earlier.\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
-    await typeText(` But enough about the front end! we’re in\n`, textSpeed.very_fast, false, textColor.green);  
-    printTitle();
-
-    await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green); 
-
-
+    if (!debugMode) {
+        await typeText("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
+        await typeText("\nThis is different from the blacklisting methods I used earlier.\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
+        await typeText(` But enough about the front end! we’re in\n`, textSpeed.very_fast, false, textColor.green);
+        printTitle();
+        await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
+    }
+    process.stdout.write(quickSort(fullName));
 
     //end of app
     printAuthor();
