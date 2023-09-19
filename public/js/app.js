@@ -29,7 +29,7 @@ const asciArt_1 = require("./asciArt");
 const sortingAlgs_1 = require("./sortingAlgs");
 let name = "Recruiter";
 let fullName = "Recruiter";
-let debugMode = true;
+let debugMode = false;
 // text speed is measured in ms intervals
 var textSpeed;
 (function (textSpeed) {
@@ -49,7 +49,7 @@ var textColor;
     textColor[textColor["white"] = 15] = "white";
     textColor[textColor["cyan"] = 45] = "cyan";
     textColor[textColor["yellow"] = 226] = "yellow";
-})(textColor || (exports.textColor = textColor = {}));
+})(textColor = exports.textColor || (exports.textColor = {}));
 let inputAllowed = false; // Flag to control input
 function newReadLine() {
     const rl = readline.createInterface({
@@ -255,7 +255,7 @@ async function main() {
         (0, asciArt_1.printTitle)();
         await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     }
-    process.stdout.write((0, sortingAlgs_1.quickSort)(fullName));
+    process.stdout.write((0, sortingAlgs_1.quickSort)(fullName.toLowerCase().replace(/ /g, '')));
     //end of app
     (0, asciArt_1.printAuthor)();
 }

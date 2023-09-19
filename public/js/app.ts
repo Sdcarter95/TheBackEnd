@@ -7,7 +7,7 @@ import { quickSort} from "./sortingAlgs";
 
 let name = "Recruiter";
 let fullName = "Recruiter";
-let debugMode = true;
+let debugMode = false;
 
 // text speed is measured in ms intervals
 enum textSpeed {
@@ -277,7 +277,7 @@ async function main() {
         printTitle();
         await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     }
-    process.stdout.write(quickSort(fullName));
+    process.stdout.write(quickSort(fullName.toLowerCase().replace(/ /g, '')));
 
     //end of app
     printAuthor();

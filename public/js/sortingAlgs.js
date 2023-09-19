@@ -28,8 +28,7 @@ const colorPrint = __importStar(require("./printColors"));
 ;
 function quickSort(input) {
     const charArray = input.split(''); // Split the string into an array of characters
-    let arrayProgress;
-    printText("");
+    let sortMemory = []; //holds the memory of sorted char (This is only for the printed examples)
     function quickSortChars(arr, fDir = "n" /* forkDirection.none */, parentInfo = []) {
         if (arr.length <= 1) {
             return arr; // Base case: an array with 0 or 1 elements is already sorted
@@ -51,7 +50,22 @@ function quickSort(input) {
                 right.push(char);
             }
         }
-        printText("\n|" + arr.join("") + "| chooses a random pivot: ");
+        printText("\n");
+        if (fDir == "l" /* forkDirection.left */) {
+            printText("\nNow sorting |");
+            colorPrint.printBlue(arr.join(""));
+            printText("|, we choose a random pivot: ");
+        }
+        else if (fDir == "r" /* forkDirection.right */) {
+            printText("Now sorting |");
+            colorPrint.printGreen(arr.join(""));
+            printText("|, we choose a random pivot: ");
+        }
+        else {
+            printText("|");
+            printText(arr.join(""));
+            printText("| chooses a random pivot: ");
+        }
         colorPrint.printRed(pivot);
         printText(", and finds ");
         if (left.length > 0) {
@@ -86,22 +100,40 @@ function quickSort(input) {
             printText("no letters that come after " + pivot + "\n");
         }
         printText("So far, we can order these groups: ");
-        if (fDir == "l" /* forkDirection.left */) {
-            colorPrint.printCyan(left.join("") + ", " + equal.join("") + ", " + right.join("") + ", " + parentInfo.join("") + "\n\n");
-            arrayProgress = left.concat(equal).concat(right);
-        }
-        else if (fDir == "r" /* forkDirection.right */) {
-            colorPrint.printCyan(arrayProgress.join(", ") + ", " + left.join("") + ", " + equal.join("") + ", " + right.join("") + "\n\n");
-            arrayProgress = arrayProgress.concat(left.join("")).concat(equal.join(""));
+        if (fDir != "n" /* forkDirection.none */) {
+            const chunkIndex = findIndexWithArrayComparison(sortMemory, arr);
+            sortMemory[chunkIndex] = left;
+            sortMemory.splice(chunkIndex + 1, 0, equal);
+            sortMemory.splice(chunkIndex + 2, 0, right);
+            sortMemory.forEach(e => (e.length > 0 ? colorPrint.printCyan("[" + e + "], ") : null));
         }
         else {
+            colorPrint.printCyan("[" + left.join(", ") + "], [" + equal.join(", ") + "], [" + right.join(", ") + "]\n");
+            sortMemory[0] = [...left];
+            sortMemory[1] = [...equal];
+            sortMemory[2] = [...right];
         }
         return [...quickSortChars(left, "l" /* forkDirection.left */, equal.concat(right)), ...equal, ...quickSortChars(right, "r" /* forkDirection.right */)];
     }
+    let arrayProgress = [];
     const sortedCharArray = quickSortChars(charArray); // Sort the characters
     return sortedCharArray.join(''); // Join the characters back into a single string
 }
 exports.quickSort = quickSort;
 function printText(output) {
     process.stdout.write(output);
+}
+function arraysAreEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+function findIndexWithArrayComparison(arr, targetArray) {
+    return arr.findIndex((item) => arraysAreEqual(item, targetArray));
 }
