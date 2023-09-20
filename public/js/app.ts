@@ -2,12 +2,12 @@ import { resolve } from "path";
 import { stdout } from "process";
 import * as readline from 'readline';
 import { printAuthor, printTitle } from './asciArt';
-import { quickSort} from "./sortingAlgs";
+import { quickSort } from "./sortingAlgs";
 
 
 let name = "Recruiter";
 let fullName = "Recruiter";
-let debugMode = false;
+let debugMode = true;
 
 // text speed is measured in ms intervals
 enum textSpeed {
@@ -31,7 +31,6 @@ export enum textColor {
 
 
 
-let inputAllowed = false; // Flag to control input
 function newReadLine(): readline.Interface {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -253,11 +252,11 @@ async function main() {
                 await typeText("\n I'll just wipe my memory...\n", textSpeed.very_fast, false, textColor.green);
                 break;
             case "2":
-                clearScreen();
+                //clearScreen();
                 questonOneDone = true;
                 break;
             case "3":
-                clearScreen();
+                //clearScreen();
                 questonOneDone = true;
                 break;
             default:
@@ -272,12 +271,43 @@ async function main() {
 
     if (!debugMode) {
         await typeText("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
-        await typeText("\nThis is different from the blacklisting methods I used earlier.\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
+        await typeText("\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
         await typeText(` But enough about the front end! we’re in\n`, textSpeed.very_fast, false, textColor.green);
         printTitle();
         await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     }
-    process.stdout.write(quickSort(fullName.toLowerCase().replace(/ /g, '')));
+
+    let sortLoop = true;
+    while (sortLoop) {
+        await typeText(`\n\n1. Merge Sort\n2. Quick Sort\n3. nothing\n`, textSpeed.uber_speed, false, textColor.green);
+        let sortReader = newReadLine();
+        let sortChoice = await getUserInput(sortReader);
+        sortReader.close();
+        switch (sortChoice) {
+            case "1":
+                await typeText("\n\nMerge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots).", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nIt retains relative positions of identical values, and so useful when stability if paramount.", textSpeed.very_fast, false, textColor.green);
+                break;
+            case "2":
+                await typeText("Quicksort is similar to merge sort in terms of its divide and conquer approach, but instead of always dividing a dataset in half, it chooses a pivot and recursively sorts the sides of the dataset that are larger or smaller.\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(" It retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("If we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
+                const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
+                await typeText("\nAnd now we're left with your new, better sorted name!", textSpeed.very_fast, false, textColor.green);
+                await typeText("I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
+                break;
+            case "3":
+                sortLoop = false;
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
+
+
 
     //end of app
     printAuthor();

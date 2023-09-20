@@ -34,6 +34,7 @@ export function quickSort(input: string): string {
         }
 
         printText("\n");
+        //sleepSync(1000);
         if(fDir == forkDirection.left){
             printText("\nNow sorting |");
             colorPrint.printBlue(arr.join(""));
@@ -45,38 +46,47 @@ export function quickSort(input: string): string {
         } else {
             printText("|");
             printText(arr.join(""));
-            printText("| chooses a random pivot: ");
+            printText("| picks a random pivot: ");
         }
         colorPrint.printRed(pivot);
-        printText(", and finds ");
+        //sleepSync(1000);
+        printText("\nwe find ");
         if (left.length > 0) {
             if (left.length > 1) {
                 printText("letters  |");
                 colorPrint.printBlue(left.join(", "));
-                printText("| come before " + pivot)
+                printText("| come before ");
+                colorPrint.printRed(pivot);
             } else {
                 printText("one letter |");
                 colorPrint.printBlue(left.join(", "));
-                printText("| that comes before " + pivot)
+                printText("| that comes before ");
+                colorPrint.printRed(pivot);
             }
         } else {
-            printText("no letters that come before " + pivot)
+            printText("no letters that come before ");
+            colorPrint.printRed(pivot);
         }
-        printText(" and ")
+        //sleepSync(1000);
+        printText("\nand ")
         if (right.length > 0) {
             if (right.length > 1) {
                 printText("letters  |");
                 colorPrint.printGreen(right.join(", "));
-                printText("| come after " + pivot + "\n")
+                printText("| come after ");
+                colorPrint.printRed(pivot + "\n");
             } else {
                 printText("one letter |");
                 colorPrint.printGreen(right.join(", "));
-                printText("| that comes after " + pivot + "\n")
+                printText("| that comes after ");
+                colorPrint.printRed(pivot + "\n");
             }
         } else {
-            printText("no letters that come after " + pivot + "\n")
+            printText("no letters that come after ");
+            colorPrint.printRed(pivot + "\n");
         }
 
+        sleepSync(1000);
         printText("So far, we can order these groups: ");
         if (fDir !=  forkDirection.none) {
             const chunkIndex = findIndexWithArrayComparison(sortMemory, arr);
@@ -87,23 +97,21 @@ export function quickSort(input: string): string {
             printText("\n")
 
         } else{
-            colorPrint.printCyan("[" + left.join(", ") + "], [" + equal.join(", ") + "], [" + right.join(", ") + "]");
+            colorPrint.printCyan("[" + left.join(", ") + "], [" + equal.join(", ") + "], [" + right.join(", ") + "]\n");
             sortMemory[0] = [...left];
             sortMemory[1] = [...equal];
             sortMemory[2] = [...right];
         }
+        sleepSync(1000);
 
         return [...quickSortChars(left, forkDirection.left, equal.concat(right)), ...equal, ...quickSortChars(right, forkDirection.right)];
     }
 
-    let arrayProgress: string[] = [];
     const sortedCharArray = quickSortChars(charArray); // Sort the characters
     return sortedCharArray.join(''); // Join the characters back into a single string
 }
 
-function printText(output: any) {
-    process.stdout.write(output);
-}
+
 
 function arraysAreEqual(arr1: string[], arr2: string[]): boolean {
     if (arr1.length !== arr2.length) {
@@ -121,4 +129,18 @@ function arraysAreEqual(arr1: string[], arr2: string[]): boolean {
 
   function findIndexWithArrayComparison(arr: string[][], targetArray: string[]): number {
     return arr.findIndex((item) => arraysAreEqual(item, targetArray));
+  }
+
+  function sleepSync(ms: number): void {
+    const start = Date.now();
+    while (Date.now() - start < ms) {
+      // Busy-wait until the desired time has passed
+    }
+  }
+
+  async function printText(text: string): Promise<void> {
+    for (const char of text) {
+        process.stdout.write(char);
+      sleepSync(35); 
+    }
   }
