@@ -23,12 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quickSort = void 0;
+exports.heapSort = exports.stableSort = exports.quickSort = void 0;
 const colorPrint = __importStar(require("./printColors"));
-;
 function quickSort(input) {
     const charArray = input.split(''); // Split the string into an array of characters
     let sortMemory = []; //holds the memory of sorted char (This is only for the printed examples)
+    ;
     function quickSortChars(arr, fDir = "n" /* forkDirection.none */, parentInfo = []) {
         if (arr.length <= 1) {
             return arr; // Base case: an array with 0 or 1 elements is already sorted
@@ -131,6 +131,18 @@ function quickSort(input) {
     return sortedCharArray.join(''); // Join the characters back into a single string
 }
 exports.quickSort = quickSort;
+function stableSort(people) {
+    return people.sort((a, b) => {
+        const licenseComparison = a.licenseType.localeCompare(b.licenseType);
+        if (licenseComparison !== 0) {
+            return licenseComparison;
+        }
+        else {
+            return a.fName.localeCompare(b.fName);
+        }
+    });
+}
+exports.stableSort = stableSort;
 function arraysAreEqual(arr1, arr2) {
     if (arr1.length !== arr2.length) {
         return false;
@@ -157,3 +169,49 @@ async function printText(text) {
         sleepSync(35);
     }
 }
+function heapSort(people, sortBy) {
+    // Build a max heap
+    function buildMaxHeap(arr) {
+        const n = arr.length;
+        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+    }
+    // Heapify a subtree rooted with the node at the given index
+    function heapify(arr, n, i) {
+        let largest = i;
+        const left = 2 * i + 1;
+        const right = 2 * i + 2;
+        if (left < n && compare(arr[left], arr[largest]) > 0) {
+            largest = left;
+        }
+        if (right < n && compare(arr[right], arr[largest]) > 0) {
+            largest = right;
+        }
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]]; // Swap elements
+            heapify(arr, n, largest);
+        }
+    }
+    const n = people.length;
+    // Define a comparison function based on the sortBy argument
+    function compare(a, b) {
+        if (sortBy === 'fName') {
+            return a.fName.localeCompare(b.fName);
+        }
+        else {
+            return a.licenseType.localeCompare(b.licenseType);
+        }
+    }
+    // Build the max heap
+    buildMaxHeap(people);
+    // Extract elements from the heap one by one
+    for (let i = n - 1; i > 0; i--) {
+        // Move the current root to the end
+        [people[0], people[i]] = [people[i], people[0]];
+        // Call heapify on the reduced heap
+        heapify(people, i, 0);
+    }
+    return people;
+}
+exports.heapSort = heapSort;
