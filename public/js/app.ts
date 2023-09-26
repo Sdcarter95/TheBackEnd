@@ -282,9 +282,9 @@ async function main() {
         await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     }
 
-    await typeText(`\n\nWhich sorting algorithm do you want to learn about?\n`, textSpeed.very_fast, false, textColor.green);
     let sortLoop = true;
     while (sortLoop) {
+        await typeText(`\n\nWhich sorting algorithm do you want to learn about?\n`, textSpeed.very_fast, false, textColor.green);
         await typeText(`\n\n1. Merge Sort\n2. Quick Sort\n3. nothing\n`, textSpeed.uber_speed, false, textColor.green);
         let sortReader = newReadLine();
         let sortChoice = await getUserInput(sortReader);
@@ -364,13 +364,34 @@ async function main() {
             case "2":
                 await typeText("Quicksort is similar to merge sort in terms of its divide and conquer approach, but instead of always dividing a dataset in half, it chooses a pivot and recursively sorts the sides of the dataset that are larger or smaller.\n\n", textSpeed.very_fast, false, textColor.green);
                 await typeText(" It retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)\n", textSpeed.very_fast, false, textColor.green);
-                await typeText("If we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
-                const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
-                await typeText("\nAnd now we're left with your new, better sorted name!", textSpeed.very_fast, false, textColor.green);
-                await typeText("I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
+                let quickSortLoop = true;
+                while (quickSortLoop) {
+                    await typeText(`\n\nWould you like to know more?`, textSpeed.very_fast, false, textColor.green);
+                    await typeText(`\n\n1. Show me in action\n2. When to use quicksort?\n3. Back to other sorts\n`, textSpeed.uber_speed, false, textColor.green);
+                    let quickSortReader = newReadLine();
+                    let quickSortChoice = await getUserInput(quickSortReader);
+                    quickSortReader.close();
+
+                    switch (quickSortChoice) {
+                        case "1":
+                            await typeText("If we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
+                            const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
+                            await typeText("\nAnd now we're left with your new, better sorted name!", textSpeed.very_fast, false, textColor.green);
+                            await typeText(" I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
+                            break;
+                        case "2":
+
+                            break;
+                        case "3":
+                            quickSortLoop = false;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
                 break;
             case "3":
-
                 sortLoop = false;
                 break;
             default:
