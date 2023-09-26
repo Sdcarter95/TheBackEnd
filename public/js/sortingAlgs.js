@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.heapSort = exports.stableSort = exports.quickSort = void 0;
+exports.heapSort = exports.mergeSort = exports.stableSort = exports.quickSort = void 0;
 const colorPrint = __importStar(require("./printColors"));
 function quickSort(input) {
     const charArray = input.split(''); // Split the string into an array of characters
@@ -143,6 +143,73 @@ function stableSort(people) {
     });
 }
 exports.stableSort = stableSort;
+function mergeSort(str) {
+    colorPrint.printGreen("\nWe start off with your name: ");
+    colorPrint.printCyan(str);
+    const arr = str.split(''); // Convert the string to an array of characters
+    colorPrint.printGreen("\n\nWe divide the array, in this case your name, into its individual components: ");
+    colorPrint.printCyan(arr.join(", "));
+    colorPrint.printGreen("\n\nNow it’s time to recursively merge the components back together, making sure to put them in order as we go:\n");
+    const sortedArray = mergeSortRecursive(arr);
+    const sortedStr = sortedArray.join(''); // Convert the sorted array back to a string
+    return sortedStr;
+}
+exports.mergeSort = mergeSort;
+function mergeSortRecursive(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    const mid = Math.floor(arr.length / 2);
+    const leftArray = arr.slice(0, mid);
+    const rightArray = arr.slice(mid);
+    const sortedLeft = mergeSortRecursive(leftArray);
+    const sortedRight = mergeSortRecursive(rightArray);
+    const merged = merge(sortedLeft, sortedRight);
+    colorPrint.printGreen("We combine ");
+    if (sortedLeft.length == 1) {
+        colorPrint.printWhite("[" + sortedLeft.join(", ") + "]");
+        colorPrint.printGreen(" and ");
+        if (sortedRight.length == sortedLeft.length) {
+            colorPrint.printWhite("[" + sortedRight.join(", ") + "] ");
+        }
+        else {
+            colorPrint.printRed("[" + sortedRight.join(", ") + "] ");
+        }
+        colorPrint.printGreen("to get ");
+        colorPrint.printRed("[" + [...merged].toString() + "] \n");
+    }
+    else if (sortedLeft.length < 4) {
+        colorPrint.printRed("[" + sortedLeft.join(", ") + "]");
+        colorPrint.printGreen(" and ");
+        colorPrint.printRed("[" + sortedRight.join(", ") + "] ");
+        colorPrint.printGreen("to get ");
+        colorPrint.printBlue("[" + [...merged].toString() + "] \n");
+    }
+    else {
+        colorPrint.printBlue("[" + sortedLeft.join(", ") + "]");
+        colorPrint.printGreen(" and ");
+        colorPrint.printBlue("[" + sortedRight.join(", ") + "] ");
+        colorPrint.printGreen("to get ");
+        colorPrint.printCyan("[" + [...merged].toString() + "] \n");
+    }
+    return merged;
+}
+function merge(left, right) {
+    const result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+    while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex] < right[rightIndex]) {
+            result.push(left[leftIndex]);
+            leftIndex++;
+        }
+        else {
+            result.push(right[rightIndex]);
+            rightIndex++;
+        }
+    }
+    return result.concat(left.slice(leftIndex), right.slice(rightIndex));
+}
 function arraysAreEqual(arr1, arr2) {
     if (arr1.length !== arr2.length) {
         return false;

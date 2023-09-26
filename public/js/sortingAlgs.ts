@@ -115,16 +115,84 @@ export function quickSort(input: string): string {
 
 export function stableSort(people: PersonInfo[]): PersonInfo[] {
     return people.sort((a, b) => {
-      const licenseComparison = a.licenseType.localeCompare(b.licenseType);
-      if (licenseComparison !== 0) {
-        return licenseComparison;
-      } else {
-        return a.fName.localeCompare(b.fName);
-      }
+        const licenseComparison = a.licenseType.localeCompare(b.licenseType);
+        if (licenseComparison !== 0) {
+            return licenseComparison;
+        } else {
+            return a.fName.localeCompare(b.fName);
+        }
     });
-  }
-  
-  
+}
+
+export function mergeSort(str: string): string {
+    colorPrint.printGreen("\nWe start off with your name: ");
+    colorPrint.printCyan(str);
+    const arr = str.split(''); // Convert the string to an array of characters
+    colorPrint.printGreen("\n\nWe divide the array, in this case your name, into its individual components: ");
+    colorPrint.printCyan(arr.join(", "));
+    colorPrint.printGreen("\n\nNow it’s time to recursively merge the components back together, making sure to put them in order as we go:\n");
+    const sortedArray = mergeSortRecursive(arr);
+    const sortedStr = sortedArray.join(''); // Convert the sorted array back to a string
+    return sortedStr;
+}
+
+function mergeSortRecursive(arr: string[]): string[] {
+    if (arr.length <= 1) {
+        return arr;
+    }
+
+    const mid = Math.floor(arr.length / 2);
+    const leftArray = arr.slice(0, mid);
+    const rightArray = arr.slice(mid);
+
+    const sortedLeft = mergeSortRecursive(leftArray);
+    const sortedRight = mergeSortRecursive(rightArray);
+
+    const merged = merge(sortedLeft, sortedRight);
+    colorPrint.printGreen("We combine ");
+    if (sortedLeft.length == 1) {
+        colorPrint.printWhite("[" + sortedLeft.join(", ") + "]");
+        colorPrint.printGreen(" and ")
+        if (sortedRight.length == sortedLeft.length){
+            colorPrint.printWhite("[" + sortedRight.join(", ") + "] ")
+        } else{
+            colorPrint.printRed("[" + sortedRight.join(", ") + "] ")
+        }
+        colorPrint.printGreen("to get ");
+        colorPrint.printRed("[" + [...merged].toString() + "] \n");
+    } else if (sortedLeft.length < 4) {
+        colorPrint.printRed("[" + sortedLeft.join(", ") + "]");
+        colorPrint.printGreen(" and ")
+        colorPrint.printRed("[" + sortedRight.join(", ") + "] ")
+        colorPrint.printGreen("to get ");
+        colorPrint.printBlue("[" + [...merged].toString() + "] \n");
+    } else {
+        colorPrint.printBlue("[" + sortedLeft.join(", ") + "]");
+        colorPrint.printGreen(" and ")
+        colorPrint.printBlue("[" + sortedRight.join(", ") + "] ")
+        colorPrint.printGreen("to get ");
+        colorPrint.printCyan("[" + [...merged].toString() + "] \n");
+    }
+    return merged;
+}
+
+function merge(left: string[], right: string[]): string[] {
+    const result: string[] = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex] < right[rightIndex]) {
+            result.push(left[leftIndex]);
+            leftIndex++;
+        } else {
+            result.push(right[rightIndex]);
+            rightIndex++;
+        }
+    }
+    return result.concat(left.slice(leftIndex), right.slice(rightIndex));
+}
+
 
 function arraysAreEqual(arr1: string[], arr2: string[]): boolean {
     if (arr1.length !== arr2.length) {
@@ -161,57 +229,57 @@ async function printText(text: string): Promise<void> {
 export function heapSort(
     people: PersonInfo[],
     sortBy: 'fName' | 'licenseType'
-  ): PersonInfo[] {
+): PersonInfo[] {
     // Build a max heap
     function buildMaxHeap(arr: PersonInfo[]) {
-      const n = arr.length;
-      for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-        heapify(arr, n, i);
-      }
+        const n = arr.length;
+        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
     }
-  
+
     // Heapify a subtree rooted with the node at the given index
     function heapify(arr: PersonInfo[], n: number, i: number) {
-      let largest = i;
-      const left = 2 * i + 1;
-      const right = 2 * i + 2;
-  
-      if (left < n && compare(arr[left], arr[largest]) > 0) {
-        largest = left;
-      }
-  
-      if (right < n && compare(arr[right], arr[largest]) > 0) {
-        largest = right;
-      }
-  
-      if (largest !== i) {
-        [arr[i], arr[largest]] = [arr[largest], arr[i]]; // Swap elements
-        heapify(arr, n, largest);
-      }
+        let largest = i;
+        const left = 2 * i + 1;
+        const right = 2 * i + 2;
+
+        if (left < n && compare(arr[left], arr[largest]) > 0) {
+            largest = left;
+        }
+
+        if (right < n && compare(arr[right], arr[largest]) > 0) {
+            largest = right;
+        }
+
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]]; // Swap elements
+            heapify(arr, n, largest);
+        }
     }
-  
+
     const n = people.length;
-  
+
     // Define a comparison function based on the sortBy argument
     function compare(a: PersonInfo, b: PersonInfo): number {
-      if (sortBy === 'fName') {
-        return a.fName.localeCompare(b.fName);
-      } else {
-        return a.licenseType.localeCompare(b.licenseType);
-      }
+        if (sortBy === 'fName') {
+            return a.fName.localeCompare(b.fName);
+        } else {
+            return a.licenseType.localeCompare(b.licenseType);
+        }
     }
-  
+
     // Build the max heap
     buildMaxHeap(people);
-  
+
     // Extract elements from the heap one by one
     for (let i = n - 1; i > 0; i--) {
-      // Move the current root to the end
-      [people[0], people[i]] = [people[i], people[0]];
-  
-      // Call heapify on the reduced heap
-      heapify(people, i, 0);
+        // Move the current root to the end
+        [people[0], people[i]] = [people[i], people[0]];
+
+        // Call heapify on the reduced heap
+        heapify(people, i, 0);
     }
-  
+
     return people;
-  }
+}

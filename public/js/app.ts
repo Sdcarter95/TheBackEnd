@@ -2,12 +2,12 @@ import { resolve } from "path";
 import { stdout } from "process";
 import * as readline from 'readline';
 import { printAuthor, printTitle } from './asciArt';
-import { quickSort, heapSort, stableSort } from "./sortingAlgs";
+import { quickSort, heapSort, stableSort, mergeSort } from "./sortingAlgs";
 
 
 let name = "Recruiter";
 let fullName = "Recruiter";
-let debugMode = true;
+let debugMode = false;
 
 // text speed is measured in ms intervals
 enum textSpeed {
@@ -282,6 +282,7 @@ async function main() {
         await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     }
 
+    await typeText(`\n\nWhich sorting algorithm do you want to learn about?\n`, textSpeed.very_fast, false, textColor.green);
     let sortLoop = true;
     while (sortLoop) {
         await typeText(`\n\n1. Merge Sort\n2. Quick Sort\n3. nothing\n`, textSpeed.uber_speed, false, textColor.green);
@@ -293,50 +294,71 @@ async function main() {
                 await typeText("\n\nMerge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots).", textSpeed.very_fast, false, textColor.green);
                 await typeText("\n\nIt retains relative positions of identical values, and so is useful when stability is paramount.", textSpeed.very_fast, false, textColor.green);
 
-                await typeText("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", textSpeed.very_fast, false, textColor.green);
+                let mergeSortLoop = true;
+                while (mergeSortLoop) {
 
-                let dmv: PersonInfo[] = [];
-                dmv.push({ fName: "Seth", licenseType: "A" });
-                dmv.push({ fName: "Jeff", licenseType: "B" });
-                dmv.push({ fName: name, licenseType: "C" });
-                dmv.push({ fName: "Jack", licenseType: "C" });
-                dmv.push({ fName: "Zack", licenseType: "A" });
-                dmv.push({ fName: "Jenny", licenseType: "B" });
-                dmv.push({ fName: "Becka", licenseType: "B" });
-                dmv.push({ fName: "Daisy", licenseType: "A" });
-                dmv.push({ fName: "Lenny", licenseType: "C" });
+                    await typeText(`\n\nWould you like to know more?`, textSpeed.very_fast, false, textColor.green);
+                    await typeText(`\n\n1. Show me in action\n2. When to use mergesort?\n3. Back to other sorts\n`, textSpeed.uber_speed, false, textColor.green);
+                    let mergeSortReader = newReadLine();
+                    let mergeSortChoice = await getUserInput(mergeSortReader);
+                    mergeSortReader.close();
 
-                dmv.forEach((patron) => {
-                    console.log(patron.fName + " needs a class " + patron.licenseType + " license");
-                })
+                    switch (mergeSortChoice) {
+                        case "1":
+                            await typeText(`\nAnd we're left with your sorted name: ${mergeSort(name.toLocaleLowerCase())}`, textSpeed.very_fast, false, textColor.green);
+                            break;
 
-                await typeText("\nNow, everyone is claiming they were there first. What a headache! We decide the only fair way to see people is in alphabetical order.", textSpeed.very_fast, false, textColor.green);
-                await typeText(" We want to get started right away, so we use heapsort. This leaves us with:\n", textSpeed.very_fast, false, textColor.green);
-                
-                const dmv_Alph = heapSort(dmv, "fName");
-                const maxNameLength = Math.max(...dmv.map((person) => person.fName.length));
-                
-                dmv_Alph.forEach((patron) => {
-                    const padding = ' '.repeat(maxNameLength - patron.fName.length);
-                    console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
-                });
+                        case "2":
+                            await typeText("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", textSpeed.very_fast, false, textColor.green);
 
-                await typeText("\nIt was almost easy, but it turns out it takes longer to process class C licenses than to process class B licenses. ", textSpeed.very_fast, false, textColor.green);
-                await typeText("\nWe decide to use heap sort on our new array, this time sorting by license type:\n", textSpeed.very_fast, false, textColor.green);
-                
-                const wrongSort = heapSort([...dmv_Alph], "licenseType");
-                wrongSort.forEach((patron) => {
-                    const padding = ' '.repeat(maxNameLength - patron.fName.length);
-                    console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
-                });
+                            let dmv: PersonInfo[] = [];
+                            dmv.push({ fName: "Seth", licenseType: "A" });
+                            dmv.push({ fName: "Jeff", licenseType: "B" });
+                            dmv.push({ fName: name, licenseType: "C" });
+                            dmv.push({ fName: "Jack", licenseType: "C" });
+                            dmv.push({ fName: "Zack", licenseType: "A" });
+                            dmv.push({ fName: "Jenny", licenseType: "B" });
+                            dmv.push({ fName: "Becka", licenseType: "B" });
+                            dmv.push({ fName: "Daisy", licenseType: "A" });
+                            dmv.push({ fName: "Lenny", licenseType: "C" });
 
-                await typeText("\nOh no! Now the licenses are in order but our work sorting names alphabetically has been destroyed! \n", textSpeed.very_fast, false, textColor.green);
-                await typeText("\nYou see, If we had used a stable sorting algorithm like Merge Sort, we could have kept relative positions of names intact: \n", textSpeed.very_fast, false, textColor.green);
-               
-                stableSort(dmv_Alph).forEach((patron) => {
-                    const padding = ' '.repeat(maxNameLength - patron.fName.length);
-                    console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
-                });
+                            dmv.forEach((patron) => {
+                                console.log(patron.fName + " needs a class " + patron.licenseType + " license");
+                            })
+
+                            await typeText("\nNow, everyone is claiming they were there first. What a headache! We decide the only fair way to see people is in alphabetical order.", textSpeed.very_fast, false, textColor.green);
+                            await typeText(" We want to get started right away, so we use heapsort. This leaves us with:\n", textSpeed.very_fast, false, textColor.green);
+
+                            const dmv_Alph = heapSort(dmv, "fName");
+                            const maxNameLength = Math.max(...dmv.map((person) => person.fName.length));
+
+                            dmv_Alph.forEach((patron) => {
+                                const padding = ' '.repeat(maxNameLength - patron.fName.length);
+                                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
+                            });
+
+                            await typeText("\nIt was almost easy, but it turns out it takes longer to process class C licenses than to process class B licenses. ", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nWe decide to use heap sort on our new array, this time sorting by license type:\n", textSpeed.very_fast, false, textColor.green);
+
+                            const wrongSort = heapSort([...dmv_Alph], "licenseType");
+                            wrongSort.forEach((patron) => {
+                                const padding = ' '.repeat(maxNameLength - patron.fName.length);
+                                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
+                            });
+
+                            await typeText("\nOh no! Now the licenses are in order but our work sorting names alphabetically has been destroyed! \n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nYou see, If we had used a stable sorting algorithm like Merge Sort, we could have kept relative positions of names intact: \n", textSpeed.very_fast, false, textColor.green);
+
+                            stableSort(dmv_Alph).forEach((patron) => {
+                                const padding = ' '.repeat(maxNameLength - patron.fName.length);
+                                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
+                            });
+                            break;
+                        default:
+                            mergeSortLoop = false;
+                            break;
+                    }
+                }
 
                 break;
             case "2":
@@ -348,7 +370,7 @@ async function main() {
                 await typeText("I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
                 break;
             case "3":
-                await typeText("\n ", textSpeed.very_fast, false, textColor.green);
+
                 sortLoop = false;
                 break;
             default:
