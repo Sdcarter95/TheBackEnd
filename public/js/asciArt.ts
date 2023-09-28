@@ -1,4 +1,4 @@
-import { textColor } from "./app";
+import { textColor } from "./TextPrinter";
 const resetCode = '\x1b[0m'; // Reset code is to set text color to default after colored text is printed
 
 export const author = `\n\n

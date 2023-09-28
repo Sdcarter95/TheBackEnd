@@ -1,4 +1,4 @@
-import * as colorPrint from "./printColors";
+import * as textPrint from "./TextPrinter";
 import { PersonInfo } from "./app";
 
 
@@ -39,53 +39,53 @@ export function quickSort(input: string): string {
         //sleepSync(1000);
         if (fDir == forkDirection.left) {
             printText("\nNow sorting |");
-            colorPrint.printBlue(arr.join(""));
+            textPrint.printBlue(arr.join(""));
             printText("|, we choose a random pivot: ");
         } else if (fDir == forkDirection.right) {
             printText("Now sorting |");
-            colorPrint.printGreen(arr.join(""));
+            textPrint.printGreen(arr.join(""));
             printText("|, we choose a random pivot: ");
         } else {
             printText("|");
             printText(arr.join(""));
             printText("| picks a random pivot: ");
         }
-        colorPrint.printRed(pivot);
+        textPrint.printRed(pivot);
         //sleepSync(1000);
         printText("\nwe find ");
         if (left.length > 0) {
             if (left.length > 1) {
                 printText("letters  |");
-                colorPrint.printBlue(left.join(", "));
+                textPrint.printBlue(left.join(", "));
                 printText("| come before ");
-                colorPrint.printRed(pivot);
+                textPrint.printRed(pivot);
             } else {
                 printText("one letter |");
-                colorPrint.printBlue(left.join(", "));
+                textPrint.printBlue(left.join(", "));
                 printText("| that comes before ");
-                colorPrint.printRed(pivot);
+                textPrint.printRed(pivot);
             }
         } else {
             printText("no letters that come before ");
-            colorPrint.printRed(pivot);
+            textPrint.printRed(pivot);
         }
         //sleepSync(1000);
         printText("\nand ")
         if (right.length > 0) {
             if (right.length > 1) {
                 printText("letters  |");
-                colorPrint.printGreen(right.join(", "));
+                textPrint.printGreen(right.join(", "));
                 printText("| come after ");
-                colorPrint.printRed(pivot + "\n");
+                textPrint.printRed(pivot + "\n");
             } else {
                 printText("one letter |");
-                colorPrint.printGreen(right.join(", "));
+                textPrint.printGreen(right.join(", "));
                 printText("| that comes after ");
-                colorPrint.printRed(pivot + "\n");
+                textPrint.printRed(pivot + "\n");
             }
         } else {
             printText("no letters that come after ");
-            colorPrint.printRed(pivot + "\n");
+            textPrint.printRed(pivot + "\n");
         }
 
         sleepSync(1000);
@@ -95,11 +95,11 @@ export function quickSort(input: string): string {
             sortMemory[chunkIndex] = left;
             sortMemory.splice(chunkIndex + 1, 0, equal);
             sortMemory.splice(chunkIndex + 2, 0, right);
-            sortMemory.forEach(e => (e.length > 0 ? colorPrint.printCyan("[" + e + "], ") : null));
+            sortMemory.forEach(e => (e.length > 0 ? textPrint.printCyan("[" + e + "], ") : null));
             printText("\n")
 
         } else {
-            colorPrint.printCyan("[" + left.join(", ") + "], [" + equal.join(", ") + "], [" + right.join(", ") + "]\n");
+            textPrint.printCyan("[" + left.join(", ") + "], [" + equal.join(", ") + "], [" + right.join(", ") + "]\n");
             sortMemory[0] = [...left];
             sortMemory[1] = [...equal];
             sortMemory[2] = [...right];
@@ -125,12 +125,12 @@ export function stableSort(people: PersonInfo[]): PersonInfo[] {
 }
 
 export function mergeSort(str: string): string {
-    colorPrint.printGreen("\nWe start off with your name: ");
-    colorPrint.printCyan(str);
+    textPrint.printGreen("\nWe start off with your name: ");
+    textPrint.printCyan(str);
     const arr = str.split(''); // Convert the string to an array of characters
-    colorPrint.printGreen("\n\nWe divide the array, in this case your name, into its individual components: ");
-    colorPrint.printCyan(arr.join(", "));
-    colorPrint.printGreen("\n\nNow it’s time to recursively merge the components back together, making sure to put them in order as we go:\n");
+    textPrint.printGreen("\n\nWe divide the array, in this case your name, into its individual components: ");
+    textPrint.printCyan(arr.join(", "));
+    textPrint.printGreen("\n\nNow it’s time to recursively merge the components back together, making sure to put them in order as we go:\n");
     const sortedArray = mergeSortRecursive(arr);
     const sortedStr = sortedArray.join(''); // Convert the sorted array back to a string
     return sortedStr;
@@ -149,29 +149,29 @@ function mergeSortRecursive(arr: string[]): string[] {
     const sortedRight = mergeSortRecursive(rightArray);
 
     const merged = merge(sortedLeft, sortedRight);
-    colorPrint.printGreen("We combine ");
+    textPrint.printGreen("We combine ");
     if (sortedLeft.length == 1) {
-        colorPrint.printWhite("[" + sortedLeft.join(", ") + "]");
-        colorPrint.printGreen(" and ")
+        textPrint.printWhite("[" + sortedLeft.join(", ") + "]");
+        textPrint.printGreen(" and ")
         if (sortedRight.length == sortedLeft.length){
-            colorPrint.printWhite("[" + sortedRight.join(", ") + "] ")
+            textPrint.printWhite("[" + sortedRight.join(", ") + "] ")
         } else{
-            colorPrint.printRed("[" + sortedRight.join(", ") + "] ")
+            textPrint.printRed("[" + sortedRight.join(", ") + "] ")
         }
-        colorPrint.printGreen("to get ");
-        colorPrint.printRed("[" + [...merged].toString() + "] \n");
+        textPrint.printGreen("to get ");
+        textPrint.printRed("[" + [...merged].toString() + "] \n");
     } else if (sortedLeft.length < 4) {
-        colorPrint.printRed("[" + sortedLeft.join(", ") + "]");
-        colorPrint.printGreen(" and ")
-        colorPrint.printRed("[" + sortedRight.join(", ") + "] ")
-        colorPrint.printGreen("to get ");
-        colorPrint.printBlue("[" + [...merged].toString() + "] \n");
+        textPrint.printRed("[" + sortedLeft.join(", ") + "]");
+        textPrint.printGreen(" and ")
+        textPrint.printRed("[" + sortedRight.join(", ") + "] ")
+        textPrint.printGreen("to get ");
+        textPrint.printBlue("[" + [...merged].toString() + "] \n");
     } else {
-        colorPrint.printBlue("[" + sortedLeft.join(", ") + "]");
-        colorPrint.printGreen(" and ")
-        colorPrint.printBlue("[" + sortedRight.join(", ") + "] ")
-        colorPrint.printGreen("to get ");
-        colorPrint.printCyan("[" + [...merged].toString() + "] \n");
+        textPrint.printBlue("[" + sortedLeft.join(", ") + "]");
+        textPrint.printGreen(" and ")
+        textPrint.printBlue("[" + sortedRight.join(", ") + "] ")
+        textPrint.printGreen("to get ");
+        textPrint.printCyan("[" + [...merged].toString() + "] \n");
     }
     return merged;
 }

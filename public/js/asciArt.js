@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.printAuthor = exports.printTitle = exports.title = exports.author = void 0;
-const app_1 = require("./app");
+const TextPrinter_1 = require("./TextPrinter");
 const resetCode = '\x1b[0m'; // Reset code is to set text color to default after colored text is printed
 exports.author = `\n\n
 ╭╮╱╱╱╱╱╱╭━━━╮╱╱╭╮╭╮╱╱╭━━━╮╱╱╱╱╭╮
@@ -44,14 +44,14 @@ function printAuthor() {
 }
 exports.printAuthor = printAuthor;
 function printGreen(input) {
-    const text = `\x1b[38;5;${app_1.textColor.green}m${input}${resetCode}`;
+    const text = `\x1b[38;5;${TextPrinter_1.textColor.green}m${input}${resetCode}`;
     process.stdout.write(text);
 }
 function printWhite(input) {
-    const text = `\x1b[38;5;${app_1.textColor.white}m${input}${resetCode}`;
+    const text = `\x1b[38;5;${TextPrinter_1.textColor.white}m${input}${resetCode}`;
     process.stdout.write(text);
 }
 function printDarkGreen(input) {
-    const text = `\x1b[38;5;${app_1.textColor.darkGreen}m${input}${resetCode}`;
+    const text = `\x1b[38;5;${TextPrinter_1.textColor.darkGreen}m${input}${resetCode}`;
     process.stdout.write(text);
 }

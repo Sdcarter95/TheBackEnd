@@ -3,31 +3,13 @@ import { stdout } from "process";
 import * as readline from 'readline';
 import { printAuthor, printTitle } from './asciArt';
 import { quickSort, heapSort, stableSort, mergeSort } from "./sortingAlgs";
+import { typeText, textSpeed, textColor } from "./TextPrinter";
 
 
 let name = "Recruiter";
 let fullName = "Recruiter";
 let debugMode = false;
 
-// text speed is measured in ms intervals
-enum textSpeed {
-    slow = 200,
-    medium = 90,
-    fast = 50,
-    very_fast = 35,
-    uber_speed = 15
-}
-
-// textcodes corespond to the format: '\x1b[38;5;<color_number>m'
-export enum textColor {
-    green = 40,
-    darkGreen = 22,
-    blue = 27,
-    red = 196,
-    white = 15,
-    cyan = 45,
-    yellow = 226
-}
 
 export type PersonInfo = {
     fName: string;
@@ -45,33 +27,6 @@ function newReadLine(): readline.Interface {
 }
 
 
-async function typeText(text: string, speed: textSpeed, isCentered: boolean, colorCode: number = 0) {
-    let index = 0;
-    const interval = speed; // Adjust the interval (in milliseconds) as needed
-    const resetCode = '\x1b[0m'; // Reset code is to set text color to default after colored text is printed
-    text = `\x1b[38;5;${colorCode}m${text}${resetCode}`;
-
-
-    //determine the center of the terminal if text needs to be centered
-    if (isCentered) {
-        const terminalWidth = process.stdout.columns || 80; // Default to 80 columns if unable to determine terminal width
-        const spacesToAdd = Math.max(0, Math.floor((terminalWidth - text.length) / 2));
-        const centeredBuffer = ' '.repeat(spacesToAdd);
-        process.stdout.write(centeredBuffer);
-    }
-
-    // type out letters one at a time
-    async function printNextLetter() {
-        if (index < text.length) {
-            process.stdout.write(text.charAt(index));
-            index++;
-            await new Promise(resolve => setTimeout(resolve, interval)); // Await the setTimeout
-            await printNextLetter(); // Recursively call itself
-        }
-    }
-
-    await printNextLetter();
-}
 
 function clearScreen() {
     process.stdout.write('\x1b[2J\x1b[0f');
@@ -363,7 +318,7 @@ async function main() {
                 break;
             case "2":
                 await typeText("Quicksort is similar to merge sort in terms of its divide and conquer approach, but instead of always dividing a dataset in half, it chooses a pivot and recursively sorts the sides of the dataset that are larger or smaller.\n\n", textSpeed.very_fast, false, textColor.green);
-                await typeText(" It retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("It retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)\n", textSpeed.very_fast, false, textColor.green);
                 let quickSortLoop = true;
                 while (quickSortLoop) {
                     await typeText(`\n\nWould you like to know more?`, textSpeed.very_fast, false, textColor.green);
@@ -376,11 +331,12 @@ async function main() {
                         case "1":
                             await typeText("If we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
                             const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
-                            await typeText("\nAnd now we're left with your new, better sorted name!", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nAnd now we're left with your new, better sorted name! ", textSpeed.very_fast, false, textColor.green);
                             await typeText(" I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
                             break;
                         case "2":
-
+                            //TODO
+                            await typeText("I Need to write this section\n", textSpeed.very_fast, false, textColor.green);
                             break;
                         case "3":
                             quickSortLoop = false;
@@ -398,11 +354,6 @@ async function main() {
                 break;
         }
     }
-
-
-
-
-
 
     //end of app
     printAuthor();
