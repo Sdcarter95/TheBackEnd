@@ -23,35 +23,39 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const readline = __importStar(require("readline"));
 const asciArt_1 = require("./asciArt");
 const scripts = __importStar(require("./scripts"));
-let name = "Recruiter";
-let fullName = "Recruiter";
+const CommandMenu_1 = require("./CommandMenu");
 let debugMode = false;
+/////////////////////////////////////
+const menu = new CommandMenu_1.CommandMenu();
+// Add menu options and their associated actions
+menu.addOption('Option 1', () => {
+    console.log('You selected Option 1.');
+});
+menu.addOption('Option 2', () => {
+    console.log('You selected Option 2.');
+});
+menu.addOption('Submenu', async () => {
+    const submenu = new CommandMenu_1.CommandMenu();
+    submenu.addOption('Suboption 1', () => {
+        console.log('You selected Suboption 1.');
+    });
+    submenu.addOption('Suboption 2', () => {
+        console.log('You selected Suboption 2.');
+    });
+    await submenu.start();
+});
+//////////////////////////////////////////
+function clearScreen() {
+    process.stdout.write('\x1b[2J\x1b[0f');
+}
 async function main() {
     clearScreen();
     await scripts.message_intro();
     await scripts.message_inputValidation();
     await scripts.sortLoop();
-    //end of app
+    //await menu.start();
     (0, asciArt_1.printAuthor)();
-}
-function newReadLine() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
-    return rl;
-}
-function clearScreen() {
-    process.stdout.write('\x1b[2J\x1b[0f');
-}
-function getUserInput(rl) {
-    return new Promise((resolve) => {
-        rl.question('> ', (input) => {
-            resolve(input);
-        });
-    });
 }
 main();
