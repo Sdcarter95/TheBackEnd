@@ -4,11 +4,13 @@ export class CommandMenu {
   private rl: readline.Interface;
   private options: Map<string, () => void | Promise<void>>;
   private numericOptions: Map<number, string>;
+  private menuMessage: string;
 
   constructor() {
     this.rl = newReadLine();
     this.options = new Map<string, () => void | Promise<void>>();
     this.numericOptions = new Map<number, string>();
+    this.menuMessage = ""; 
   }
 
   addOption(label: string, action: () => void | Promise<void>) {
@@ -17,8 +19,13 @@ export class CommandMenu {
     this.numericOptions.set(numericChoice, label);
   }
 
+  setMenuMessage(message: string) {
+    this.menuMessage = message;
+  }
+
   async start() {
     while (true) {
+      console.log(this.menuMessage);
       this.displayMenu();
       const choice = await this.prompt('Select an option: ');
 

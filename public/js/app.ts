@@ -15,19 +15,19 @@ export type PersonInfo = {
 
 
 /////////////////////////////////////
-const menu = new CommandMenu();
+const mainMenu = new CommandMenu();
 
-
+mainMenu.setMenuMessage("This is the test menu message");
 // Add menu options and their associated actions
-menu.addOption('Option 1', () => {
+mainMenu.addOption('Option 1', () => {
     console.log('You selected Option 1.');
 });
 
-menu.addOption('Option 2', () => {
+mainMenu.addOption('Option 2', () => {
     console.log('You selected Option 2.');
 });
 
-menu.addOption('Submenu', async () => {
+mainMenu.addOption('Submenu', async () => {
     const submenu = new CommandMenu();
     submenu.addOption('Suboption 1', () => {
         console.log('You selected Suboption 1.');
@@ -50,11 +50,11 @@ async function main() {
 
 
     clearScreen();
-    await scripts.message_intro();
-    await scripts.message_inputValidation();
-    await scripts.sortLoop();
+    //await scripts.message_intro();
+    //await scripts.message_inputValidation();
+    //await scripts.sortLoop();
 
-    //await menu.start();
+    await mainMenu.start();
     printAuthor();
 }
 

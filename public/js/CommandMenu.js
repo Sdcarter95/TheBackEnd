@@ -30,14 +30,19 @@ class CommandMenu {
         this.rl = newReadLine();
         this.options = new Map();
         this.numericOptions = new Map();
+        this.menuMessage = "";
     }
     addOption(label, action) {
         const numericChoice = this.options.size + 1;
         this.options.set(label, action);
         this.numericOptions.set(numericChoice, label);
     }
+    setMenuMessage(message) {
+        this.menuMessage = message;
+    }
     async start() {
         while (true) {
+            console.log(this.menuMessage);
             this.displayMenu();
             const choice = await this.prompt('Select an option: ');
             if (choice === '0') {
