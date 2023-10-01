@@ -1,13 +1,13 @@
 import * as readline from 'readline';
+import { typeText, textSpeed, textColor } from "./TextPrinter";
 
 export class CommandMenu {
-  private rl: readline.Interface;
+  private rl: any;
   private options: Map<string, () => void | Promise<void>>;
   private numericOptions: Map<number, string>;
   private menuMessage: string;
 
   constructor() {
-    this.rl = newReadLine();
     this.options = new Map<string, () => void | Promise<void>>();
     this.numericOptions = new Map<number, string>();
     this.menuMessage = ""; 
@@ -24,10 +24,11 @@ export class CommandMenu {
   }
 
   async start() {
+    this.rl = newReadLine();
     while (true) {
-      console.log(this.menuMessage);
-      this.displayMenu();
-      const choice = await this.prompt('Select an option: ');
+      await typeText(this.menuMessage, textSpeed.very_fast, true, textColor.green);
+      await this.displayMenu();
+      const choice = await this.prompt('');
 
       if (choice === '0') {
         this.rl.close();
@@ -46,22 +47,21 @@ export class CommandMenu {
           this.rl = newReadLine();
         }
       } else {
-        console.log('Invalid option. Please try again.');
+        await typeText('Invalid option. Please try again.', textSpeed.uber_speed, true, textColor.green);
       }
     }
   }
 
-  private displayMenu() {
-    console.log('Menu:');
+  private async displayMenu() {
     let index = 1;
     for (const [label, _] of this.options) {
-      console.log(`${index}. ${label}`);
+      await typeText(`\n${index}. ${label}`, textSpeed.uber_speed, true, textColor.green);
       index++;
     }
-    console.log('0. Return');
+    await typeText('\n0. Return\n', textSpeed.uber_speed, true, textColor.green);
   }
 
-  private prompt(question: string): Promise<string> {
+  private prompt(question: string): Promise<string> {   
     return new Promise((resolve) => {
       this.rl.question(question, resolve);
     });

@@ -25,9 +25,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandMenu = void 0;
 const readline = __importStar(require("readline"));
+const TextPrinter_1 = require("./TextPrinter");
 class CommandMenu {
     constructor() {
-        this.rl = newReadLine();
         this.options = new Map();
         this.numericOptions = new Map();
         this.menuMessage = "";
@@ -41,10 +41,11 @@ class CommandMenu {
         this.menuMessage = message;
     }
     async start() {
+        this.rl = newReadLine();
         while (true) {
-            console.log(this.menuMessage);
-            this.displayMenu();
-            const choice = await this.prompt('Select an option: ');
+            await (0, TextPrinter_1.typeText)(this.menuMessage, TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await this.displayMenu();
+            const choice = await this.prompt('');
             if (choice === '0') {
                 this.rl.close();
                 break;
@@ -60,18 +61,17 @@ class CommandMenu {
                 }
             }
             else {
-                console.log('Invalid option. Please try again.');
+                await (0, TextPrinter_1.typeText)('Invalid option. Please try again.', TextPrinter_1.textSpeed.uber_speed, true, TextPrinter_1.textColor.green);
             }
         }
     }
-    displayMenu() {
-        console.log('Menu:');
+    async displayMenu() {
         let index = 1;
         for (const [label, _] of this.options) {
-            console.log(`${index}. ${label}`);
+            await (0, TextPrinter_1.typeText)(`\n${index}. ${label}`, TextPrinter_1.textSpeed.uber_speed, true, TextPrinter_1.textColor.green);
             index++;
         }
-        console.log('0. Return');
+        await (0, TextPrinter_1.typeText)('\n0. Return\n', TextPrinter_1.textSpeed.uber_speed, true, TextPrinter_1.textColor.green);
     }
     prompt(question) {
         return new Promise((resolve) => {

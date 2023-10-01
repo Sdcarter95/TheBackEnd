@@ -23,23 +23,47 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortLoop = exports.message_inputValidation = exports.message_intro = void 0;
+exports.sortLoop = exports.message_inputValidation = exports.message_intro = exports.askForName = void 0;
 const readline = __importStar(require("readline"));
 const asciArt_1 = require("./asciArt");
 const sortingAlgs_1 = require("./sortingAlgs");
 const TextPrinter_1 = require("./TextPrinter");
 let name = "Recruiter";
 let fullName = "Recruiter";
-//The idea behind question one is to extrapalate as much information about the name given as possible.
+let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
 async function askForName() {
+    await (0, TextPrinter_1.typeText)("\n\nLet’s start out simple: What is your", TextPrinter_1.textSpeed.fast, false, TextPrinter_1.textColor.green);
+    process.stdout.write(" name");
+    await (0, TextPrinter_1.typeText)("?\n\n", TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
     let q1_Input = newReadLine();
     const userInput = await getUserInput(q1_Input);
     q1_Input.close();
     const nameArray = userInput.split(' ');
     name = nameArray[0];
     fullName = userInput;
-    return nameArray;
+    nameData = nameArray;
+    let nameLimit = 10; //char limit for first names
+    const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
+    //check for blank input
+    if (nameArray[0].trim() == "") {
+        name = "Recruiter";
+        await (0, TextPrinter_1.typeText)("\nNot the very trusting sort, are you?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        await (0, TextPrinter_1.typeText)("\nI suppose you can never be too careful in this day in age", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        await (0, TextPrinter_1.typeText)("\nI'll just call you Recruiter", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    }
+    //otherwise print normal response
+    else {
+        await (0, TextPrinter_1.typeText)("\nNice to meet you, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        if (nameArray[0].length > nameLimit || containsBlacklistedCharacters(fullName, charBlackList) || nameArray.length > 3) {
+            await (0, TextPrinter_1.typeText)("\n(Although I doubt that's your real name...)", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\n\nWhatever your name may be, let’s get down to buisnes", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        }
+        else {
+            await (0, TextPrinter_1.typeText)("\n\nNow that we’re on a first name basis, I'll save your name into my memory", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        }
+    }
 }
+exports.askForName = askForName;
 async function message_intro() {
     await (0, TextPrinter_1.typeText)("Welcome to the back end", TextPrinter_1.textSpeed.medium, true, TextPrinter_1.textColor.green);
     (0, asciArt_1.printTitle)();
@@ -49,31 +73,9 @@ exports.message_intro = message_intro;
 async function message_inputValidation() {
     let inputValidationLoop = true;
     while (inputValidationLoop) {
-        await (0, TextPrinter_1.typeText)("\n\nLet’s start out simple: What is your", TextPrinter_1.textSpeed.fast, false, TextPrinter_1.textColor.green);
-        process.stdout.write(" name");
-        await (0, TextPrinter_1.typeText)("?\n\n", TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
-        let nameArray = await askForName();
+        let nameArray = nameData;
         let nameLimit = 10; //char limit for first names
         const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
-        //check for blank input
-        if (nameArray[0].trim() == "") {
-            name = "Recruiter";
-            await (0, TextPrinter_1.typeText)("\nNot the very trusting sort, are you?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            await (0, TextPrinter_1.typeText)("\nI suppose you can never be too careful in this day in age", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            await (0, TextPrinter_1.typeText)(", which is why input validation is so important!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            await (0, TextPrinter_1.typeText)("(I’m also skilled in the art of segways)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-        }
-        //otherwise print normal response
-        else {
-            await (0, TextPrinter_1.typeText)("\nNice to meet you, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            if (nameArray[0].length > nameLimit || containsBlacklistedCharacters(fullName, charBlackList) || nameArray.length > 3) {
-                await (0, TextPrinter_1.typeText)("\n(Although I doubt that's your real name...)", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)("\n\nWhatever your name may be, let’s talk a little bit about input validation.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            }
-            else {
-                await (0, TextPrinter_1.typeText)("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            }
-        }
         await (0, TextPrinter_1.typeText)("\nThere are some things I can infer based on your provided input:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
         let inferenceCount = 0;
         //check number of words
@@ -151,6 +153,7 @@ async function message_inputValidation() {
             case "1":
                 clearScreen();
                 await (0, TextPrinter_1.typeText)("\n I'll just wipe my memory...\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await askForName();
                 break;
             case "2":
                 inputValidationLoop = false;
@@ -166,12 +169,12 @@ async function message_inputValidation() {
                 inputValidationLoop = false;
                 break;
         }
-        await (0, TextPrinter_1.typeText)("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-        await (0, TextPrinter_1.typeText)("\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-        await (0, TextPrinter_1.typeText)(` But enough about the front end! we’re in\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-        (0, asciArt_1.printTitle)();
-        await (0, TextPrinter_1.typeText)(`\n\nSo let's not get distracted.\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
     }
+    await (0, TextPrinter_1.typeText)("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    await (0, TextPrinter_1.typeText)("\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    await (0, TextPrinter_1.typeText)(` But enough about the front end! we’re in\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    (0, asciArt_1.printTitle)();
+    await (0, TextPrinter_1.typeText)(`\n\nSo let's not get distracted.\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
 }
 exports.message_inputValidation = message_inputValidation;
 async function sortLoop() {

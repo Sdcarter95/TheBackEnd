@@ -17,14 +17,13 @@ export type PersonInfo = {
 /////////////////////////////////////
 const mainMenu = new CommandMenu();
 
-mainMenu.setMenuMessage("This is the test menu message");
-// Add menu options and their associated actions
-mainMenu.addOption('Option 1', () => {
-    console.log('You selected Option 1.');
+mainMenu.setMenuMessage("This is the backend catalog. Select what topic you would like to discuss and we can get started.");
+mainMenu.addOption('Sorting Algorithms ', async () => {
+    await scripts.sortLoop();
 });
 
-mainMenu.addOption('Option 2', () => {
-    console.log('You selected Option 2.');
+mainMenu.addOption('Input', async () => {
+    await scripts.message_inputValidation();
 });
 
 mainMenu.addOption('Submenu', async () => {
@@ -50,10 +49,8 @@ async function main() {
 
 
     clearScreen();
-    //await scripts.message_intro();
-    //await scripts.message_inputValidation();
-    //await scripts.sortLoop();
-
+    await scripts.message_intro();
+    await scripts.askForName();
     await mainMenu.start();
     printAuthor();
 }

@@ -7,9 +7,14 @@ import { PersonInfo } from './app';
 
 let name = "Recruiter";
 let fullName = "Recruiter";
+let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
 
-//The idea behind question one is to extrapalate as much information about the name given as possible.
-async function askForName(): Promise<string[]> {
+
+export async function askForName() {
+
+    await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
+    process.stdout.write(" name");
+    await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
 
     let q1_Input = newReadLine();
     const userInput = await getUserInput(q1_Input);
@@ -18,7 +23,30 @@ async function askForName(): Promise<string[]> {
     const nameArray = userInput.split(' ');
     name = nameArray[0];
     fullName = userInput;
-    return nameArray;
+    nameData = nameArray;
+
+    let nameLimit = 10; //char limit for first names
+    const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
+
+    //check for blank input
+    if (nameArray[0].trim() == "") {
+        name = "Recruiter"
+        await typeText("\nNot the very trusting sort, are you?", textSpeed.very_fast, false, textColor.green);
+        await typeText("\nI suppose you can never be too careful in this day in age", textSpeed.very_fast, false, textColor.green);
+        await typeText("\nI'll just call you Recruiter", textSpeed.very_fast, false, textColor.green);
+    }
+
+    //otherwise print normal response
+    else {
+        await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
+        if (nameArray[0].length > nameLimit || containsBlacklistedCharacters(fullName, charBlackList) || nameArray.length > 3) {
+            await typeText("\n(Although I doubt that's your real name...)", textSpeed.very_fast, false, textColor.green);
+            await typeText("\n\nWhatever your name may be, let’s get down to buisnes", textSpeed.very_fast, false, textColor.green);
+        }
+        else {
+            await typeText("\n\nNow that we’re on a first name basis, I'll save your name into my memory", textSpeed.very_fast, false, textColor.green);
+        }
+    }
 }
 
 export async function message_intro() {
@@ -31,34 +59,12 @@ export async function message_intro() {
 export async function message_inputValidation() {
     let inputValidationLoop = true;
     while (inputValidationLoop) {
-        await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
-        process.stdout.write(" name");
-        await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
 
-        let nameArray = await askForName();
+        let nameArray = nameData;
         let nameLimit = 10; //char limit for first names
         const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
 
-        //check for blank input
-        if (nameArray[0].trim() == "") {
-            name = "Recruiter"
-            await typeText("\nNot the very trusting sort, are you?", textSpeed.very_fast, false, textColor.green);
-            await typeText("\nI suppose you can never be too careful in this day in age", textSpeed.very_fast, false, textColor.green);
-            await typeText(", which is why input validation is so important!", textSpeed.very_fast, false, textColor.green);
-            await typeText("(I’m also skilled in the art of segways)\n", textSpeed.very_fast, false, textColor.green);
-        }
 
-        //otherwise print normal response
-        else {
-            await typeText("\nNice to meet you, " + name + "!", textSpeed.very_fast, false, textColor.green);
-            if (nameArray[0].length > nameLimit || containsBlacklistedCharacters(fullName, charBlackList) || nameArray.length > 3) {
-                await typeText("\n(Although I doubt that's your real name...)", textSpeed.very_fast, false, textColor.green);
-                await typeText("\n\nWhatever your name may be, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
-            }
-            else {
-                await typeText("\n\nNow that we’re on a first name basis, let’s talk a little bit about input validation.", textSpeed.very_fast, false, textColor.green);
-            }
-        }
 
         await typeText("\nThere are some things I can infer based on your provided input:\n\n", textSpeed.very_fast, false, textColor.green);
 
@@ -151,6 +157,7 @@ export async function message_inputValidation() {
             case "1":
                 clearScreen();
                 await typeText("\n I'll just wipe my memory...\n", textSpeed.very_fast, false, textColor.green);
+                await askForName();
                 break;
             case "2":
                 inputValidationLoop = false;
@@ -166,13 +173,12 @@ export async function message_inputValidation() {
                 inputValidationLoop = false;
                 break;
         }
-
-        await typeText("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
-        await typeText("\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
-        await typeText(` But enough about the front end! we’re in\n`, textSpeed.very_fast, false, textColor.green);
-        printTitle();
-        await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
     }
+    await typeText("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
+    await typeText("\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
+    await typeText(` But enough about the front end! we’re in\n`, textSpeed.very_fast, false, textColor.green);
+    printTitle();
+    await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
 }
 
 export async function sortLoop() {
