@@ -1,8 +1,9 @@
 import * as readline from 'readline';
-import { printAuthor, printTitle } from './asciArt';
+import { printTitle } from './asciArt';
 import { quickSort, heapSort, stableSort, mergeSort } from "./sortingAlgs";
 import { typeText, textSpeed, textColor } from "./TextPrinter";
 import { PersonInfo } from './app';
+import { CommandMenu } from './CommandMenu';
 
 
 let name = "Recruiter";
@@ -54,6 +55,20 @@ export async function message_intro() {
     printTitle();
     await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving.\n", textSpeed.very_fast, false, textColor.green);
 
+}
+
+export async function menu_input() {
+    const inputMenu = new CommandMenu();
+    inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. A programmer must think of every sort of input a user can pass. Invalid input, whether it be purposely malicious or simply a mistake, accounts for most of the code in place for decision fields.")
+    inputMenu.setMenuQuestion("What would you like to know about input validation?")
+    inputMenu.addOption("Types of input validation", async () => {
+        //TODO
+        await typeText("Implemenet", textSpeed.very_fast, false, textColor.green);
+    })
+    inputMenu.addOption("Example of input validation", async () => {
+        await message_inputValidation();
+    })
+    await inputMenu.start();
 }
 
 export async function message_inputValidation() {

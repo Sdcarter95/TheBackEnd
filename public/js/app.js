@@ -29,12 +29,14 @@ const CommandMenu_1 = require("./CommandMenu");
 let debugMode = false;
 /////////////////////////////////////
 const mainMenu = new CommandMenu_1.CommandMenu();
-mainMenu.setMenuMessage("This is the backend catalog. Select what topic you would like to discuss and we can get started.");
+mainMenu.setMenuFunction(asciArt_1.printTitle);
+mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
     await scripts.sortLoop();
 });
 mainMenu.addOption('Input', async () => {
-    await scripts.message_inputValidation();
+    await scripts.menu_input();
+    //await scripts.message_inputValidation();
 });
 mainMenu.addOption('Submenu', async () => {
     const submenu = new CommandMenu_1.CommandMenu();

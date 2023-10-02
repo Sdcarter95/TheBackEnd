@@ -5,12 +5,16 @@ export class CommandMenu {
   private rl: any;
   private options: Map<string, () => void | Promise<void>>;
   private numericOptions: Map<number, string>;
-  private menuMessage: string;
+  private menuMessage: string; //The message that only prints when the menu is started 
+  private menuQuestion: string; //the question asked before the menu options every time
+  private menuFunction: () => void; //optional function to run when a munu is started
 
   constructor() {
     this.options = new Map<string, () => void | Promise<void>>();
     this.numericOptions = new Map<number, string>();
     this.menuMessage = ""; 
+    this.menuQuestion = "";
+    this.menuFunction = () => {};
   }
 
   addOption(label: string, action: () => void | Promise<void>) {
@@ -23,10 +27,21 @@ export class CommandMenu {
     this.menuMessage = message;
   }
 
+  setMenuQuestion(question: string){
+    this.menuQuestion = question;
+  }
+
+  setMenuFunction(func: () => void){
+    this.menuFunction = func;
+  }
+
   async start() {
     this.rl = newReadLine();
+
+    this.menuFunction();
+    await typeText("\n\n" + this.menuMessage, textSpeed.very_fast, true, textColor.green);
     while (true) {
-      await typeText(this.menuMessage, textSpeed.very_fast, true, textColor.green);
+      await typeText("\n\n" + this.menuQuestion, textSpeed.very_fast, true, textColor.green);
       await this.displayMenu();
       const choice = await this.prompt('');
 

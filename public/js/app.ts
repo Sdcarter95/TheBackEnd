@@ -1,4 +1,4 @@
-import { printAuthor } from './asciArt';
+import { printAuthor, printTitle } from './asciArt';
 import * as scripts from "./scripts"
 import { CommandMenu } from './CommandMenu';
 
@@ -17,13 +17,15 @@ export type PersonInfo = {
 /////////////////////////////////////
 const mainMenu = new CommandMenu();
 
-mainMenu.setMenuMessage("This is the backend catalog. Select what topic you would like to discuss and we can get started.");
+mainMenu.setMenuFunction(printTitle);
+mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
     await scripts.sortLoop();
 });
 
 mainMenu.addOption('Input', async () => {
-    await scripts.message_inputValidation();
+    await scripts.menu_input();
+    //await scripts.message_inputValidation();
 });
 
 mainMenu.addOption('Submenu', async () => {
@@ -38,7 +40,6 @@ mainMenu.addOption('Submenu', async () => {
 
     await submenu.start();
 });
-
 //////////////////////////////////////////
 
 function clearScreen() {
@@ -46,8 +47,6 @@ function clearScreen() {
 }
 
 async function main() {
-
-
     clearScreen();
     await scripts.message_intro();
     await scripts.askForName();

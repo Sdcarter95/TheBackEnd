@@ -23,11 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortLoop = exports.message_inputValidation = exports.message_intro = exports.askForName = void 0;
+exports.sortLoop = exports.message_inputValidation = exports.menu_input = exports.message_intro = exports.askForName = void 0;
 const readline = __importStar(require("readline"));
 const asciArt_1 = require("./asciArt");
 const sortingAlgs_1 = require("./sortingAlgs");
 const TextPrinter_1 = require("./TextPrinter");
+const CommandMenu_1 = require("./CommandMenu");
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
@@ -70,6 +71,20 @@ async function message_intro() {
     await (0, TextPrinter_1.typeText)("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you (the recruiter) insight into my approach to problem solving.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
 }
 exports.message_intro = message_intro;
+async function menu_input() {
+    const inputMenu = new CommandMenu_1.CommandMenu();
+    inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. A programmer must think of every sort of input a user can pass. Invalid input, whether it be purposely malicious or simply a mistake, accounts for most of the code in place for decision fields.");
+    inputMenu.setMenuQuestion("What would you like to know about input validation?");
+    inputMenu.addOption("Types of input validation", async () => {
+        //TODO
+        await (0, TextPrinter_1.typeText)("Implemenet", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    });
+    inputMenu.addOption("Example of input validation", async () => {
+        message_inputValidation();
+    });
+    await inputMenu.start();
+}
+exports.menu_input = menu_input;
 async function message_inputValidation() {
     let inputValidationLoop = true;
     while (inputValidationLoop) {

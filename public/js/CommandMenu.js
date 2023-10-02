@@ -31,6 +31,8 @@ class CommandMenu {
         this.options = new Map();
         this.numericOptions = new Map();
         this.menuMessage = "";
+        this.menuQuestion = "";
+        this.menuFunction = () => { };
     }
     addOption(label, action) {
         const numericChoice = this.options.size + 1;
@@ -40,10 +42,18 @@ class CommandMenu {
     setMenuMessage(message) {
         this.menuMessage = message;
     }
+    setMenuQuestion(question) {
+        this.menuQuestion = question;
+    }
+    setMenuFunction(func) {
+        this.menuFunction = func;
+    }
     async start() {
         this.rl = newReadLine();
+        this.menuFunction();
+        await (0, TextPrinter_1.typeText)("\n\n" + this.menuMessage, TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         while (true) {
-            await (0, TextPrinter_1.typeText)(this.menuMessage, TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\n\n" + this.menuQuestion, TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
             await this.displayMenu();
             const choice = await this.prompt('');
             if (choice === '0') {
