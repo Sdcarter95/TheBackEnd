@@ -9,7 +9,8 @@ import { CommandMenu } from './CommandMenu';
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
-
+const fs = require('fs');
+const namesFilePath = 'names.json';
 
 export async function askForName() {
 
@@ -26,6 +27,9 @@ export async function askForName() {
     fullName = userInput;
     nameData = nameArray;
 
+    //const savedName = JSON.parse(fs.readFileSync(namesFilePath, 'utf8'));
+    //savedName.push(name);
+    fs.writeFileSync(namesFilePath, JSON.stringify(savedName));
     let nameLimit = 10; //char limit for first names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
 

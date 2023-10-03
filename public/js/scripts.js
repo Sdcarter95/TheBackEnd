@@ -32,6 +32,8 @@ const CommandMenu_1 = require("./CommandMenu");
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
+const fs = require('fs');
+const namesFilePath = 'names.json';
 async function askForName() {
     await (0, TextPrinter_1.typeText)("\n\nLet’s start out simple: What is your", TextPrinter_1.textSpeed.fast, false, TextPrinter_1.textColor.green);
     process.stdout.write(" name");
@@ -43,6 +45,9 @@ async function askForName() {
     name = nameArray[0];
     fullName = userInput;
     nameData = nameArray;
+    const savedName = JSON.parse(fs.readFileSync(namesFilePath, 'utf8'));
+    savedName.push(name);
+    fs.writeFileSync(namesFilePath, JSON.stringify(savedName));
     let nameLimit = 10; //char limit for first names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
     //check for blank input
@@ -80,7 +85,7 @@ async function menu_input() {
         await (0, TextPrinter_1.typeText)("Implemenet", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
     });
     inputMenu.addOption("Example of input validation", async () => {
-        message_inputValidation();
+        await message_inputValidation();
     });
     await inputMenu.start();
 }

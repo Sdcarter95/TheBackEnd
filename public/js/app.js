@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const asciArt_1 = require("./asciArt");
 const scripts = __importStar(require("./scripts"));
 const CommandMenu_1 = require("./CommandMenu");
+const TextPrinter_1 = require("./TextPrinter");
 let debugMode = false;
 /////////////////////////////////////
 const mainMenu = new CommandMenu_1.CommandMenu();
@@ -38,15 +39,9 @@ mainMenu.addOption('Input', async () => {
     await scripts.menu_input();
     //await scripts.message_inputValidation();
 });
-mainMenu.addOption('Submenu', async () => {
-    const submenu = new CommandMenu_1.CommandMenu();
-    submenu.addOption('Suboption 1', () => {
-        console.log('You selected Suboption 1.');
-    });
-    submenu.addOption('Suboption 2', () => {
-        console.log('You selected Suboption 2.');
-    });
-    await submenu.start();
+mainMenu.addOption('Testing', async () => {
+    //TODO
+    await (0, TextPrinter_1.typeText)("Implement", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
 });
 //////////////////////////////////////////
 function clearScreen() {
