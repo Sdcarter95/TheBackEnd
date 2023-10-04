@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortLoop = exports.message_inputValidation = exports.menu_input = exports.message_intro = exports.askForName = void 0;
+exports.sortLoop = exports.message_inputValidation = exports.menu_input = exports.message_intro = exports.askForName = exports.checkData = void 0;
 const readline = __importStar(require("readline"));
 const asciArt_1 = require("./asciArt");
 const sortingAlgs_1 = require("./sortingAlgs");
@@ -33,7 +33,24 @@ let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
 const fs = require('fs');
-const namesFilePath = 'names.json';
+const dataPath = 'flatData.json';
+async function checkData() {
+    const emptyData = {
+        "nameData": "",
+    };
+    if (!fs.existsSync(dataPath)) {
+        fs.writeFileSync(dataPath, JSON.stringify(emptyData), 'utf8');
+        await askForName();
+    }
+    else {
+        let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        name = dataBank.nameData[0];
+        fullName = dataBank.nameData.join(" ");
+        nameData = dataBank.nameData;
+        await (0, TextPrinter_1.typeText)("Welcome back, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    }
+}
+exports.checkData = checkData;
 async function askForName() {
     await (0, TextPrinter_1.typeText)("\n\nLet’s start out simple: What is your", TextPrinter_1.textSpeed.fast, false, TextPrinter_1.textColor.green);
     process.stdout.write(" name");
@@ -45,11 +62,11 @@ async function askForName() {
     name = nameArray[0];
     fullName = userInput;
     nameData = nameArray;
-    const savedName = JSON.parse(fs.readFileSync(namesFilePath, 'utf8'));
-    savedName.push(name);
-    fs.writeFileSync(namesFilePath, JSON.stringify(savedName));
     let nameLimit = 10; //char limit for first names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
+    let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    dataBank.nameData = nameData;
+    fs.writeFileSync(dataPath, JSON.stringify(dataBank));
     //check for blank input
     if (nameArray[0].trim() == "") {
         name = "Recruiter";

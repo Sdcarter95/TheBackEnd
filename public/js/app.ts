@@ -18,7 +18,6 @@ export type PersonInfo = {
 /////////////////////////////////////
 const mainMenu = new CommandMenu();
 
-mainMenu.setMenuFunction(printTitle);
 mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
     await scripts.sortLoop();
@@ -42,7 +41,7 @@ function clearScreen() {
 async function main() {
     clearScreen();
     await scripts.message_intro();
-    await scripts.askForName();
+    await scripts.checkData();
     await mainMenu.start();
     printAuthor();
 }

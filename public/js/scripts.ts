@@ -10,7 +10,25 @@ let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
 const fs = require('fs');
-const namesFilePath = 'names.json';
+const dataPath = 'flatData.json';
+
+export async function checkData() {
+
+    const emptyData = {
+        "nameData": "",
+    }
+    if (!fs.existsSync(dataPath)) {
+        fs.writeFileSync(dataPath, JSON.stringify(emptyData), 'utf8');
+        await askForName();
+    } else{
+        let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        name = dataBank.nameData[0];
+        fullName = dataBank.nameData.join(" ");
+        nameData = dataBank.nameData;
+
+        await typeText("\nWelcome back, " +name+"!",textSpeed.very_fast,false,textColor.green);
+    }
+}
 
 export async function askForName() {
 
@@ -27,11 +45,13 @@ export async function askForName() {
     fullName = userInput;
     nameData = nameArray;
 
-    //const savedName = JSON.parse(fs.readFileSync(namesFilePath, 'utf8'));
-    //savedName.push(name);
-    fs.writeFileSync(namesFilePath, JSON.stringify(savedName));
     let nameLimit = 10; //char limit for first names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
+
+    let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    dataBank.nameData = nameData;
+
+    fs.writeFileSync(dataPath, JSON.stringify(dataBank));
 
     //check for blank input
     if (nameArray[0].trim() == "") {

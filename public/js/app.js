@@ -30,7 +30,6 @@ const TextPrinter_1 = require("./TextPrinter");
 let debugMode = false;
 /////////////////////////////////////
 const mainMenu = new CommandMenu_1.CommandMenu();
-mainMenu.setMenuFunction(asciArt_1.printTitle);
 mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
     await scripts.sortLoop();
@@ -50,7 +49,7 @@ function clearScreen() {
 async function main() {
     clearScreen();
     await scripts.message_intro();
-    await scripts.askForName();
+    await scripts.checkData();
     await mainMenu.start();
     (0, asciArt_1.printAuthor)();
 }
