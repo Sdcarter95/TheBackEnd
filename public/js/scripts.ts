@@ -20,13 +20,13 @@ export async function checkData() {
     if (!fs.existsSync(dataPath)) {
         fs.writeFileSync(dataPath, JSON.stringify(emptyData), 'utf8');
         await askForName();
-    } else{
+    } else {
         let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
         name = dataBank.nameData[0];
         fullName = dataBank.nameData.join(" ");
         nameData = dataBank.nameData;
 
-        await typeText("\nWelcome back, " +name+"!",textSpeed.very_fast,false,textColor.green);
+        await typeText("\nWelcome back, " + name + "!", textSpeed.very_fast, false, textColor.green);
     }
 }
 
@@ -83,14 +83,14 @@ export async function message_intro() {
 
 export async function menu_input() {
     const inputMenu = new CommandMenu();
-    inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. A programmer must think of every sort of input a user can pass. Invalid input, whether it be purposely malicious or simply a mistake, accounts for most of the code in place for decision fields.")
-    inputMenu.setMenuQuestion("What would you like to know about input validation?")
+    inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.")
+    inputMenu.setMenuQuestion("Would you like to know more about input validation?")
+    inputMenu.addOption("Run an example", async () => {
+        await message_inputValidation();
+    })
     inputMenu.addOption("Types of input validation", async () => {
         //TODO
         await typeText("Implemenet", textSpeed.very_fast, false, textColor.green);
-    })
-    inputMenu.addOption("Example of input validation", async () => {
-        await message_inputValidation();
     })
     await inputMenu.start();
 }
@@ -105,7 +105,36 @@ export async function message_inputValidation() {
 
 
 
-        await typeText("\nThere are some things I can infer based on your provided input:\n\n", textSpeed.very_fast, false, textColor.green);
+        await typeText("\nLet’s present some questions you might find on an average form, and we’ll discuss the input validation needed to process your input: :\n", textSpeed.very_fast, false, textColor.green);
+
+        let ageValid = false;
+        while (!ageValid) {
+            await typeText("\n\nPlease enter your age: \n", textSpeed.fast, true, textColor.cyan);
+
+            let ageReader = newReadLine();
+            const ageChoice = await getUserInput(ageReader);
+            ageReader.close();
+
+
+            //Data Type Validation:
+            if (!isNaN(parseInt(ageChoice))) {
+                await typeText("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", textSpeed.very_fast, false, textColor.green);
+                const age = parseInt(ageChoice);
+                if(age > 5 && age< 105){
+                    await typeText("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", textSpeed.very_fast, false, textColor.green);
+                    await typeText("\nBased on these results, we can be reasonably sure the given age is valid!\n", textSpeed.very_fast, false, textColor.green);
+                    ageValid = true;
+                } else{
+                    await typeText("2. Using ", textSpeed.very_fast, false, textColor.green);
+                    await typeText("Range Validation, ", textSpeed.very_fast, false, textColor.blue);
+                    await typeText("we determine that the given age is outside the range of reasonability. Care to try again?", textSpeed.very_fast, false, textColor.green);
+                }
+            } else {
+                await typeText("1. Using ", textSpeed.very_fast, false, textColor.green);
+                await typeText("Data Type Validation", textSpeed.very_fast, false, textColor.blue);
+                await typeText(", we can determine that your input cannot be converted into an integer, and thus is not valid. Care to try again?\n", textSpeed.very_fast, false, textColor.green);
+            }
+        }
 
         let inferenceCount = 0;
 
@@ -113,17 +142,17 @@ export async function message_inputValidation() {
         if (nameArray.length == 1) {
             if (nameArray[0] == "") {
                 inferenceCount++;
-                await typeText(inferenceCount + ". You did not provide a name. Maybe you got hasty, or maybe you’re testing my program? Whatever the case, you'll have a chance to change it! Alas, if you insist on keeping your secrets I can just call you Recruiter\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(inferenceCount + ". You did not provide a name. Maybe you got hasty, or maybe you’re testing my program?\n", textSpeed.very_fast, false, textColor.green);
             }
             else {
                 inferenceCount++;
-                await typeText(inferenceCount + ". " + nameArray[0] + " is your intended first name. And what a great name!\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(inferenceCount + ". " + nameArray[0] + " is your first name. And what a great name! (Contextual Validation)\n", textSpeed.very_fast, false, textColor.green);
             }
 
             //check length
             if (nameArray[0].length <= nameLimit) {
                 inferenceCount++;
-                await typeText(inferenceCount + ". The name you entered is not longer than 10 characters (Sorry Bartholomew)\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(inferenceCount + ". The name you entered is not longer than 10 characters (Sorry to all the Bartholomews)\n", textSpeed.very_fast, false, textColor.green);
             }
             else {
                 inferenceCount++;
@@ -224,7 +253,7 @@ export async function sortLoop() {
     let sortLoop = true;
     while (sortLoop) {
         await typeText(`\n\nWhich sorting algorithm do you want to learn about?\n`, textSpeed.very_fast, false, textColor.green);
-        await typeText(`\n\n1. Merge Sort\n2. Quick Sort\n3. nothing\n`, textSpeed.uber_speed, false, textColor.green);
+        await typeText(`\n\n1. Merge Sort\n2. Quick Sort\n0. Back to menu\n`, textSpeed.uber_speed, false, textColor.green);
         let sortReader = newReadLine();
         let sortChoice = await getUserInput(sortReader);
         sortReader.close();
@@ -306,7 +335,7 @@ export async function sortLoop() {
                 let quickSortLoop = true;
                 while (quickSortLoop) {
                     await typeText(`\n\nWould you like to know more?`, textSpeed.very_fast, false, textColor.green);
-                    await typeText(`\n\n1. Show me in action\n2. When to use quicksort?\n3. Back to other sorts\n`, textSpeed.uber_speed, false, textColor.green);
+                    await typeText(`\n\n1. Show me in action\n2. When to use quicksort?\n0. Back to other sorts\n`, textSpeed.uber_speed, false, textColor.green);
                     let quickSortReader = newReadLine();
                     let quickSortChoice = await getUserInput(quickSortReader);
                     quickSortReader.close();
@@ -319,10 +348,13 @@ export async function sortLoop() {
                             await typeText(" I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
                             break;
                         case "2":
-                            //TODO
-                            await typeText("I Need to write this section\n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("Quicksort sorts items “in place”, meaning it does need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nWhile mergesort might be more efficient when sorting large datasets, quicksort can still be preferable for large datasets when memory is a consideration.\n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nSuppose you're working on a server application that needs to sort a large dataset of customer orders for a retail website.\n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nEach order is represented as an object with various details, including order number, date, customer information, and order value. You need to sort these orders by order number, and the dataset is too large to fit entirely in memory.\n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\n\nIn this instance, quicksort would be the ideal choice.\n", textSpeed.very_fast, false, textColor.green);
                             break;
-                        case "3":
+                        case "0":
                             quickSortLoop = false;
                             break;
 
@@ -331,7 +363,7 @@ export async function sortLoop() {
                     }
                 }
                 break;
-            case "3":
+            case "0":
                 sortLoop = false;
                 break;
             default:
@@ -375,13 +407,4 @@ function containsBlacklistedCharacters(inputString: string, charBlackList: strin
     return false; // None of the blacklisted characters were found in the input string
 }
 
-function stringToAsciiArray(input: string): number[] {
-    const asciiArray: number[] = [];
 
-    for (let i = 0; i < input.length; i++) {
-        const charCode = input.charCodeAt(i);
-        asciiArray.push(charCode);
-    }
-
-    return asciiArray;
-}

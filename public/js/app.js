@@ -42,6 +42,10 @@ mainMenu.addOption('Testing', async () => {
     //TODO
     await (0, TextPrinter_1.typeText)("Implement", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
 });
+mainMenu.addOption('Data Storage', async () => {
+    //TODO
+    await (0, TextPrinter_1.typeText)("Implement", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+});
 //////////////////////////////////////////
 function clearScreen() {
     process.stdout.write('\x1b[2J\x1b[0f');

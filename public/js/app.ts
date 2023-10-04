@@ -32,6 +32,11 @@ mainMenu.addOption('Testing', async () => {
     //TODO
     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
 });
+
+mainMenu.addOption('Data Storage', async () => {
+    //TODO
+    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
+});
 //////////////////////////////////////////
 
 function clearScreen() {

@@ -47,7 +47,7 @@ async function checkData() {
         name = dataBank.nameData[0];
         fullName = dataBank.nameData.join(" ");
         nameData = dataBank.nameData;
-        await (0, TextPrinter_1.typeText)("Welcome back, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        await (0, TextPrinter_1.typeText)("\nWelcome back, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
     }
 }
 exports.checkData = checkData;
@@ -95,14 +95,14 @@ async function message_intro() {
 exports.message_intro = message_intro;
 async function menu_input() {
     const inputMenu = new CommandMenu_1.CommandMenu();
-    inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. A programmer must think of every sort of input a user can pass. Invalid input, whether it be purposely malicious or simply a mistake, accounts for most of the code in place for decision fields.");
-    inputMenu.setMenuQuestion("What would you like to know about input validation?");
+    inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.");
+    inputMenu.setMenuQuestion("Would you like to know more about input validation?");
+    inputMenu.addOption("Run an example", async () => {
+        await message_inputValidation();
+    });
     inputMenu.addOption("Types of input validation", async () => {
         //TODO
         await (0, TextPrinter_1.typeText)("Implemenet", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-    });
-    inputMenu.addOption("Example of input validation", async () => {
-        await message_inputValidation();
     });
     await inputMenu.start();
 }
@@ -113,22 +113,49 @@ async function message_inputValidation() {
         let nameArray = nameData;
         let nameLimit = 10; //char limit for first names
         const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
-        await (0, TextPrinter_1.typeText)("\nThere are some things I can infer based on your provided input:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        await (0, TextPrinter_1.typeText)("\nLet’s present some questions you might find on an average form, and we’ll discuss the input validation needed to process your input: :\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        let ageValid = false;
+        while (!ageValid) {
+            await (0, TextPrinter_1.typeText)("\n\nPlease enter your age: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
+            let ageReader = newReadLine();
+            const ageChoice = await getUserInput(ageReader);
+            ageReader.close();
+            //Data Type Validation:
+            if (!isNaN(parseInt(ageChoice))) {
+                await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const age = parseInt(ageChoice);
+                if (age > 5 && age < 105) {
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the given age is valid!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    ageValid = true;
+                }
+                else {
+                    await (0, TextPrinter_1.typeText)("2. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("Range Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
+                    await (0, TextPrinter_1.typeText)("we determine that the given age is outside the range of reasonability. Care to try again?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                }
+            }
+            else {
+                await (0, TextPrinter_1.typeText)("1. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("Data Type Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
+                await (0, TextPrinter_1.typeText)(", we can determine that your input cannot be converted into an integer, and thus is not valid. Care to try again?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            }
+        }
         let inferenceCount = 0;
         //check number of words
         if (nameArray.length == 1) {
             if (nameArray[0] == "") {
                 inferenceCount++;
-                await (0, TextPrinter_1.typeText)(inferenceCount + ". You did not provide a name. Maybe you got hasty, or maybe you’re testing my program? Whatever the case, you'll have a chance to change it! Alas, if you insist on keeping your secrets I can just call you Recruiter\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(inferenceCount + ". You did not provide a name. Maybe you got hasty, or maybe you’re testing my program?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             }
             else {
                 inferenceCount++;
-                await (0, TextPrinter_1.typeText)(inferenceCount + ". " + nameArray[0] + " is your intended first name. And what a great name!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(inferenceCount + ". " + nameArray[0] + " is your first name. And what a great name! (Contextual Validation)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             }
             //check length
             if (nameArray[0].length <= nameLimit) {
                 inferenceCount++;
-                await (0, TextPrinter_1.typeText)(inferenceCount + ". The name you entered is not longer than 10 characters (Sorry Bartholomew)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(inferenceCount + ". The name you entered is not longer than 10 characters (Sorry to all the Bartholomews)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             }
             else {
                 inferenceCount++;
@@ -218,7 +245,7 @@ async function sortLoop() {
     let sortLoop = true;
     while (sortLoop) {
         await (0, TextPrinter_1.typeText)(`\n\nWhich sorting algorithm do you want to learn about?\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-        await (0, TextPrinter_1.typeText)(`\n\n1. Merge Sort\n2. Quick Sort\n3. nothing\n`, TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
+        await (0, TextPrinter_1.typeText)(`\n\n1. Merge Sort\n2. Quick Sort\n0. Back to menu\n`, TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
         let sortReader = newReadLine();
         let sortChoice = await getUserInput(sortReader);
         sortReader.close();
@@ -286,7 +313,7 @@ async function sortLoop() {
                 let quickSortLoop = true;
                 while (quickSortLoop) {
                     await (0, TextPrinter_1.typeText)(`\n\nWould you like to know more?`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                    await (0, TextPrinter_1.typeText)(`\n\n1. Show me in action\n2. When to use quicksort?\n3. Back to other sorts\n`, TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)(`\n\n1. Show me in action\n2. When to use quicksort?\n0. Back to other sorts\n`, TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
                     let quickSortReader = newReadLine();
                     let quickSortChoice = await getUserInput(quickSortReader);
                     quickSortReader.close();
@@ -298,10 +325,13 @@ async function sortLoop() {
                             await (0, TextPrinter_1.typeText)(" I think " + sortedName + " fits you better anyway.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                             break;
                         case "2":
-                            //TODO
-                            await (0, TextPrinter_1.typeText)("I Need to write this section\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                            await (0, TextPrinter_1.typeText)("Quicksort sorts items “in place”, meaning it does need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                            await (0, TextPrinter_1.typeText)("\nWhile mergesort might be more efficient when sorting large datasets, quicksort can still be preferable for large datasets when memory is a consideration.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                            await (0, TextPrinter_1.typeText)("\nSuppose you're working on a server application that needs to sort a large dataset of customer orders for a retail website.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                            await (0, TextPrinter_1.typeText)("\nEach order is represented as an object with various details, including order number, date, customer information, and order value. You need to sort these orders by order number, and the dataset is too large to fit entirely in memory.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                            await (0, TextPrinter_1.typeText)("\n\nIn this instance, quicksort would be the ideal choice.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                             break;
-                        case "3":
+                        case "0":
                             quickSortLoop = false;
                             break;
                         default:
@@ -309,7 +339,7 @@ async function sortLoop() {
                     }
                 }
                 break;
-            case "3":
+            case "0":
                 sortLoop = false;
                 break;
             default:
@@ -342,12 +372,4 @@ function containsBlacklistedCharacters(inputString, charBlackList) {
         }
     }
     return false; // None of the blacklisted characters were found in the input string
-}
-function stringToAsciiArray(input) {
-    const asciiArray = [];
-    for (let i = 0; i < input.length; i++) {
-        const charCode = input.charCodeAt(i);
-        asciiArray.push(charCode);
-    }
-    return asciiArray;
 }
