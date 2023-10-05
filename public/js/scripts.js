@@ -113,34 +113,73 @@ async function message_inputValidation() {
         let nameArray = nameData;
         let nameLimit = 10; //char limit for first names
         const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
-        await (0, TextPrinter_1.typeText)("\nLet’s present some questions you might find on an average form, and we’ll discuss the input validation needed to process your input: :\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-        let ageValid = false;
-        while (!ageValid) {
-            await (0, TextPrinter_1.typeText)("\n\nPlease enter your age: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
-            let ageReader = newReadLine();
-            const ageChoice = await getUserInput(ageReader);
-            ageReader.close();
-            //Data Type Validation:
-            if (!isNaN(parseInt(ageChoice))) {
-                await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                const age = parseInt(ageChoice);
-                if (age > 5 && age < 105) {
-                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                    await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the given age is valid!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                    ageValid = true;
+        const inputForm = new CommandMenu_1.CommandMenu();
+        inputForm.setMenuMessage("\nLet’s present some questions you might find on an average form, and we’ll discuss the input validation needed to process your input: :\n");
+        inputForm.setMenuQuestion("Select a field to fill out:");
+        inputForm.addOption('Age', async () => {
+            let ageValid = false;
+            while (!ageValid) {
+                await (0, TextPrinter_1.typeText)("\n\nPlease enter your age: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
+                let ageReader = newReadLine();
+                const ageChoice = await getUserInput(ageReader);
+                ageReader.close();
+                //Data Type Validation:
+                if (!isNaN(parseInt(ageChoice))) {
+                    await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    const age = parseInt(ageChoice);
+                    if (age > 5 && age < 105) {
+                        await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                        await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the given age is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
+                        ageValid = true;
+                    }
+                    else {
+                        await (0, TextPrinter_1.typeText)("2. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                        await (0, TextPrinter_1.typeText)("Range Validation, ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
+                        await (0, TextPrinter_1.typeText)("we determine that the given age is outside the range of reasonability. Care to try again?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    }
                 }
                 else {
-                    await (0, TextPrinter_1.typeText)("2. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                    await (0, TextPrinter_1.typeText)("Range Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
-                    await (0, TextPrinter_1.typeText)("we determine that the given age is outside the range of reasonability. Care to try again?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("1. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)("Data Type Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
+                    await (0, TextPrinter_1.typeText)(", we can determine that your input cannot be converted into an integer, and thus is not valid. Care to try again?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
                 }
             }
-            else {
-                await (0, TextPrinter_1.typeText)("1. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)("Data Type Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
-                await (0, TextPrinter_1.typeText)(", we can determine that your input cannot be converted into an integer, and thus is not valid. Care to try again?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        });
+        inputForm.addOption('Name', async () => {
+            let nameValid = false;
+            while (!nameValid) {
+                await (0, TextPrinter_1.typeText)("\n\nPlease enter your full name: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
+                let nameReader = newReadLine();
+                const nameChoice = await getUserInput(nameReader);
+                nameReader.close();
+                let fullNameArray = nameChoice.split(" ");
+                const intRegex = /[0-9]/;
+                //Data Type Validation:
+                if (fullNameArray.length > 1 && fullNameArray.length < 5) {
+                    await (0, TextPrinter_1.typeText)("1. Using Length Validation, we can determine that your input contains between 2 and 4 names\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    const firstName = fullNameArray[0];
+                    const middleName = fullNameArray.length > 2 ? fullNameArray[1] : null;
+                    const lastName = fullNameArray.length > 2 ? fullNameArray[2] : fullNameArray[1];
+                    const titleName = fullNameArray.length == 4 ? fullNameArray[3] : null;
+                    if (!intRegex.test(nameChoice)) {
+                        await (0, TextPrinter_1.typeText)("2. Using Data Type Validation, we can determine that your input does not contain integers\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                        await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the given age is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
+                        nameValid = true;
+                    }
+                    else {
+                        await (0, TextPrinter_1.typeText)("2. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                        await (0, TextPrinter_1.typeText)("Data Type Validation, ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
+                        await (0, TextPrinter_1.typeText)("we determine that the given name contains an integer. Care to try again?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    }
+                }
+                else {
+                    await (0, TextPrinter_1.typeText)("1. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)("Length Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
+                    await (0, TextPrinter_1.typeText)(", we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                }
             }
-        }
+        });
+        await inputForm.start();
         let inferenceCount = 0;
         //check number of words
         if (nameArray.length == 1) {
