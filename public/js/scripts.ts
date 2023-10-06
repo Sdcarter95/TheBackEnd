@@ -4,6 +4,7 @@ import { quickSort, heapSort, stableSort, mergeSort } from "./sortingAlgs";
 import { typeText, textSpeed, textColor } from "./TextPrinter";
 import { PersonInfo } from './app';
 import { CommandMenu } from './CommandMenu';
+import * as inpVal from './inputValidation';
 
 
 let name = "Recruiter";
@@ -96,93 +97,100 @@ export async function menu_input() {
 }
 
 export async function message_inputValidation() {
-    let inputValidationLoop = true;
-    while (inputValidationLoop) {
-
-        let nameArray = nameData;
-        let nameLimit = 10; //char limit for first names
-        const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
 
 
+    let nameLimit = 11; //char limit for names
+    const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
 
+    const inputForm = new CommandMenu();
 
+    inputForm.setMenuMessage("\nLet’s present some questions you might find on an average form, and we’ll discuss the input validation needed to process your input:\n");
+    inputForm.setMenuQuestion("Select a field to fill out:");
+    inputForm.addOption('Age', async () => {
+        let ageValid = false;
+        while (!ageValid) {
+            await typeText("\n\nPlease enter your age: \n", textSpeed.fast, true, textColor.cyan);
 
-        const inputForm = new CommandMenu();
+            let ageReader = newReadLine();
+            const ageChoice = await getUserInput(ageReader);
+            ageReader.close();
 
-        inputForm.setMenuMessage("\nLet’s present some questions you might find on an average form, and we’ll discuss the input validation needed to process your input:\n");
-        inputForm.setMenuQuestion("Select a field to fill out:");
-        inputForm.addOption('Age', async () => {
-            let ageValid = false;
-            while (!ageValid) {
-                await typeText("\n\nPlease enter your age: \n", textSpeed.fast, true, textColor.cyan);
+            //Data Type
+            if (inpVal.dataTypeValid(ageChoice, "number")) {
+                await typeText("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", textSpeed.very_fast, false, textColor.green);
+                const age = parseInt(ageChoice);
 
-                let ageReader = newReadLine();
-                const ageChoice = await getUserInput(ageReader);
-                ageReader.close();
+                //Range
+                if (inpVal.rangeValid(age,5,105)) {
+                    await typeText("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", textSpeed.very_fast, false, textColor.green);
+                    await typeText("\nBased on these results, we can be reasonably sure the given age is valid!\n", textSpeed.very_fast, false, textColor.white);
+                    ageValid = true;
+                } else {
+                    await typeText("2. Using ", textSpeed.very_fast, false, textColor.red);
+                    await typeText("Range Validation", textSpeed.very_fast, false, textColor.blue);
+                    await typeText(", we determine that the given age is outside the range of reasonability. Care to try again?", textSpeed.very_fast, false, textColor.red);
+                }
+            } else {
+                await typeText("1. Using ", textSpeed.very_fast, false, textColor.red);
+                await typeText("Data Type Validation", textSpeed.very_fast, false, textColor.blue);
+                await typeText(", we can determine that your input is not an integer, and thus is not valid. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
+            }
+        }
+    });
 
+    inputForm.addOption('Name', async () => {
+        let nameValid = false;
+        while (!nameValid) {
+            await typeText("\n\nPlease enter your full name: \n", textSpeed.fast, true, textColor.cyan);
 
-                //Data Type Validation:
-                if (!isNaN(parseInt(ageChoice))) {
-                    await typeText("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", textSpeed.very_fast, false, textColor.green);
-                    const age = parseInt(ageChoice);
-                    if (age > 5 && age < 105) {
-                        await typeText("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", textSpeed.very_fast, false, textColor.green);
-                        await typeText("\nBased on these results, we can be reasonably sure the given age is valid!\n", textSpeed.very_fast, false, textColor.white);
-                        ageValid = true;
+            let nameReader = newReadLine();
+            const nameChoice = await getUserInput(nameReader);
+            nameReader.close();
+            let fullNameArray = nameChoice.split(" ");
+
+            //Validation//
+            //range of array
+            if (inpVal.rangeValid(fullNameArray, 1, 5)) {
+                await typeText("1. Using Range Validation, we can determine that your input contains between 2 and 4 names\n", textSpeed.very_fast, false, textColor.green);
+
+                //length of names 
+                let lengthValid = true;
+                for (let i = 0; i < fullNameArray.length; i++) {
+                    const name = fullNameArray[i];
+                    if (!inpVal.lengthValid(name, nameLimit)) {
+                        lengthValid = false;
+                        break;
+                    }
+                }
+                if (lengthValid) {
+                    await typeText("2. Using Length Validation, we can determine your names are a reasonable length\n", textSpeed.very_fast, false, textColor.green);
+
+                    //datatype
+                    if (!inpVal.StringHasInt(nameChoice)) {
+                        await typeText("3. Using Data Type Validation, we can determine that your input does not contain integers\n", textSpeed.very_fast, false, textColor.green);
+                        
+                        //blacklist
+                        if (inpVal.noBlacklistedItems(nameChoice,charBlackList)) {
+                            await typeText("4. Using Blacklist Validation, we can determine that your input does not contain any blacklisted chars\n", textSpeed.very_fast, false, textColor.green);
+                            await typeText("\nBased on these results, we can be reasonably sure the given name is valid!\n", textSpeed.very_fast, false, textColor.white);
+                            nameValid = true;
+                        } else {
+                            await typeText("4. Using Blacklist Validation, we can determine that your names contain blacklisted chars. Try again?\n", textSpeed.very_fast, false, textColor.red);
+
+                        }
+
                     } else {
-                        await typeText("2. Using ", textSpeed.very_fast, false, textColor.red);
-                        await typeText("Range Validation, ", textSpeed.very_fast, false, textColor.blue);
-                        await typeText("we determine that the given age is outside the range of reasonability. Care to try again?", textSpeed.very_fast, false, textColor.red);
+                        await typeText("3. Using Data Type Validation, we determine that the given name contains an integer. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
                     }
                 } else {
-                    await typeText("1. Using ", textSpeed.very_fast, false, textColor.red);
-                    await typeText("Data Type Validation", textSpeed.very_fast, false, textColor.blue);
-                    await typeText(", we can determine that your input cannot be converted into an integer, and thus is not valid. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
+                    await typeText("2. Using Length Validation again, we can determine that one of your names is not an acceptable length\n", textSpeed.very_fast, false, textColor.red);
                 }
+            } else {
+                await typeText("1. Using Length Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", textSpeed.very_fast, false, textColor.red);
             }
-        });
-
-        inputForm.addOption('Name', async () => {
-            let nameValid = false;
-            while (!nameValid) {
-                await typeText("\n\nPlease enter your full name: \n", textSpeed.fast, true, textColor.cyan);
-
-                let nameReader = newReadLine();
-                const nameChoice = await getUserInput(nameReader);
-                nameReader.close();
-                let fullNameArray = nameChoice.split(" ");
-                const intRegex = /[0-9]/;
-
-                //Data Type Validation:
-                if (fullNameArray.length > 1 && fullNameArray.length < 5 ) {
-                    await typeText("1. Using Length Validation, we can determine that your input contains between 2 and 4 names\n", textSpeed.very_fast, false, textColor.green);
-                    const firstName = fullNameArray[0];
-                    const middleName = fullNameArray.length>2?fullNameArray[1]:null;
-                    const lastName = fullNameArray.length>2?fullNameArray[2]:fullNameArray[1];
-                    const titleName = fullNameArray.length == 4?fullNameArray[3]:null;
-                    if (!intRegex.test(nameChoice)) {
-                        await typeText("2. Using Data Type Validation, we can determine that your input does not contain integers\n", textSpeed.very_fast, false, textColor.green);
-                        await typeText("\nBased on these results, we can be reasonably sure the given age is valid!\n", textSpeed.very_fast, false, textColor.white);
-                        nameValid = true;
-                    } else {
-                        await typeText("2. Using ", textSpeed.very_fast, false, textColor.red);
-                        await typeText("Data Type Validation, ", textSpeed.very_fast, false, textColor.blue);
-                        await typeText("we determine that the given name contains an integer. Care to try again?", textSpeed.very_fast, false, textColor.red);
-                    }
-                } else {
-                    await typeText("1. Using ", textSpeed.very_fast, false, textColor.red);
-                    await typeText("Length Validation", textSpeed.very_fast, false, textColor.blue);
-                    await typeText(", we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", textSpeed.very_fast, false, textColor.red);
-                }
-            }
-        });
-        await inputForm.start();
-    }
-    await typeText("\n\nThe method I just used is called whitelisting, wherein I only allow a specific number of inputs (i.e. 1, 2, or 3)\n", textSpeed.very_fast, false, textColor.green);
-    await typeText("\n\nA non CMD Prompt example of whitelisting is a dropdown box on the front end with predefined values to select.", textSpeed.very_fast, false, textColor.green);
-    await typeText(` But enough about the front end! we’re in\n`, textSpeed.very_fast, false, textColor.green);
-    printTitle();
-    await typeText(`\n\nSo let's not get distracted.\n`, textSpeed.very_fast, false, textColor.green);
+        }
+    });
+    await inputForm.start();
 }
 
 export async function sortLoop() {

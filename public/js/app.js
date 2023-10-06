@@ -52,7 +52,7 @@ function clearScreen() {
 }
 async function main() {
     clearScreen();
-    await scripts.message_intro();
+    //await scripts.message_intro();
     await scripts.checkData();
     await mainMenu.start();
     (0, asciArt_1.printAuthor)();
