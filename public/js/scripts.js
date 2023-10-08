@@ -204,7 +204,7 @@ async function message_inputValidation() {
                 const birthYear = birthDate.getFullYear();
                 if (inpVal.rangeValid(birthYear, currentYear - 100, currentYear - 10)) {
                     await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your date is in a reasonable range\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                    await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the birthdate is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
+                    await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure your birthdate is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
                     dateValid = true;
                 }
                 else {
@@ -213,7 +213,7 @@ async function message_inputValidation() {
                 }
             }
             else {
-                await (0, TextPrinter_1.typeText)("1. Using Format Check Validation, we can determine that your date is not in a valid form. Try again:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                await (0, TextPrinter_1.typeText)("1. Using Format Check Validation, we can determine that your date you entered is not in a valid form. Try again:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
             }
         }
     });

@@ -1,0 +1,1 @@
+To start this application, you can either type npm start or click on run.bat (wich will just type it for you.)
