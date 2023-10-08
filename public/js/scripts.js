@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortLoop = exports.message_inputValidation = exports.menu_input = exports.message_intro = exports.askForName = exports.checkData = void 0;
+exports.sortLoop = exports.menu_input = exports.message_intro = exports.askForName = exports.checkData = void 0;
 const readline = __importStar(require("readline"));
 const asciArt_1 = require("./asciArt");
 const sortingAlgs_1 = require("./sortingAlgs");
@@ -35,6 +35,13 @@ let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
 const fs = require('fs');
 const dataPath = 'flatData.json';
+const validStates = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+];
 async function checkData() {
     const emptyData = {
         "nameData": "",
@@ -99,7 +106,7 @@ async function menu_input() {
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.");
     inputMenu.setMenuQuestion("Would you like to know more about input validation?");
     inputMenu.addOption("Run an example", async () => {
-        await message_inputValidation();
+        await example_inputValidation();
     });
     inputMenu.addOption("Types of input validation", async () => {
         //TODO
@@ -108,7 +115,7 @@ async function menu_input() {
     await inputMenu.start();
 }
 exports.menu_input = menu_input;
-async function message_inputValidation() {
+async function example_inputValidation() {
     let nameLimit = 11; //char limit for names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
     const inputForm = new CommandMenu_1.CommandMenu();
@@ -208,7 +215,7 @@ async function message_inputValidation() {
                     dateValid = true;
                 }
                 else {
-                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your input is invalid. Unless you are  ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your input is invalid. Unless you are ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
                     await (0, TextPrinter_1.typeText)((currentYear - birthYear).toString() + " years old.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
                 }
             }
@@ -217,9 +224,26 @@ async function message_inputValidation() {
             }
         }
     });
+    inputForm.addOption('State', async () => {
+        let stateValid = false;
+        while (!stateValid) {
+            await (0, TextPrinter_1.typeText)("Please enter your state in two-letter format (example: TX)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            let stateReader = newReadLine();
+            const stateChoice = await getUserInput(stateReader);
+            stateReader.close();
+            if (validStates.includes(stateChoice.toUpperCase())) {
+                await (0, TextPrinter_1.typeText)("1. List Check Validation, we can determine that your input is not a valid state.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("Note: Because List Check Validation is a form of whitelisting, other validation methods like length and type validation are not needed!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure your state input is valid\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
+                stateValid = true;
+            }
+            else {
+                await (0, TextPrinter_1.typeText)("1. List Check Validation, we can determine that your input is not a valid state.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+            }
+        }
+    });
     await inputForm.start();
 }
-exports.message_inputValidation = message_inputValidation;
 async function sortLoop() {
     let sortLoop = true;
     while (sortLoop) {
@@ -304,7 +328,7 @@ async function sortLoop() {
                             await (0, TextPrinter_1.typeText)(" I think " + sortedName + " fits you better anyway.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                             break;
                         case "2":
-                            await (0, TextPrinter_1.typeText)("Quicksort sorts items “in place”, meaning it does need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                            await (0, TextPrinter_1.typeText)("Quicksort sorts items “in place”, meaning it does not need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                             await (0, TextPrinter_1.typeText)("\nWhile mergesort might be more efficient when sorting large datasets, quicksort can still be preferable for large datasets when memory is a consideration.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                             await (0, TextPrinter_1.typeText)("\nSuppose you're working on a server application that needs to sort a large dataset of customer orders for a retail website.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                             await (0, TextPrinter_1.typeText)("\nEach order is represented as an object with various details, including order number, date, customer information, and order value. You need to sort these orders by order number, and the dataset is too large to fit entirely in memory.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
