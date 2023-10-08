@@ -147,13 +147,39 @@ export async function menuSorts() {
 export async function menu_input() {
     const inputMenu = new CommandMenu();
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.")
-    inputMenu.setMenuQuestion("Would you like to know more about input validation?")
+    inputMenu.setMenuQuestion("What would you liek to know?")
     inputMenu.addOption("Run an example", async () => {
         await example_inputValidation();
     })
     inputMenu.addOption("Types of input validation", async () => {
-        //TODO
-        await typeText("Implemenet", textSpeed.very_fast, false, textColor.green);
+        const validationTypesMenu = new CommandMenu();
+        validationTypesMenu.setMenuMessage("Whitelisting and Blacklisting are two broad categories of input validation, but there are many more specific types depending on your needs.")
+        validationTypesMenu.setMenuQuestion("Which type of validation would you like to learn about?")
+        
+        validationTypesMenu.addOption("Blacklisting", async () => {
+            await typeText("\nIn terms of input validation, blacklisting is a technique used to block or reject specific inputs that match predefined patterns or criteria.", textSpeed.very_fast, true, textColor.green);
+            await typeText("It involves maintaining a list (the 'blacklist') of input values, characters, patterns, or keywords that are considered invalid or potentially dangerous, and any input that matches these criteria is rejected or flagged.\n", textSpeed.very_fast, true, textColor.green);
+        })  
+        validationTypesMenu.addOption("Whitelisting", async () => {
+            await typeText("\nIn the context of input validation, whitelisting is a security approach where you explicitly define and allow only specific, predefined inputs or input patterns as valid, while rejecting or blocking any input that does not match these approved criteria.\n", textSpeed.very_fast, true, textColor.green);
+            await typeText("\n\nWhitelisting is used in this code whenever you are asked to select a number!\n", textSpeed.very_fast, true, textColor.green);
+        })
+        validationTypesMenu.addOption("Length Check Validation", async () => {
+            await typeText("\nLength Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long.\n", textSpeed.very_fast, true, textColor.green);
+        })
+        validationTypesMenu.addOption("Range Check Validation", async () => {
+            await typeText("\nRange checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150.\n", textSpeed.very_fast, true, textColor.green);
+        })
+        validationTypesMenu.addOption("Type Check Validation:", async () => {
+            await typeText("\nType checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format.\n", textSpeed.very_fast, true, textColor.green);
+        })
+        validationTypesMenu.addOption("Pattern Matching Validation:", async () => {
+            await typeText("\nPattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD.\n", textSpeed.very_fast, true, textColor.green);
+        })
+        validationTypesMenu.addOption("List Check Validation:", async () => {
+            await typeText("\nList checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state\n", textSpeed.very_fast, true, textColor.green);
+        })
+        await validationTypesMenu.start();
     })
     await inputMenu.start();
 }
