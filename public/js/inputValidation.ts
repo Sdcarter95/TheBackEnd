@@ -41,6 +41,16 @@ export function lengthValid(input: string | string[], maxLength: number): boolea
 }
 
 /**
+* Determines if a given string is a valid date.
+* @param input - The string for which you want to check the format.
+* @returns `true` if the given string is a valid date.
+*/
+export function dateValid(input: string): boolean {
+    const date = new Date(input);
+    return !isNaN(date.getTime());
+  }
+
+/**
 * Determines if the input is or can be converted to the expected data type.
 * @param input - The string, int, array, etc... for which you want to check the data type
 * @param expectedType - the string representation of the expected data type.

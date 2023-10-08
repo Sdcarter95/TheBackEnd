@@ -132,15 +132,11 @@ async function message_inputValidation() {
                     ageValid = true;
                 }
                 else {
-                    await (0, TextPrinter_1.typeText)("2. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
-                    await (0, TextPrinter_1.typeText)("Range Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
-                    await (0, TextPrinter_1.typeText)(", we determine that the given age is outside the range of reasonability. Care to try again?", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation , we determine that the given age is outside the range of reasonability. Care to try again?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
                 }
             }
             else {
-                await (0, TextPrinter_1.typeText)("1. Using ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
-                await (0, TextPrinter_1.typeText)("Data Type Validation", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.blue);
-                await (0, TextPrinter_1.typeText)(", we can determine that your input is not an integer, and thus is not valid. Care to try again?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is not an integer, and thus is not valid. Care to try again?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
             }
         }
     });
@@ -185,11 +181,39 @@ async function message_inputValidation() {
                     }
                 }
                 else {
-                    await (0, TextPrinter_1.typeText)("2. Using Length Validation again, we can determine that one of your names is not an acceptable length\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)("2. Using Length Validation, we can determine that one of your names is not an acceptable length\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
                 }
             }
             else {
-                await (0, TextPrinter_1.typeText)("1. Using Length Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                await (0, TextPrinter_1.typeText)("1. Using Range Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+            }
+        }
+    });
+    inputForm.addOption('Birthday', async () => {
+        let dateValid = false;
+        while (!dateValid) {
+            await (0, TextPrinter_1.typeText)("\n\nPlease enter your birthdate in the form MM/DD/YYYY: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
+            let dateReader = newReadLine();
+            const dateChoice = await getUserInput(dateReader);
+            dateReader.close();
+            if (inpVal.dateValid(dateChoice)) {
+                await (0, TextPrinter_1.typeText)("1. Using Format Check Validation, we can determine that your date is valid.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const birthDate = new Date(dateChoice);
+                const currentDate = new Date();
+                const currentYear = currentDate.getFullYear();
+                const birthYear = birthDate.getFullYear();
+                if (inpVal.rangeValid(birthYear, currentYear - 100, currentYear - 10)) {
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your date is in a reasonable range\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the birthdate is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
+                    dateValid = true;
+                }
+                else {
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your input is invalid. Unless you are  ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)((currentYear - birthYear).toString() + " years old.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                }
+            }
+            else {
+                await (0, TextPrinter_1.typeText)("1. Using Format Check Validation, we can determine that your date is not in a valid form. Try again:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
             }
         }
     });

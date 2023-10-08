@@ -121,19 +121,15 @@ export async function message_inputValidation() {
                 const age = parseInt(ageChoice);
 
                 //Range
-                if (inpVal.rangeValid(age,5,105)) {
+                if (inpVal.rangeValid(age, 5, 105)) {
                     await typeText("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", textSpeed.very_fast, false, textColor.green);
                     await typeText("\nBased on these results, we can be reasonably sure the given age is valid!\n", textSpeed.very_fast, false, textColor.white);
                     ageValid = true;
                 } else {
-                    await typeText("2. Using ", textSpeed.very_fast, false, textColor.red);
-                    await typeText("Range Validation", textSpeed.very_fast, false, textColor.blue);
-                    await typeText(", we determine that the given age is outside the range of reasonability. Care to try again?", textSpeed.very_fast, false, textColor.red);
+                    await typeText("2. Using Range Validation , we determine that the given age is outside the range of reasonability. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
                 }
             } else {
-                await typeText("1. Using ", textSpeed.very_fast, false, textColor.red);
-                await typeText("Data Type Validation", textSpeed.very_fast, false, textColor.blue);
-                await typeText(", we can determine that your input is not an integer, and thus is not valid. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
+                await typeText("1. Using Data Type Validation, we can determine that your input is not an integer, and thus is not valid. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
             }
         }
     });
@@ -168,9 +164,9 @@ export async function message_inputValidation() {
                     //datatype
                     if (!inpVal.StringHasInt(nameChoice)) {
                         await typeText("3. Using Data Type Validation, we can determine that your input does not contain integers\n", textSpeed.very_fast, false, textColor.green);
-                        
+
                         //blacklist
-                        if (inpVal.noBlacklistedItems(nameChoice,charBlackList)) {
+                        if (inpVal.noBlacklistedItems(nameChoice, charBlackList)) {
                             await typeText("4. Using Blacklist Validation, we can determine that your input does not contain any blacklisted chars\n", textSpeed.very_fast, false, textColor.green);
                             await typeText("\nBased on these results, we can be reasonably sure the given name is valid!\n", textSpeed.very_fast, false, textColor.white);
                             nameValid = true;
@@ -183,13 +179,44 @@ export async function message_inputValidation() {
                         await typeText("3. Using Data Type Validation, we determine that the given name contains an integer. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
                     }
                 } else {
-                    await typeText("2. Using Length Validation again, we can determine that one of your names is not an acceptable length\n", textSpeed.very_fast, false, textColor.red);
+                    await typeText("2. Using Length Validation, we can determine that one of your names is not an acceptable length\n", textSpeed.very_fast, false, textColor.red);
                 }
             } else {
-                await typeText("1. Using Length Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", textSpeed.very_fast, false, textColor.red);
+                await typeText("1. Using Range Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", textSpeed.very_fast, false, textColor.red);
             }
         }
     });
+
+    inputForm.addOption('Birthday', async () => {
+        let dateValid = false;
+        while (!dateValid) {
+            await typeText("\n\nPlease enter your birthdate in the form MM/DD/YYYY: \n", textSpeed.fast, true, textColor.cyan);
+            let dateReader = newReadLine();
+            const dateChoice = await getUserInput(dateReader);
+            dateReader.close();
+
+            if (inpVal.dateValid(dateChoice)) {
+                await typeText("1. Using Format Check Validation, we can determine that your date is valid.\n", textSpeed.very_fast, false, textColor.green);
+                const birthDate = new Date(dateChoice);
+                const currentDate = new Date();
+
+                const currentYear = currentDate.getFullYear();
+                const birthYear = birthDate.getFullYear();
+
+                if (inpVal.rangeValid(birthYear, currentYear - 100, currentYear - 10)) {
+                    await typeText("2. Using Range Validation, we can determine that your date is in a reasonable range\n", textSpeed.very_fast, false, textColor.green);
+                    await typeText("\nBased on these results, we can be reasonably sure your birthdate is valid!\n", textSpeed.very_fast, false, textColor.white);
+                    dateValid = true;
+                } else{
+                    await typeText("2. Using Range Validation, we can determine that your input is invalid. Unless you are  ", textSpeed.very_fast, false, textColor.red);
+                    await typeText((currentYear - birthYear).toString() + " years old.", textSpeed.very_fast, false, textColor.red);
+                }
+            } else {
+                await typeText("1. Using Format Check Validation, we can determine that your date you entered is not in a valid form. Try again:\n", textSpeed.very_fast, false, textColor.red);
+            }
+
+        }
+    })
     await inputForm.start();
 }
 

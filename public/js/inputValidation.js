@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StringHasInt = exports.noBlacklistedItems = exports.dataTypeValid = exports.lengthValid = exports.rangeValid = void 0;
+exports.StringHasInt = exports.noBlacklistedItems = exports.dataTypeValid = exports.dateValid = exports.lengthValid = exports.rangeValid = void 0;
 const intRegex = /[0-9]/;
 /**
 * Calculates the length of a string or array, or the value of an int, and checks if it falls within a given range.
@@ -11,7 +11,7 @@ const intRegex = /[0-9]/;
 */
 function rangeValid(input, lowerBound, upperBound) {
     if (typeof input === "number") {
-        if (input > lowerBound && input > upperBound) {
+        if (input > lowerBound && input < upperBound) {
             return true;
         }
         else {
@@ -43,6 +43,16 @@ function lengthValid(input, maxLength) {
     }
 }
 exports.lengthValid = lengthValid;
+/**
+* Determines if a given string is a valid date.
+* @param input - The string for which you want to check the format.
+* @returns `true` if the given string is a valid date.
+*/
+function dateValid(input) {
+    const date = new Date(input);
+    return !isNaN(date.getTime());
+}
+exports.dateValid = dateValid;
 /**
 * Determines if the input is or can be converted to the expected data type.
 * @param input - The string, int, array, etc... for which you want to check the data type
