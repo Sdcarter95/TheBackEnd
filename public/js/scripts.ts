@@ -187,7 +187,7 @@ export async function menu_input() {
 export async function message_intro() {
     await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
     printTitle();
-    await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", textSpeed.very_fast, false, textColor.green);
+    await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", textSpeed.very_fast, false, textColor.green);
 
 }
 
