@@ -20,7 +20,7 @@ const mainMenu = new CommandMenu();
 
 mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
-    await scripts,scripts.menuSorts();
+    await scripts.menu_Sorts();
 });
 
 mainMenu.addOption('Input', async () => {

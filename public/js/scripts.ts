@@ -21,7 +21,7 @@ const validStates: string[] = [
   ];
 
 
-export async function menuSorts() {
+export async function menu_Sorts() {
     let sortLoop = true;
     while (sortLoop) {
         await typeText(`\n\nWhich sorting algorithm do you want to learn about?\n`, textSpeed.very_fast, false, textColor.green);
@@ -212,12 +212,12 @@ async function example_inputValidation() {
 
             //Data Type
             if (inpVal.dataTypeValid(ageChoice, "number")) {
-                await typeText("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("1. Using Data Type Validation, we can determine that your input is indeed an integer.\n", textSpeed.very_fast, false, textColor.green);
                 const age = parseInt(ageChoice);
 
                 //Range
                 if (inpVal.rangeValid(age, 5, 105)) {
-                    await typeText("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", textSpeed.very_fast, false, textColor.green);
+                    await typeText("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105).", textSpeed.very_fast, false, textColor.green);
                     await typeText("\nBased on these results, we can be reasonably sure the given age is valid!\n", textSpeed.very_fast, false, textColor.white);
                     ageValid = true;
                 } else {
@@ -242,7 +242,7 @@ async function example_inputValidation() {
             //Validation//
             //range of array
             if (inpVal.rangeValid(fullNameArray, 1, 5)) {
-                await typeText("1. Using Range Validation, we can determine that your input contains between 2 and 4 names\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("1. Using Range Validation, we can determine that your input contains between 2 and 4 names.\n", textSpeed.very_fast, false, textColor.green);
 
                 //length of names 
                 let lengthValid = true;
@@ -254,11 +254,11 @@ async function example_inputValidation() {
                     }
                 }
                 if (lengthValid) {
-                    await typeText("2. Using Length Validation, we can determine your names are a reasonable length\n", textSpeed.very_fast, false, textColor.green);
+                    await typeText("2. Using Length Validation, we can determine your names are a reasonable length.\n", textSpeed.very_fast, false, textColor.green);
 
                     //datatype
                     if (!inpVal.StringHasInt(nameChoice)) {
-                        await typeText("3. Using Data Type Validation, we can determine that your input does not contain integers\n", textSpeed.very_fast, false, textColor.green);
+                        await typeText("3. Using Data Type Validation, we can determine that your input does not contain integers,\n", textSpeed.very_fast, false, textColor.green);
 
                         //blacklist
                         if (inpVal.noBlacklistedItems(nameChoice, charBlackList)) {
@@ -274,10 +274,10 @@ async function example_inputValidation() {
                         await typeText("3. Using Data Type Validation, we determine that the given name contains an integer. Care to try again?\n", textSpeed.very_fast, false, textColor.red);
                     }
                 } else {
-                    await typeText("2. Using Length Validation, we can determine that one of your names is not an acceptable length\n", textSpeed.very_fast, false, textColor.red);
+                    await typeText("2. Using Length Validation, we can determine that one of your names is not an acceptable length,\n", textSpeed.very_fast, false, textColor.red);
                 }
             } else {
-                await typeText("1. Using Range Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", textSpeed.very_fast, false, textColor.red);
+                await typeText("1. Using Range Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name.\n", textSpeed.very_fast, false, textColor.red);
             }
         }
     });
@@ -299,7 +299,7 @@ async function example_inputValidation() {
                 const birthYear = birthDate.getFullYear();
 
                 if (inpVal.rangeValid(birthYear, currentYear - 100, currentYear - 10)) {
-                    await typeText("2. Using Range Validation, we can determine that your date is in a reasonable range\n", textSpeed.very_fast, false, textColor.green);
+                    await typeText("2. Using Range Validation, we can determine that your date is in a reasonable range.\n", textSpeed.very_fast, false, textColor.green);
                     await typeText("\nBased on these results, we can be reasonably sure your birthdate is valid!\n", textSpeed.very_fast, false, textColor.white);
                     dateValid = true;
                 } else{
@@ -324,7 +324,7 @@ async function example_inputValidation() {
             if(validStates.includes(stateChoice.toUpperCase())){
                 await typeText("1. Using List Check Validation, we can determine that your input is a valid state.\n", textSpeed.very_fast, false, textColor.green);
                 await typeText("Note: Because List Check Validation is a form of whitelisting, other validation methods like length and type validation are not needed!\n", textSpeed.very_fast, false, textColor.green);
-                await typeText("\nBased on these results, we can be reasonably sure your state input is valid\n", textSpeed.very_fast, false, textColor.white);
+                await typeText("\nBased on these results, we can be reasonably sure your state input is valid.\n", textSpeed.very_fast, false, textColor.white);
                 stateValid = true;
             } else{
                 await typeText("1. Using List Check Validation, we can determine that your input is not a valid state.\n", textSpeed.very_fast, false, textColor.red);

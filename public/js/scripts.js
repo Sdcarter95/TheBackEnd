@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.askForName = exports.checkData = exports.message_intro = exports.menu_input = exports.menuSorts = void 0;
+exports.askForName = exports.checkData = exports.message_intro = exports.menu_input = exports.menu_Sorts = void 0;
 const readline = __importStar(require("readline"));
 const asciArt_1 = require("./asciArt");
 const sortingAlgs_1 = require("./sortingAlgs");
@@ -42,7 +42,7 @@ const validStates = [
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
 ];
-async function menuSorts() {
+async function menu_Sorts() {
     let sortLoop = true;
     while (sortLoop) {
         await (0, TextPrinter_1.typeText)(`\n\nWhich sorting algorithm do you want to learn about?\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -148,11 +148,11 @@ async function menuSorts() {
         }
     }
 }
-exports.menuSorts = menuSorts;
+exports.menu_Sorts = menu_Sorts;
 async function menu_input() {
     const inputMenu = new CommandMenu_1.CommandMenu();
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.");
-    inputMenu.setMenuQuestion("Which input validation method do you want to know more about?");
+    inputMenu.setMenuQuestion("What would you liek to know?");
     inputMenu.addOption("Run an example", async () => {
         await example_inputValidation();
     });
@@ -160,30 +160,28 @@ async function menu_input() {
         const validationTypesMenu = new CommandMenu_1.CommandMenu();
         validationTypesMenu.setMenuMessage("Whitelisting and Blacklisting are two broad categories of input validation, but there are many more specific types depending on your needs.");
         validationTypesMenu.setMenuQuestion("Which type of validation would you like to learn about?");
-        validationTypesMenu.addOption("Whitelisting", async () => {
-        });
         validationTypesMenu.addOption("Blacklisting", async () => {
-            await (0, TextPrinter_1.typeText)("In terms of input validation, blacklisting is a technique used to block or reject specific inputs that match predefined patterns or criteria, typically for security or compliance reasons. ", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nIn terms of input validation, blacklisting is a technique used to block or reject specific inputs that match predefined patterns or criteria.", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)("It involves maintaining a list (the 'blacklist') of input values, characters, patterns, or keywords that are considered invalid or potentially dangerous, and any input that matches these criteria is rejected or flagged.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Whitelisting", async () => {
-            await (0, TextPrinter_1.typeText)("In the context of input validation, whitelisting is a security approach where you explicitly define and allow only specific, predefined inputs or input patterns as valid, while rejecting or blocking any input that does not match these approved criteria.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
-            await (0, TextPrinter_1.typeText)("\n\n Whitelisting is used in this code whenever you are asked to select a number!\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nIn the context of input validation, whitelisting is a security approach where you explicitly define and allow only specific, predefined inputs or input patterns as valid, while rejecting or blocking any input that does not match these approved criteria.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\n\nWhitelisting is used in this code whenever you are asked to select a number!\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Length Check Validation", async () => {
-            await (0, TextPrinter_1.typeText)("Length Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nLength Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Range Check Validation", async () => {
-            await (0, TextPrinter_1.typeText)("Range checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nRange checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Type Check Validation:", async () => {
-            await (0, TextPrinter_1.typeText)("Type checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nType checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Pattern Matching Validation:", async () => {
-            await (0, TextPrinter_1.typeText)("Pattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nPattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("List Check Validation:", async () => {
-            await (0, TextPrinter_1.typeText)("List checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nList checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         await validationTypesMenu.start();
     });

@@ -32,7 +32,7 @@ let debugMode = false;
 const mainMenu = new CommandMenu_1.CommandMenu();
 mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
-    await scripts, scripts.menuSorts();
+    await scripts.menu_Sorts();
 });
 mainMenu.addOption('Input', async () => {
     await scripts.menu_input();
