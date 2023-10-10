@@ -191,7 +191,7 @@ exports.menu_input = menu_input;
 async function message_intro() {
     await (0, TextPrinter_1.typeText)("Welcome to the back end", TextPrinter_1.textSpeed.medium, true, TextPrinter_1.textColor.green);
     (0, asciArt_1.printTitle)();
-    await (0, TextPrinter_1.typeText)("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) would handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    await (0, TextPrinter_1.typeText)("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
 }
 exports.message_intro = message_intro;
 async function example_inputValidation() {
@@ -209,11 +209,11 @@ async function example_inputValidation() {
             ageReader.close();
             //Data Type
             if (inpVal.dataTypeValid(ageChoice, "number")) {
-                await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is indeed an integer\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is indeed an integer.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 const age = parseInt(ageChoice);
                 //Range
                 if (inpVal.rangeValid(age, 5, 105)) {
-                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105)", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that the age given is within the bounds of reasonability: (5 > age < 105).", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                     await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure the given age is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
                     ageValid = true;
                 }
@@ -237,7 +237,7 @@ async function example_inputValidation() {
             //Validation//
             //range of array
             if (inpVal.rangeValid(fullNameArray, 1, 5)) {
-                await (0, TextPrinter_1.typeText)("1. Using Range Validation, we can determine that your input contains between 2 and 4 names\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("1. Using Range Validation, we can determine that your input contains between 2 and 4 names.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 //length of names 
                 let lengthValid = true;
                 for (let i = 0; i < fullNameArray.length; i++) {
@@ -248,10 +248,10 @@ async function example_inputValidation() {
                     }
                 }
                 if (lengthValid) {
-                    await (0, TextPrinter_1.typeText)("2. Using Length Validation, we can determine your names are a reasonable length\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("2. Using Length Validation, we can determine your names are a reasonable length.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                     //datatype
                     if (!inpVal.StringHasInt(nameChoice)) {
-                        await (0, TextPrinter_1.typeText)("3. Using Data Type Validation, we can determine that your input does not contain integers\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                        await (0, TextPrinter_1.typeText)("3. Using Data Type Validation, we can determine that your input does not contain integers,\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                         //blacklist
                         if (inpVal.noBlacklistedItems(nameChoice, charBlackList)) {
                             await (0, TextPrinter_1.typeText)("4. Using Blacklist Validation, we can determine that your input does not contain any blacklisted chars\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -267,11 +267,11 @@ async function example_inputValidation() {
                     }
                 }
                 else {
-                    await (0, TextPrinter_1.typeText)("2. Using Length Validation, we can determine that one of your names is not an acceptable length\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                    await (0, TextPrinter_1.typeText)("2. Using Length Validation, we can determine that one of your names is not an acceptable length,\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
                 }
             }
             else {
-                await (0, TextPrinter_1.typeText)("1. Using Range Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
+                await (0, TextPrinter_1.typeText)("1. Using Range Validation, we can determine that your input does not contain between 2 and 4 names. Try entering your FULL name.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.red);
             }
         }
     });
@@ -289,7 +289,7 @@ async function example_inputValidation() {
                 const currentYear = currentDate.getFullYear();
                 const birthYear = birthDate.getFullYear();
                 if (inpVal.rangeValid(birthYear, currentYear - 100, currentYear - 10)) {
-                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your date is in a reasonable range\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                    await (0, TextPrinter_1.typeText)("2. Using Range Validation, we can determine that your date is in a reasonable range.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                     await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure your birthdate is valid!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
                     dateValid = true;
                 }
@@ -313,7 +313,7 @@ async function example_inputValidation() {
             if (validStates.includes(stateChoice.toUpperCase())) {
                 await (0, TextPrinter_1.typeText)("1. Using List Check Validation, we can determine that your input is a valid state.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("Note: Because List Check Validation is a form of whitelisting, other validation methods like length and type validation are not needed!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure your state input is valid\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
+                await (0, TextPrinter_1.typeText)("\nBased on these results, we can be reasonably sure your state input is valid.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.white);
                 stateValid = true;
             }
             else {
