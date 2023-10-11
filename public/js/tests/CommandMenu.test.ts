@@ -1,5 +1,4 @@
 import { CommandMenu } from '../CommandMenu';
-import readline from 'readline';
 
 
 // Define a mock function for the actions that can be added to the CommandMenu.
