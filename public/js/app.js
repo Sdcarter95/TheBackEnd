@@ -26,26 +26,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const asciArt_1 = require("./asciArt");
 const scripts = __importStar(require("./scripts"));
 const CommandMenu_1 = require("./CommandMenu");
-const TextPrinter_1 = require("./TextPrinter");
 let debugMode = false;
 /////////////////////////////////////
 const mainMenu = new CommandMenu_1.CommandMenu();
 mainMenu.setMenuQuestion("Please select a topic");
 mainMenu.addOption('Sorting Algorithms ', async () => {
-    await scripts.menu_Sorts();
+    await scripts.menu_sorts();
 });
 mainMenu.addOption('Input', async () => {
     await scripts.menu_input();
-    //await scripts.message_inputValidation();
 });
-mainMenu.addOption('Testing', async () => {
+mainMenu.addOption("Design patterns", async () => {
+    await scripts.menu_designPatterns();
+});
+/**
+ * mainMenu.addOption('Testing', async () => {
     //TODO
-    await (0, TextPrinter_1.typeText)("Implement", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
 });
+
 mainMenu.addOption('Data Storage', async () => {
     //TODO
-    await (0, TextPrinter_1.typeText)("Implement", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
 });
+ *
+ */
 //////////////////////////////////////////
 function clearScreen() {
     process.stdout.write('\x1b[2J\x1b[0f');

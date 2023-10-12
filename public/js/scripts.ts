@@ -18,130 +18,102 @@ const validStates: string[] = [
     'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-  ];
+];
 
 
-export async function menu_Sorts() {
-    let sortLoop = true;
-    while (sortLoop) {
-        await typeText(`\n\nWhich sorting algorithm do you want to learn about?\n`, textSpeed.very_fast, false, textColor.green);
-        await typeText(`\n\n1. Merge Sort\n2. Quick Sort\n0. Back to menu\n`, textSpeed.uber_speed, false, textColor.green);
-        let sortReader = newReadLine();
-        let sortChoice = await getUserInput(sortReader);
-        sortReader.close();
-        switch (sortChoice) {
-            case "1":
-                await typeText("\n\nMerge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots).", textSpeed.very_fast, false, textColor.green);
-                await typeText("\n\nIt retains relative positions of identical values, and so is useful when stability is paramount.", textSpeed.very_fast, false, textColor.green);
+export async function menu_sorts() {
+    const sortMenu = new CommandMenu();
+    sortMenu.setMenuMessage("While in practice many programmers opt to use array.sort() or some comparable function, it’s important to know the different sorting algorithms at your disposal, and the use case for those algorithms.");
+    sortMenu.setMenuQuestion("Which sorting algorithm do you want to learn about?");
+    sortMenu.addOption("Merge Sort", async () => {
+        const mergeSortMenu = new CommandMenu();
+        mergeSortMenu.setMenuMessage("Merge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots). \n\nIt retains relative positions of identical values, and so is useful when stability is paramount.");
+        mergeSortMenu.setMenuQuestion("Would you like to know more?");
+        mergeSortMenu.addOption("Show me in action", async () => {
+            await typeText(`\nAnd we're left with your sorted name: ${mergeSort(name.toLocaleLowerCase())}`, textSpeed.very_fast, false, textColor.green);
+        });
+        mergeSortMenu.addOption("When to use mergesort?", async () => {
+            await typeText("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", textSpeed.very_fast, false, textColor.green);
 
-                let mergeSortLoop = true;
-                while (mergeSortLoop) {
+            let dmv: PersonInfo[] = [];
+            dmv.push({ fName: "Seth", licenseType: "A" });
+            dmv.push({ fName: "Jeff", licenseType: "B" });
+            dmv.push({ fName: name, licenseType: "C" });
+            dmv.push({ fName: "Jack", licenseType: "C" });
+            dmv.push({ fName: "Zack", licenseType: "A" });
+            dmv.push({ fName: "Jenny", licenseType: "B" });
+            dmv.push({ fName: "Becka", licenseType: "B" });
+            dmv.push({ fName: "Daisy", licenseType: "A" });
+            dmv.push({ fName: "Lenny", licenseType: "C" });
 
-                    await typeText(`\n\nWould you like to know more?`, textSpeed.very_fast, false, textColor.green);
-                    await typeText(`\n\n1. Show me in action\n2. When to use mergesort?\n3. Back to other sorts\n`, textSpeed.uber_speed, false, textColor.green);
-                    let mergeSortReader = newReadLine();
-                    let mergeSortChoice = await getUserInput(mergeSortReader);
-                    mergeSortReader.close();
+            dmv.forEach((patron) => {
+                console.log(patron.fName + " needs a class " + patron.licenseType + " license");
+            })
 
-                    switch (mergeSortChoice) {
-                        case "1":
-                            await typeText(`\nAnd we're left with your sorted name: ${mergeSort(name.toLocaleLowerCase())}`, textSpeed.very_fast, false, textColor.green);
-                            break;
+            await typeText("\nNow, everyone is claiming they were there first. What a headache! We decide the only fair way to see people is in alphabetical order.", textSpeed.very_fast, false, textColor.green);
+            await typeText(" We want to get started right away, so we use heapsort. This leaves us with:\n", textSpeed.very_fast, false, textColor.green);
 
-                        case "2":
-                            await typeText("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", textSpeed.very_fast, false, textColor.green);
+            const dmv_Alph = heapSort(dmv, "fName");
+            const maxNameLength = Math.max(...dmv.map((person) => person.fName.length));
 
-                            let dmv: PersonInfo[] = [];
-                            dmv.push({ fName: "Seth", licenseType: "A" });
-                            dmv.push({ fName: "Jeff", licenseType: "B" });
-                            dmv.push({ fName: name, licenseType: "C" });
-                            dmv.push({ fName: "Jack", licenseType: "C" });
-                            dmv.push({ fName: "Zack", licenseType: "A" });
-                            dmv.push({ fName: "Jenny", licenseType: "B" });
-                            dmv.push({ fName: "Becka", licenseType: "B" });
-                            dmv.push({ fName: "Daisy", licenseType: "A" });
-                            dmv.push({ fName: "Lenny", licenseType: "C" });
+            dmv_Alph.forEach((patron) => {
+                const padding = ' '.repeat(maxNameLength - patron.fName.length);
+                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
+            });
 
-                            dmv.forEach((patron) => {
-                                console.log(patron.fName + " needs a class " + patron.licenseType + " license");
-                            })
+            await typeText("\nIt was almost easy, but it turns out it takes longer to process class C licenses than to process class B licenses. ", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nWe decide to use heap sort on our new array, this time sorting by license type:\n", textSpeed.very_fast, false, textColor.green);
 
-                            await typeText("\nNow, everyone is claiming they were there first. What a headache! We decide the only fair way to see people is in alphabetical order.", textSpeed.very_fast, false, textColor.green);
-                            await typeText(" We want to get started right away, so we use heapsort. This leaves us with:\n", textSpeed.very_fast, false, textColor.green);
+            const wrongSort = heapSort([...dmv_Alph], "licenseType");
+            wrongSort.forEach((patron) => {
+                const padding = ' '.repeat(maxNameLength - patron.fName.length);
+                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
+            });
 
-                            const dmv_Alph = heapSort(dmv, "fName");
-                            const maxNameLength = Math.max(...dmv.map((person) => person.fName.length));
+            await typeText("\nOh no! Now the licenses are in order but our work sorting names alphabetically has been destroyed! \n", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nYou see, If we had used a stable sorting algorithm like Merge Sort, we could have kept relative positions of names intact: \n", textSpeed.very_fast, false, textColor.green);
 
-                            dmv_Alph.forEach((patron) => {
-                                const padding = ' '.repeat(maxNameLength - patron.fName.length);
-                                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
-                            });
+            stableSort(dmv_Alph).forEach((patron) => {
+                const padding = ' '.repeat(maxNameLength - patron.fName.length);
+                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
+            });
+        });
+        await mergeSortMenu.start();
+    });
+    sortMenu.addOption("Quick Sort", async () => {
+        const quickSortMenu = new CommandMenu();
+        quickSortMenu.setMenuMessage("Quicksort is similar to merge sort in terms of its divide and conquer approach, but instead of always dividing a dataset in half, it chooses a pivot and recursively sorts the sides of the dataset that are larger or smaller.\n\nIt retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)");
+        quickSortMenu.setMenuQuestion("Would you like to know more?");
+        quickSortMenu.addOption("Show me in action", async () => {
+            await typeText("If we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
+            const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
+            await typeText("\nAnd now we're left with your new, better sorted name! ", textSpeed.very_fast, false, textColor.green);
+            await typeText(" I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
+        });
+        quickSortMenu.addOption("When to use quicksort?", async () => {
+            await typeText("Quicksort sorts items “in place”, meaning it does not need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nWhile mergesort might be more efficient when sorting large datasets, quicksort can still be preferable for large datasets when memory is a consideration.\n", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nSuppose you're working on a server application that needs to sort a large dataset of customer orders for a retail website.\n", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nEach order is represented as an object with various details, including order number, date, customer information, and order value. You need to sort these orders by order number, and the dataset is too large to fit entirely in memory.\n", textSpeed.very_fast, false, textColor.green);
+            await typeText("\n\nIn this instance, quicksort would be the ideal choice.\n", textSpeed.very_fast, false, textColor.green);
+        });
+        await quickSortMenu.start();
+    });
 
-                            await typeText("\nIt was almost easy, but it turns out it takes longer to process class C licenses than to process class B licenses. ", textSpeed.very_fast, false, textColor.green);
-                            await typeText("\nWe decide to use heap sort on our new array, this time sorting by license type:\n", textSpeed.very_fast, false, textColor.green);
+    await sortMenu.start();
+}
 
-                            const wrongSort = heapSort([...dmv_Alph], "licenseType");
-                            wrongSort.forEach((patron) => {
-                                const padding = ' '.repeat(maxNameLength - patron.fName.length);
-                                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
-                            });
+export async function menu_designPatterns() {
+    const dpMenu = new CommandMenu();
+    dpMenu.setMenuMessage("There are two broad categories for design patterns: Creational Patterns, and Behavioral Patterns.");
+    dpMenu.setMenuQuestion("Which type of design pattern would you like to know more about?");
+    dpMenu.addOption("Creational Patterns", async () => {
 
-                            await typeText("\nOh no! Now the licenses are in order but our work sorting names alphabetically has been destroyed! \n", textSpeed.very_fast, false, textColor.green);
-                            await typeText("\nYou see, If we had used a stable sorting algorithm like Merge Sort, we could have kept relative positions of names intact: \n", textSpeed.very_fast, false, textColor.green);
+    });
+    dpMenu.addOption("Behavioral Patterns", async () => {
 
-                            stableSort(dmv_Alph).forEach((patron) => {
-                                const padding = ' '.repeat(maxNameLength - patron.fName.length);
-                                console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
-                            });
-                            break;
-                        default:
-                            mergeSortLoop = false;
-                            break;
-                    }
-                }
-
-                break;
-            case "2":
-                await typeText("Quicksort is similar to merge sort in terms of its divide and conquer approach, but instead of always dividing a dataset in half, it chooses a pivot and recursively sorts the sides of the dataset that are larger or smaller.\n\n", textSpeed.very_fast, false, textColor.green);
-                await typeText("It retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)\n", textSpeed.very_fast, false, textColor.green);
-                let quickSortLoop = true;
-                while (quickSortLoop) {
-                    await typeText(`\n\nWould you like to know more?`, textSpeed.very_fast, false, textColor.green);
-                    await typeText(`\n\n1. Show me in action\n2. When to use quicksort?\n0. Back to other sorts\n`, textSpeed.uber_speed, false, textColor.green);
-                    let quickSortReader = newReadLine();
-                    let quickSortChoice = await getUserInput(quickSortReader);
-                    quickSortReader.close();
-
-                    switch (quickSortChoice) {
-                        case "1":
-                            await typeText("If we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
-                            const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
-                            await typeText("\nAnd now we're left with your new, better sorted name! ", textSpeed.very_fast, false, textColor.green);
-                            await typeText(" I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
-                            break;
-                        case "2":
-                            await typeText("Quicksort sorts items “in place”, meaning it does not need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", textSpeed.very_fast, false, textColor.green);
-                            await typeText("\nWhile mergesort might be more efficient when sorting large datasets, quicksort can still be preferable for large datasets when memory is a consideration.\n", textSpeed.very_fast, false, textColor.green);
-                            await typeText("\nSuppose you're working on a server application that needs to sort a large dataset of customer orders for a retail website.\n", textSpeed.very_fast, false, textColor.green);
-                            await typeText("\nEach order is represented as an object with various details, including order number, date, customer information, and order value. You need to sort these orders by order number, and the dataset is too large to fit entirely in memory.\n", textSpeed.very_fast, false, textColor.green);
-                            await typeText("\n\nIn this instance, quicksort would be the ideal choice.\n", textSpeed.very_fast, false, textColor.green);
-                            break;
-                        case "0":
-                            quickSortLoop = false;
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-                break;
-            case "0":
-                sortLoop = false;
-                break;
-            default:
-                break;
-        }
-    }
+    });
+    await dpMenu.start();
 }
 
 export async function menu_input() {
@@ -155,11 +127,11 @@ export async function menu_input() {
         const validationTypesMenu = new CommandMenu();
         validationTypesMenu.setMenuMessage("Whitelisting and Blacklisting are two broad categories of input validation, but there are many more specific types depending on your needs.")
         validationTypesMenu.setMenuQuestion("Which type of validation would you like to learn about?")
-        
+
         validationTypesMenu.addOption("Blacklisting", async () => {
             await typeText("\nIn terms of input validation, blacklisting is a technique used to block or reject specific inputs that match predefined patterns or criteria.", textSpeed.very_fast, true, textColor.green);
             await typeText("It involves maintaining a list (the 'blacklist') of input values, characters, patterns, or keywords that are considered invalid or potentially dangerous, and any input that matches these criteria is rejected or flagged.\n", textSpeed.very_fast, true, textColor.green);
-        })  
+        })
         validationTypesMenu.addOption("Whitelisting", async () => {
             await typeText("\nIn the context of input validation, whitelisting is a security approach where you explicitly define and allow only specific, predefined inputs or input patterns as valid, while rejecting or blocking any input that does not match these approved criteria.\n", textSpeed.very_fast, true, textColor.green);
             await typeText("\n\nWhitelisting is used in this code whenever you are asked to select a number!\n", textSpeed.very_fast, true, textColor.green);
@@ -302,7 +274,7 @@ async function example_inputValidation() {
                     await typeText("2. Using Range Validation, we can determine that your date is in a reasonable range.\n", textSpeed.very_fast, false, textColor.green);
                     await typeText("\nBased on these results, we can be reasonably sure your birthdate is valid!\n", textSpeed.very_fast, false, textColor.white);
                     dateValid = true;
-                } else{
+                } else {
                     await typeText("2. Using Range Validation, we can determine that your input is invalid. Unless you are ", textSpeed.very_fast, false, textColor.red);
                     await typeText((currentYear - birthYear).toString() + " years old.", textSpeed.very_fast, false, textColor.red);
                 }
@@ -315,21 +287,20 @@ async function example_inputValidation() {
 
     inputForm.addOption('State', async () => {
         let stateValid = false;
-        while (!stateValid){
+        while (!stateValid) {
             await typeText("Please enter your state in two-letter format (example: TX)\n", textSpeed.very_fast, false, textColor.green);
-             let stateReader = newReadLine();
+            let stateReader = newReadLine();
             const stateChoice = await getUserInput(stateReader);
             stateReader.close();
 
-            if(validStates.includes(stateChoice.toUpperCase())){
+            if (validStates.includes(stateChoice.toUpperCase())) {
                 await typeText("1. Using List Check Validation, we can determine that your input is a valid state.\n", textSpeed.very_fast, false, textColor.green);
                 await typeText("Note: Because List Check Validation is a form of whitelisting, other validation methods like length and type validation are not needed!\n", textSpeed.very_fast, false, textColor.green);
                 await typeText("\nBased on these results, we can be reasonably sure your state input is valid.\n", textSpeed.very_fast, false, textColor.white);
                 stateValid = true;
-            } else{
+            } else {
                 await typeText("1. Using List Check Validation, we can determine that your input is not a valid state.\n", textSpeed.very_fast, false, textColor.red);
             }
-            
         }
     })
 

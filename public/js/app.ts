@@ -18,17 +18,21 @@ export type PersonInfo = {
 /////////////////////////////////////
 const mainMenu = new CommandMenu();
 
-mainMenu.setMenuQuestion("Please select a topic");
-mainMenu.addOption('Sorting Algorithms ', async () => {
-    await scripts.menu_Sorts();
+mainMenu.setMenuQuestion("Please select a topic:");
+mainMenu.addOption('Sorting Algorithms', async () => {
+    await scripts.menu_sorts();
 });
 
 mainMenu.addOption('Input', async () => {
     await scripts.menu_input();
-    //await scripts.message_inputValidation();
 });
 
-mainMenu.addOption('Testing', async () => {
+mainMenu.addOption("Design patterns", async () => {
+    await scripts.menu_designPatterns();
+});
+
+/**
+ * mainMenu.addOption('Testing', async () => {
     //TODO
     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
 });
@@ -37,6 +41,10 @@ mainMenu.addOption('Data Storage', async () => {
     //TODO
     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
 });
+ * 
+ */
+
+
 //////////////////////////////////////////
 
 function clearScreen() {
