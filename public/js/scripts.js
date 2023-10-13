@@ -98,13 +98,13 @@ async function menu_sorts() {
         quickSortMenu.setMenuMessage("Quicksort is similar to merge sort in terms of its divide and conquer approach, but instead of always dividing a dataset in half, it chooses a pivot and recursively sorts the sides of the dataset that are larger or smaller.\n\nIt retains the best case scenario time complexity of merge sort: (nlogn), but does better with memory: (logn)");
         quickSortMenu.setMenuQuestion("Would you like to know more?");
         quickSortMenu.addOption("Show me in action", async () => {
-            await (0, TextPrinter_1.typeText)("If we were to sort you name alphabetically using quicksort, it would go like this:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nIf we were to sort you name alphabetically using quicksort, it would go like this:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             const sortedName = (0, sortingAlgs_1.quickSort)(fullName.toLowerCase().replace(/ /g, ''));
             await (0, TextPrinter_1.typeText)("\nAnd now we're left with your new, better sorted name! ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)(" I think " + sortedName + " fits you better anyway.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
         });
         quickSortMenu.addOption("When to use quicksort?", async () => {
-            await (0, TextPrinter_1.typeText)("Quicksort sorts items “in place”, meaning it does not need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nQuicksort sorts items “in place”, meaning it does not need to create copies of the data it’s sorting, but rather partitions and sorts data within the original array. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)("\nWhile mergesort might be more efficient when sorting large datasets, quicksort can still be preferable for large datasets when memory is a consideration.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)("\nSuppose you're working on a server application that needs to sort a large dataset of customer orders for a retail website.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)("\nEach order is represented as an object with various details, including order number, date, customer information, and order value. You need to sort these orders by order number, and the dataset is too large to fit entirely in memory.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -119,15 +119,46 @@ async function menu_designPatterns() {
     const dpMenu = new CommandMenu_1.CommandMenu();
     dpMenu.setMenuMessage("There are three broad categories for design patterns: Creational Patterns, Structural Patterns, and Behavioral Patterns.");
     dpMenu.setMenuQuestion("Which type of design pattern would you like to know more about?");
-    dpMenu.addOption("Creational Patterns", async () => {
-        let factory = new factoryMethod_1.ShapeFactory;
-        let circle = factory.createShape(factoryMethod_1.shapes.circle);
-        console.log(circle.shapeToPrint());
+    dpMenu.addOption("Creational", async () => {
+        const creationalPatternMenu = new CommandMenu_1.CommandMenu();
+        creationalPatternMenu.setMenuMessage("Creational Patterns focus on the process of object creation, helping developers manage and control the instantiation of objects in their applications.");
+        creationalPatternMenu.setMenuQuestion("Would you like to know about a specific creational pattern?");
+        creationalPatternMenu.addOption("Factory Method", async () => {
+            const factoryPatternMenu = new CommandMenu_1.CommandMenu();
+            factoryPatternMenu.setMenuMessage("The Factory Method is also known as Virtual Constructor: the idea being to let subclasses of an interface or abstract class decide which class to instantiate based on the data fed into it.");
+            factoryPatternMenu.setMenuQuestion("Want to know more?");
+            factoryPatternMenu.addOption("Run an example", async () => {
+                await (0, TextPrinter_1.typeText)("\n\nHere's a practical example:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nSuppose you’re running a furniture shop. You open a furniture catalog and spot a nice oak chair that would look great in the window.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nYou call the factory where it’s made and ask for the oak chair. As the client, you don’t know nor are you concerned with the manufacturing details of the chair; You don’t know where they source their oak, how the chair is constructed, or the tools needed for said construction.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nNow the factory rep who gets your call doesn’t know everything either. They have a blueprint for the model chair you want: it has four legs, arm rests and a swivel. They outsource the construction to experts.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nSo the factory rep sends the blueprint to the workshop with a note that they need it done in oak. The workshop knows all the tools of the woodworking trade. They use their spokeshaves, saws, and sandpaper to construct the chair. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nA  sudo code interpretation of these events might go like this: \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\n1. The client uses the chair factory: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("let myOakChair = chairFactory.createChair(woodType.oak);\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\n2. The factory sends the order to the correct builder: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("if (woodType is oak){return getOakChair()};\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\n3. 3.	The workshop builds the chair: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("getOakChair() implements Chair{woodtype = oak;}\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            });
+            factoryPatternMenu.addOption("When to use a factory pattern?", async () => {
+                await (0, TextPrinter_1.typeText)("\nOne common instance where you should use the Factory Pattern is when you want to create objects of different types or classes, but you want to abstract the creation process and decouple the client code from the specific classes being instantiated.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nSay you wanted a factory that created shapes. The client could make this call: \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(`\nlet factory = new ShapeFactory;\nlet circle = factory.createShape(shapes.circle);\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\nWithout any knowledge of the construction process, the client could expect something like this:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                let factory = new factoryMethod_1.ShapeFactory;
+                let circle = factory.createShape(factoryMethod_1.shapes.circle);
+                console.log(circle.shapeToPrint());
+            });
+            await factoryPatternMenu.start();
+        });
+        await creationalPatternMenu.start();
     });
-    dpMenu.addOption("Structural Patterns", async () => {
-    });
-    dpMenu.addOption("Behavioral Patterns", async () => {
-    });
+    // dpMenu.addOption("Structural", async () => {
+    // });
+    // dpMenu.addOption("Behavioral", async () => {
+    // });
     await dpMenu.start();
 }
 exports.menu_designPatterns = menu_designPatterns;

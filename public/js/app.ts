@@ -27,24 +27,21 @@ mainMenu.addOption('Input', async () => {
     await scripts.menu_input();
 });
 
-
-
-/**
- * mainMenu.addOption("Design patterns", async () => {
+mainMenu.addOption("Design patterns", async () => {
     await scripts.menu_designPatterns();
 });
- * 
- * mainMenu.addOption('Testing', async () => {
-    //TODO
-    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
-});
 
-mainMenu.addOption('Data Storage', async () => {
-    //TODO
-    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
-});
- * 
- */
+
+// mainMenu.addOption('Testing', async () => {
+//     //TODO
+//     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
+// });
+
+// mainMenu.addOption('Data Storage', async () => {
+//     //TODO
+//     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
+// });
+
 
 
 //////////////////////////////////////////

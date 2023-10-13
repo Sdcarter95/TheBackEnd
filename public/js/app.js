@@ -39,18 +39,14 @@ mainMenu.addOption('Input', async () => {
 mainMenu.addOption("Design patterns", async () => {
     await scripts.menu_designPatterns();
 });
-/**
- * mainMenu.addOption('Testing', async () => {
-    //TODO
-    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
-});
-
-mainMenu.addOption('Data Storage', async () => {
-    //TODO
-    await typeText("Implement", textSpeed.very_fast, false, textColor.green);
-});
- *
- */
+// mainMenu.addOption('Testing', async () => {
+//     //TODO
+//     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
+// });
+// mainMenu.addOption('Data Storage', async () => {
+//     //TODO
+//     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
+// });
 //////////////////////////////////////////
 function clearScreen() {
     process.stdout.write('\x1b[2J\x1b[0f');
