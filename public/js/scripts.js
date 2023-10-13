@@ -30,6 +30,7 @@ const sortingAlgs_1 = require("./sortingAlgs");
 const TextPrinter_1 = require("./TextPrinter");
 const CommandMenu_1 = require("./CommandMenu");
 const inpVal = __importStar(require("./inputValidation"));
+const factoryMethod_1 = require("./factoryMethod");
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
@@ -116,9 +117,14 @@ async function menu_sorts() {
 exports.menu_sorts = menu_sorts;
 async function menu_designPatterns() {
     const dpMenu = new CommandMenu_1.CommandMenu();
-    dpMenu.setMenuMessage("There are two broad categories for design patterns: Creational Patterns, and Behavioral Patterns.");
+    dpMenu.setMenuMessage("There are three broad categories for design patterns: Creational Patterns, Structural Patterns, and Behavioral Patterns.");
     dpMenu.setMenuQuestion("Which type of design pattern would you like to know more about?");
     dpMenu.addOption("Creational Patterns", async () => {
+        let factory = new factoryMethod_1.ShapeFactory;
+        let circle = factory.createShape(factoryMethod_1.shapes.circle);
+        console.log(circle.shapeToPrint());
+    });
+    dpMenu.addOption("Structural Patterns", async () => {
     });
     dpMenu.addOption("Behavioral Patterns", async () => {
     });

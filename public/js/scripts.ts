@@ -5,6 +5,7 @@ import { typeText, textSpeed, textColor } from "./TextPrinter";
 import { PersonInfo } from './app';
 import { CommandMenu } from './CommandMenu';
 import * as inpVal from './inputValidation';
+import { ShapeFactory, shapes } from './factoryMethod';
 
 
 let name = "Recruiter";
@@ -105,9 +106,14 @@ export async function menu_sorts() {
 
 export async function menu_designPatterns() {
     const dpMenu = new CommandMenu();
-    dpMenu.setMenuMessage("There are two broad categories for design patterns: Creational Patterns, and Behavioral Patterns.");
+    dpMenu.setMenuMessage("There are three broad categories for design patterns: Creational Patterns, Structural Patterns, and Behavioral Patterns.");
     dpMenu.setMenuQuestion("Which type of design pattern would you like to know more about?");
     dpMenu.addOption("Creational Patterns", async () => {
+        let factory = new ShapeFactory;
+        let circle = factory.createShape(shapes.circle);
+        console.log(circle.shapeToPrint());
+    });
+    dpMenu.addOption("Structural Patterns", async () => {
 
     });
     dpMenu.addOption("Behavioral Patterns", async () => {

@@ -29,8 +29,8 @@ const CommandMenu_1 = require("./CommandMenu");
 let debugMode = false;
 /////////////////////////////////////
 const mainMenu = new CommandMenu_1.CommandMenu();
-mainMenu.setMenuQuestion("Please select a topic");
-mainMenu.addOption('Sorting Algorithms ', async () => {
+mainMenu.setMenuQuestion("Please select a topic:");
+mainMenu.addOption('Sorting Algorithms', async () => {
     await scripts.menu_sorts();
 });
 mainMenu.addOption('Input', async () => {
