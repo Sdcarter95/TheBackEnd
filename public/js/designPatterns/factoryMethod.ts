@@ -45,7 +45,11 @@ class Circle implements Shape {
 
 
 export class ShapeFactory {
-    
+    /**
+     * creates a shape object of the shape given.
+     * @param shape the shape enum representation of the shape you want to create
+     * @returns the shape object of the given shape.
+     */
     public createShape(shape: shapes): Shape{
         if (shape === shapes.circle){
             return new Circle();

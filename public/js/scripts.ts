@@ -5,7 +5,8 @@ import { typeText, textSpeed, textColor } from "./TextPrinter";
 import { PersonInfo } from './app';
 import { CommandMenu } from './CommandMenu';
 import * as inpVal from './inputValidation';
-import { ShapeFactory, shapes } from './factoryMethod';
+import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
+import { MovieCharacterBuilder } from './designPatterns/builder';
 
 
 let name = "Recruiter";
@@ -143,6 +144,16 @@ export async function menu_designPatterns() {
             await factoryPatternMenu.start();
 
         });
+        creationalPatternMenu.addOption("Builder", async () => {
+            let characterBuilder = new MovieCharacterBuilder();
+            characterBuilder.setName("Indiana Jones");
+            characterBuilder.setGenra("Adventure");
+            characterBuilder.setQuote("It belongs in a museum!");
+            characterBuilder.setClothing("Fadora");
+            
+            let indy = characterBuilder.build();
+            indy.describe(); 
+        })
         await creationalPatternMenu.start();
     });
     // dpMenu.addOption("Structural", async () => {
