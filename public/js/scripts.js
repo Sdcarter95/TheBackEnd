@@ -227,9 +227,7 @@ async function example_inputValidation() {
         let ageValid = false;
         while (!ageValid) {
             await (0, TextPrinter_1.typeText)("\n\nPlease enter your age: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
-            let ageReader = newReadLine();
-            const ageChoice = await getUserInput(ageReader);
-            ageReader.close();
+            const ageChoice = await getUserInput();
             //Data Type
             if (inpVal.dataTypeValid(ageChoice, "number")) {
                 await (0, TextPrinter_1.typeText)("1. Using Data Type Validation, we can determine that your input is indeed an integer.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -253,9 +251,7 @@ async function example_inputValidation() {
         let nameValid = false;
         while (!nameValid) {
             await (0, TextPrinter_1.typeText)("\n\nPlease enter your full name: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
-            let nameReader = newReadLine();
-            const nameChoice = await getUserInput(nameReader);
-            nameReader.close();
+            const nameChoice = await getUserInput();
             let fullNameArray = nameChoice.split(" ");
             //Validation//
             //range of array
@@ -302,9 +298,7 @@ async function example_inputValidation() {
         let dateValid = false;
         while (!dateValid) {
             await (0, TextPrinter_1.typeText)("\n\nPlease enter your birthdate in the form MM/DD/YYYY: \n", TextPrinter_1.textSpeed.fast, true, TextPrinter_1.textColor.cyan);
-            let dateReader = newReadLine();
-            const dateChoice = await getUserInput(dateReader);
-            dateReader.close();
+            const dateChoice = await getUserInput();
             if (inpVal.dateValid(dateChoice)) {
                 await (0, TextPrinter_1.typeText)("1. Using Format Check Validation, we can determine that your date is valid.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 const birthDate = new Date(dateChoice);
@@ -330,9 +324,7 @@ async function example_inputValidation() {
         let stateValid = false;
         while (!stateValid) {
             await (0, TextPrinter_1.typeText)("Please enter your state in two-letter format (example: TX)\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            let stateReader = newReadLine();
-            const stateChoice = await getUserInput(stateReader);
-            stateReader.close();
+            const stateChoice = await getUserInput();
             if (validStates.includes(stateChoice.toUpperCase())) {
                 await (0, TextPrinter_1.typeText)("1. Using List Check Validation, we can determine that your input is a valid state.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("Note: Because List Check Validation is a form of whitelisting, other validation methods like length and type validation are not needed!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -367,9 +359,7 @@ async function askForName() {
     await (0, TextPrinter_1.typeText)("\n\nLet’s start out simple: What is your", TextPrinter_1.textSpeed.fast, false, TextPrinter_1.textColor.green);
     process.stdout.write(" name");
     await (0, TextPrinter_1.typeText)("?\n\n", TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.green);
-    let q1_Input = newReadLine();
-    const userInput = await getUserInput(q1_Input);
-    q1_Input.close();
+    const userInput = await getUserInput();
     const nameArray = userInput.split(' ');
     name = nameArray[0];
     fullName = userInput;
@@ -399,6 +389,7 @@ async function askForName() {
     }
 }
 exports.askForName = askForName;
+/// Input processing functions 
 function newReadLine() {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -406,12 +397,11 @@ function newReadLine() {
     });
     return rl;
 }
-function clearScreen() {
-    process.stdout.write('\x1b[2J\x1b[0f');
-}
-function getUserInput(rl) {
+function getUserInput() {
+    const rl = newReadLine();
     return new Promise((resolve) => {
         rl.question('> ', (input) => {
+            rl.close(); // Close the interface after resolving the Promise
             resolve(input);
         });
     });

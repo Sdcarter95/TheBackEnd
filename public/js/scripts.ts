@@ -150,9 +150,9 @@ export async function menu_designPatterns() {
             characterBuilder.setGenra("Adventure");
             characterBuilder.setQuote("It belongs in a museum!");
             characterBuilder.setClothing("Fadora");
-            
+
             let indy = characterBuilder.build();
-            indy.describe(); 
+            indy.describe();
         })
         await creationalPatternMenu.start();
     });
@@ -214,7 +214,6 @@ export async function message_intro() {
 
 async function example_inputValidation() {
 
-
     let nameLimit = 11; //char limit for names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
 
@@ -226,10 +225,8 @@ async function example_inputValidation() {
         let ageValid = false;
         while (!ageValid) {
             await typeText("\n\nPlease enter your age: \n", textSpeed.fast, true, textColor.cyan);
+            const ageChoice = await getUserInput();
 
-            let ageReader = newReadLine();
-            const ageChoice = await getUserInput(ageReader);
-            ageReader.close();
 
             //Data Type
             if (inpVal.dataTypeValid(ageChoice, "number")) {
@@ -254,10 +251,8 @@ async function example_inputValidation() {
         let nameValid = false;
         while (!nameValid) {
             await typeText("\n\nPlease enter your full name: \n", textSpeed.fast, true, textColor.cyan);
+            const nameChoice = await getUserInput();
 
-            let nameReader = newReadLine();
-            const nameChoice = await getUserInput(nameReader);
-            nameReader.close();
             let fullNameArray = nameChoice.split(" ");
 
             //Validation//
@@ -307,9 +302,8 @@ async function example_inputValidation() {
         let dateValid = false;
         while (!dateValid) {
             await typeText("\n\nPlease enter your birthdate in the form MM/DD/YYYY: \n", textSpeed.fast, true, textColor.cyan);
-            let dateReader = newReadLine();
-            const dateChoice = await getUserInput(dateReader);
-            dateReader.close();
+            const dateChoice = await getUserInput();
+
 
             if (inpVal.dateValid(dateChoice)) {
                 await typeText("1. Using Format Check Validation, we can determine that your date is valid.\n", textSpeed.very_fast, false, textColor.green);
@@ -338,9 +332,7 @@ async function example_inputValidation() {
         let stateValid = false;
         while (!stateValid) {
             await typeText("Please enter your state in two-letter format (example: TX)\n", textSpeed.very_fast, false, textColor.green);
-            let stateReader = newReadLine();
-            const stateChoice = await getUserInput(stateReader);
-            stateReader.close();
+            const stateChoice = await getUserInput();
 
             if (validStates.includes(stateChoice.toUpperCase())) {
                 await typeText("1. Using List Check Validation, we can determine that your input is a valid state.\n", textSpeed.very_fast, false, textColor.green);
@@ -381,10 +373,7 @@ export async function askForName() {
     process.stdout.write(" name");
     await typeText("?\n\n", textSpeed.uber_speed, false, textColor.green);
 
-    let q1_Input = newReadLine();
-    const userInput = await getUserInput(q1_Input);
-    q1_Input.close();
-
+    const userInput = await getUserInput();
     const nameArray = userInput.split(' ');
     name = nameArray[0];
     fullName = userInput;
@@ -419,6 +408,8 @@ export async function askForName() {
     }
 }
 
+
+/// Input processing functions 
 function newReadLine(): readline.Interface {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -428,14 +419,11 @@ function newReadLine(): readline.Interface {
 }
 
 
-
-function clearScreen() {
-    process.stdout.write('\x1b[2J\x1b[0f');
-}
-
-function getUserInput(rl: readline.Interface): Promise<string> {
+function getUserInput(): Promise<string> {
+    const rl: readline.Interface = newReadLine();
     return new Promise((resolve) => {
         rl.question('> ', (input) => {
+            rl.close(); // Close the interface after resolving the Promise
             resolve(input);
         });
     });
