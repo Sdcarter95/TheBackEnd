@@ -1,10 +1,14 @@
-import { printAuthor, printTitle } from './asciArt';
-import * as scripts from "./scripts"
+/**
+ * File: App.ts
+ * Author: Seth Carter
+ * Description: This contains the main logic for the BackEnd app. Aside from the main function, it also sets up the main menu before launch.
+ * Date: 10/14/2023
+ */
+
+import { printAuthor} from './constants/asciArt';
+import * as scripts from "./Scripts"
 import { CommandMenu } from './CommandMenu';
-import { textColor, textSpeed, typeText } from './TextPrinter';
-
-
-let debugMode = false;
+import { clearScreen } from './helperFunctions/clearScreen';
 
 
 export type PersonInfo = {
@@ -43,13 +47,9 @@ mainMenu.addOption("Design patterns", async () => {
 // });
 
 
-
-//////////////////////////////////////////
-
-function clearScreen() {
-    process.stdout.write('\x1b[2J\x1b[0f');
-}
-
+/**
+ * The main function that runs the intro script, checks for user data, and then launches the main menu defined above.
+ */
 async function main() {
     clearScreen();
     await scripts.message_intro();

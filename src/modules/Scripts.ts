@@ -1,10 +1,17 @@
+/**
+ * File: Scripts.ts
+ * Author: Seth Carter
+ * Description: This file contains a number of menues and functions that act as scripts for the main menu in App.ts
+ * Date: 10/14/2023
+ */
+
 import * as readline from 'readline';
-import { printTitle } from './asciArt';
-import { quickSort, heapSort, stableSort, mergeSort } from "./sortingAlgs";
+import { printTitle } from './constants/asciArt';
+import { quickSort, heapSort, stableSort, mergeSort } from "./SortingAlgs";
 import { typeText, textSpeed, textColor } from "./TextPrinter";
-import { PersonInfo } from './app';
+import { PersonInfo } from './App';
 import { CommandMenu } from './CommandMenu';
-import * as inpVal from './inputValidation';
+import * as inpVal from './InputValidation';
 import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
 import { MovieCharacterBuilder } from './designPatterns/builder';
 
@@ -23,6 +30,9 @@ const validStates: string[] = [
 ];
 
 
+/**
+ * This menu lists the different kind of sorts, and gives examples and exlinations regarding when to use them.
+ */
 export async function menu_sorts() {
     const sortMenu = new CommandMenu();
     sortMenu.setMenuMessage("While in practice many programmers opt to use array.sort() or some comparable function, it’s important to know the different sorting algorithms at your disposal, and the use case for those algorithms.");
@@ -105,6 +115,9 @@ export async function menu_sorts() {
     await sortMenu.start();
 }
 
+/**
+ * This menue details the types of design patterns.
+ */
 export async function menu_designPatterns() {
     const dpMenu = new CommandMenu();
     dpMenu.setMenuMessage("There are three broad categories for design patterns: Creational Patterns, Structural Patterns, and Behavioral Patterns.");
@@ -156,6 +169,8 @@ export async function menu_designPatterns() {
         })
         await creationalPatternMenu.start();
     });
+
+    //TODO: add structural and Behavioral options
     // dpMenu.addOption("Structural", async () => {
 
     // });
@@ -165,6 +180,9 @@ export async function menu_designPatterns() {
     await dpMenu.start();
 }
 
+/**
+ * This menue details the types of input validation.
+ */
 export async function menu_input() {
     const inputMenu = new CommandMenu();
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.")
@@ -205,13 +223,9 @@ export async function menu_input() {
     await inputMenu.start();
 }
 
-export async function message_intro() {
-    await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
-    printTitle();
-    await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", textSpeed.very_fast, false, textColor.green);
-
-}
-
+/**
+ * This example lets the user pick form feilds to enter, and then explains the input validation needed to process the input.
+ */
 async function example_inputValidation() {
 
     let nameLimit = 11; //char limit for names
@@ -348,7 +362,19 @@ async function example_inputValidation() {
     await inputForm.start();
 }
 
+/**
+ * Simply prints out the welcome message.
+ */
+export async function message_intro() {
+    await typeText("Welcome to the back end", textSpeed.medium, true, textColor.green);
+    printTitle();
+    await typeText("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", textSpeed.very_fast, false, textColor.green);
 
+}
+
+/**
+ * checkData() is used to check if there is info saved in memory and creates a blank data file if none is found.
+ */
 export async function checkData() {
 
     const emptyData = {
@@ -367,6 +393,9 @@ export async function checkData() {
     }
 }
 
+/**
+ * askForName() asks the user for their name, saves the result, and responds based on the nature of the user input.
+ */
 export async function askForName() {
 
     await typeText("\n\nLet’s start out simple: What is your", textSpeed.fast, false, textColor.green);
@@ -409,7 +438,10 @@ export async function askForName() {
 }
 
 
-/// Input processing functions 
+/**
+ * Creates a new readline interface object
+ * @returns a new readline interface object
+ */
 function newReadLine(): readline.Interface {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -419,6 +451,10 @@ function newReadLine(): readline.Interface {
 }
 
 
+/**
+ * creates a new readline interface, and await user input.
+ * @returns result of the user input
+ */
 function getUserInput(): Promise<string> {
     const rl: readline.Interface = newReadLine();
     return new Promise((resolve) => {

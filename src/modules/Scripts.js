@@ -1,4 +1,10 @@
 "use strict";
+/**
+ * File: Scripts.ts
+ * Author: Seth Carter
+ * Description: This file contains a number of menues and functions that act as scripts for the main menu in App.ts
+ * Date: 10/14/2023
+ */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -25,11 +31,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.askForName = exports.checkData = exports.message_intro = exports.menu_input = exports.menu_designPatterns = exports.menu_sorts = void 0;
 const readline = __importStar(require("readline"));
-const asciArt_1 = require("./asciArt");
-const sortingAlgs_1 = require("./sortingAlgs");
+const asciArt_1 = require("./constants/asciArt");
+const SortingAlgs_1 = require("./SortingAlgs");
 const TextPrinter_1 = require("./TextPrinter");
 const CommandMenu_1 = require("./CommandMenu");
-const inpVal = __importStar(require("./inputValidation"));
+const inpVal = __importStar(require("./InputValidation"));
 const factoryMethod_1 = require("./designPatterns/factoryMethod");
 const builder_1 = require("./designPatterns/builder");
 let name = "Recruiter";
@@ -44,6 +50,9 @@ const validStates = [
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
 ];
+/**
+ * This menu lists the different kind of sorts, and gives examples and exlinations regarding when to use them.
+ */
 async function menu_sorts() {
     const sortMenu = new CommandMenu_1.CommandMenu();
     sortMenu.setMenuMessage("While in practice many programmers opt to use array.sort() or some comparable function, it’s important to know the different sorting algorithms at your disposal, and the use case for those algorithms.");
@@ -53,7 +62,7 @@ async function menu_sorts() {
         mergeSortMenu.setMenuMessage("Merge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots). \n\nIt retains relative positions of identical values, and so is useful when stability is paramount.");
         mergeSortMenu.setMenuQuestion("Would you like to know more?");
         mergeSortMenu.addOption("Show me in action", async () => {
-            await (0, TextPrinter_1.typeText)(`\nAnd we're left with your sorted name: ${(0, sortingAlgs_1.mergeSort)(name.toLocaleLowerCase())}`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)(`\nAnd we're left with your sorted name: ${(0, SortingAlgs_1.mergeSort)(name.toLocaleLowerCase())}`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
         });
         mergeSortMenu.addOption("When to use mergesort?", async () => {
             await (0, TextPrinter_1.typeText)("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -72,7 +81,7 @@ async function menu_sorts() {
             });
             await (0, TextPrinter_1.typeText)("\nNow, everyone is claiming they were there first. What a headache! We decide the only fair way to see people is in alphabetical order.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)(" We want to get started right away, so we use heapsort. This leaves us with:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            const dmv_Alph = (0, sortingAlgs_1.heapSort)(dmv, "fName");
+            const dmv_Alph = (0, SortingAlgs_1.heapSort)(dmv, "fName");
             const maxNameLength = Math.max(...dmv.map((person) => person.fName.length));
             dmv_Alph.forEach((patron) => {
                 const padding = ' '.repeat(maxNameLength - patron.fName.length);
@@ -80,14 +89,14 @@ async function menu_sorts() {
             });
             await (0, TextPrinter_1.typeText)("\nIt was almost easy, but it turns out it takes longer to process class C licenses than to process class B licenses. ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)("\nWe decide to use heap sort on our new array, this time sorting by license type:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            const wrongSort = (0, sortingAlgs_1.heapSort)([...dmv_Alph], "licenseType");
+            const wrongSort = (0, SortingAlgs_1.heapSort)([...dmv_Alph], "licenseType");
             wrongSort.forEach((patron) => {
                 const padding = ' '.repeat(maxNameLength - patron.fName.length);
                 console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
             });
             await (0, TextPrinter_1.typeText)("\nOh no! Now the licenses are in order but our work sorting names alphabetically has been destroyed! \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)("\nYou see, If we had used a stable sorting algorithm like Merge Sort, we could have kept relative positions of names intact: \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            (0, sortingAlgs_1.stableSort)(dmv_Alph).forEach((patron) => {
+            (0, SortingAlgs_1.stableSort)(dmv_Alph).forEach((patron) => {
                 const padding = ' '.repeat(maxNameLength - patron.fName.length);
                 console.log(`${patron.fName}${padding}: ${patron.licenseType}`);
             });
@@ -100,7 +109,7 @@ async function menu_sorts() {
         quickSortMenu.setMenuQuestion("Would you like to know more?");
         quickSortMenu.addOption("Show me in action", async () => {
             await (0, TextPrinter_1.typeText)("\nIf we were to sort you name alphabetically using quicksort, it would go like this:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-            const sortedName = (0, sortingAlgs_1.quickSort)(fullName.toLowerCase().replace(/ /g, ''));
+            const sortedName = (0, SortingAlgs_1.quickSort)(fullName.toLowerCase().replace(/ /g, ''));
             await (0, TextPrinter_1.typeText)("\nAnd now we're left with your new, better sorted name! ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)(" I think " + sortedName + " fits you better anyway.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
         });
@@ -116,6 +125,9 @@ async function menu_sorts() {
     await sortMenu.start();
 }
 exports.menu_sorts = menu_sorts;
+/**
+ * This menue details the types of design patterns.
+ */
 async function menu_designPatterns() {
     const dpMenu = new CommandMenu_1.CommandMenu();
     dpMenu.setMenuMessage("There are three broad categories for design patterns: Creational Patterns, Structural Patterns, and Behavioral Patterns.");
@@ -165,6 +177,7 @@ async function menu_designPatterns() {
         });
         await creationalPatternMenu.start();
     });
+    //TODO: add structural and Behavioral options
     // dpMenu.addOption("Structural", async () => {
     // });
     // dpMenu.addOption("Behavioral", async () => {
@@ -172,6 +185,9 @@ async function menu_designPatterns() {
     await dpMenu.start();
 }
 exports.menu_designPatterns = menu_designPatterns;
+/**
+ * This menue details the types of input validation.
+ */
 async function menu_input() {
     const inputMenu = new CommandMenu_1.CommandMenu();
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.");
@@ -211,12 +227,9 @@ async function menu_input() {
     await inputMenu.start();
 }
 exports.menu_input = menu_input;
-async function message_intro() {
-    await (0, TextPrinter_1.typeText)("Welcome to the back end", TextPrinter_1.textSpeed.medium, true, TextPrinter_1.textColor.green);
-    (0, asciArt_1.printTitle)();
-    await (0, TextPrinter_1.typeText)("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-}
-exports.message_intro = message_intro;
+/**
+ * This example lets the user pick form feilds to enter, and then explains the input validation needed to process the input.
+ */
 async function example_inputValidation() {
     let nameLimit = 11; //char limit for names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
@@ -338,6 +351,18 @@ async function example_inputValidation() {
     });
     await inputForm.start();
 }
+/**
+ * Simply prints out the welcome message.
+ */
+async function message_intro() {
+    await (0, TextPrinter_1.typeText)("Welcome to the back end", TextPrinter_1.textSpeed.medium, true, TextPrinter_1.textColor.green);
+    (0, asciArt_1.printTitle)();
+    await (0, TextPrinter_1.typeText)("\n\nThe purpose of this program is to demonstrate how I (Seth Carter) handle a variety of programming tasks; An interactive mind map to showcase my knowledge and give you insight into my approach to problem solving.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+}
+exports.message_intro = message_intro;
+/**
+ * checkData() is used to check if there is info saved in memory and creates a blank data file if none is found.
+ */
 async function checkData() {
     const emptyData = {
         "nameData": "",
@@ -355,6 +380,9 @@ async function checkData() {
     }
 }
 exports.checkData = checkData;
+/**
+ * askForName() asks the user for their name, saves the result, and responds based on the nature of the user input.
+ */
 async function askForName() {
     await (0, TextPrinter_1.typeText)("\n\nLet’s start out simple: What is your", TextPrinter_1.textSpeed.fast, false, TextPrinter_1.textColor.green);
     process.stdout.write(" name");
@@ -389,7 +417,10 @@ async function askForName() {
     }
 }
 exports.askForName = askForName;
-/// Input processing functions 
+/**
+ * Creates a new readline interface object
+ * @returns a new readline interface object
+ */
 function newReadLine() {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -397,6 +428,10 @@ function newReadLine() {
     });
     return rl;
 }
+/**
+ * creates a new readline interface, and await user input.
+ * @returns result of the user input
+ */
 function getUserInput() {
     const rl = newReadLine();
     return new Promise((resolve) => {

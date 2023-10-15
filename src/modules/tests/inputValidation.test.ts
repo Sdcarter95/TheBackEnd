@@ -1,4 +1,4 @@
-import * as inpVal from "../inputValidation";
+import * as inpVal from "../InputValidation";
 
 
 

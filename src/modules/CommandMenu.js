@@ -1,4 +1,10 @@
 "use strict";
+/**
+ * File: CommandMenu.ts
+ * Author: Seth Carter
+ * Description: This file allows for the creation of command menues when called from an outside class.
+ * Date: 10/14/2023
+ */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -26,6 +32,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandMenu = void 0;
 const readline = __importStar(require("readline"));
 const TextPrinter_1 = require("./TextPrinter");
+/**
+ * This class works like a builder wherin a client can call for it's creation, set the content as desired, and then start the menue.
+ */
 class CommandMenu {
     constructor() {
         this.options = new Map();
@@ -34,20 +43,40 @@ class CommandMenu {
         this.menuQuestion = "";
         this.menuFunction = () => { };
     }
+    /**
+     * Add a menu option, along with the function that runs when that option is selected.
+     * @param label The name of the menu option to be displayed.
+     * @param action The function that runs when the option is selected.
+     */
     addOption(label, action) {
         const numericChoice = this.options.size + 1;
         this.options.set(label, action);
         this.numericOptions.set(numericChoice, label);
     }
+    /**
+     * Sets the message that prints only when the option is first selected.
+     * @param message The message that will be printed when the option is selected.
+     */
     setMenuMessage(message) {
         this.menuMessage = message;
     }
+    /**
+     * Sets the question that will be asked to the user before they select an option from the menu.
+     * @param question The question to ask the user before option selection.
+     */
     setMenuQuestion(question) {
         this.menuQuestion = question;
     }
+    /**
+     * Sets a function that runs when the menu first start. NOTE: Most implimentations will not use this.
+     * @param func the function to run then the menu starts.
+     */
     setMenuFunction(func) {
         this.menuFunction = func;
     }
+    /**
+     * Starts the menu based on the given options.
+     */
     async start() {
         this.rl = newReadLine();
         this.menuFunction();
@@ -75,6 +104,9 @@ class CommandMenu {
             }
         }
     }
+    /**
+     * Helper function that displays the options of the menu.
+     */
     async displayMenu() {
         let index = 1;
         for (const [label, _] of this.options) {
@@ -83,6 +115,11 @@ class CommandMenu {
         }
         await (0, TextPrinter_1.typeText)('\n0. Return\n', TextPrinter_1.textSpeed.uber_speed, true, TextPrinter_1.textColor.green);
     }
+    /**
+     * Helper function that asks the user the set question and awaits their input.
+     * @param question The question that will be asked to the user.
+     * @returns the user input response.
+     */
     prompt(question) {
         return new Promise((resolve) => {
             this.rl.question(question, resolve);
@@ -90,6 +127,10 @@ class CommandMenu {
     }
 }
 exports.CommandMenu = CommandMenu;
+/**
+ * Helper function that creates a new readline interface.
+ * @returns the new readline interfrace.
+ */
 function newReadLine() {
     const rl = readline.createInterface({
         input: process.stdin,

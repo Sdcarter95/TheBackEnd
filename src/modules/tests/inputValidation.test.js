@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const inpVal = __importStar(require("../inputValidation"));
+const inpVal = __importStar(require("../InputValidation"));
 describe('rangeValid', () => {
     it('should return true for a valid string length within the specified range', () => {
         const input = 'TestString';

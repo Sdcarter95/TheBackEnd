@@ -1,4 +1,10 @@
 "use strict";
+/**
+ * File: App.ts
+ * Author: Seth Carter
+ * Description: This contains the main logic for the BackEnd app. Aside from the main function, it also sets up the main menu before launch.
+ * Date: 10/14/2023
+ */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -23,10 +29,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const asciArt_1 = require("./asciArt");
-const scripts = __importStar(require("./scripts"));
+const asciArt_1 = require("./constants/asciArt");
+const scripts = __importStar(require("./Scripts"));
 const CommandMenu_1 = require("./CommandMenu");
-let debugMode = false;
+const clearScreen_1 = require("./helperFunctions/clearScreen");
 /////////////////////////////////////
 const mainMenu = new CommandMenu_1.CommandMenu();
 mainMenu.setMenuQuestion("Please select a topic:");
@@ -47,12 +53,11 @@ mainMenu.addOption("Design patterns", async () => {
 //     //TODO
 //     await typeText("Implement", textSpeed.very_fast, false, textColor.green);
 // });
-//////////////////////////////////////////
-function clearScreen() {
-    process.stdout.write('\x1b[2J\x1b[0f');
-}
+/**
+ * The main function that runs the intro script, checks for user data, and then launches the main menu defined above.
+ */
 async function main() {
-    clearScreen();
+    (0, clearScreen_1.clearScreen)();
     await scripts.message_intro();
     await scripts.checkData();
     await mainMenu.start();
