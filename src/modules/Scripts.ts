@@ -6,10 +6,11 @@
  */
 
 import * as readline from 'readline';
+import fs from 'fs';
 import { printTitle } from './constants/asciArt';
 import { quickSort, heapSort, stableSort, mergeSort } from "./SortingAlgs";
 import { typeText, textSpeed, textColor } from "./TextPrinter";
-import { PersonInfo } from './App';
+import { PersonInfo, dataPath } from './App';
 import { CommandMenu } from './CommandMenu';
 import * as inpVal from './InputValidation';
 import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
@@ -20,8 +21,6 @@ import { adapterExample, adapterFunctions } from './designPatterns/adapter';
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
-const fs = require('fs');
-const dataPath = 'flatData.json';
 const validStates: string[] = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
     'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
@@ -461,7 +460,8 @@ export async function checkData() {
         fullName = dataBank.nameData.join(" ");
         nameData = dataBank.nameData;
 
-        await typeText("\nWelcome back, " + name + "!", textSpeed.very_fast, false, textColor.green);
+        printTitle();
+        await typeText("\n\nWelcome back, " + name + "!", textSpeed.very_fast, false, textColor.green);
     }
 }
 

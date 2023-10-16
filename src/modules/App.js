@@ -28,12 +28,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.dataPath = void 0;
 const asciArt_1 = require("./constants/asciArt");
 const scripts = __importStar(require("./Scripts"));
 const CommandMenu_1 = require("./CommandMenu");
 const clearScreen_1 = require("./helperFunctions/clearScreen");
-/////////////////////////////////////
+const fs_1 = __importDefault(require("fs"));
+exports.dataPath = 'flatData.json';
 const mainMenu = new CommandMenu_1.CommandMenu();
 mainMenu.setMenuQuestion("Please select a topic:");
 mainMenu.addOption('Sorting Algorithms', async () => {
@@ -58,7 +63,9 @@ mainMenu.addOption("Design patterns", async () => {
  */
 async function main() {
     (0, clearScreen_1.clearScreen)();
-    await scripts.message_intro();
+    if (!fs_1.default.existsSync(exports.dataPath)) {
+        await scripts.message_intro();
+    }
     await scripts.checkData();
     await mainMenu.start();
     (0, asciArt_1.printAuthor)();

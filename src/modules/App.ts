@@ -9,6 +9,7 @@ import { printAuthor} from './constants/asciArt';
 import * as scripts from "./Scripts"
 import { CommandMenu } from './CommandMenu';
 import { clearScreen } from './helperFunctions/clearScreen';
+import fs from 'fs';
 
 
 export type PersonInfo = {
@@ -17,9 +18,7 @@ export type PersonInfo = {
 };
 
 
-
-
-/////////////////////////////////////
+export const dataPath = 'flatData.json';
 const mainMenu = new CommandMenu();
 
 mainMenu.setMenuQuestion("Please select a topic:");
@@ -52,7 +51,9 @@ mainMenu.addOption("Design patterns", async () => {
  */
 async function main() {
     clearScreen();
-    await scripts.message_intro();
+    if(!fs.existsSync(dataPath)){
+        await scripts.message_intro();
+    }
     await scripts.checkData();
     await mainMenu.start();
     printAuthor();

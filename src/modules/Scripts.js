@@ -28,12 +28,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.askForName = exports.checkData = exports.message_intro = exports.menu_input = exports.menu_designPatterns = exports.menu_sorts = void 0;
 const readline = __importStar(require("readline"));
+const fs_1 = __importDefault(require("fs"));
 const asciArt_1 = require("./constants/asciArt");
 const SortingAlgs_1 = require("./SortingAlgs");
 const TextPrinter_1 = require("./TextPrinter");
+const App_1 = require("./App");
 const CommandMenu_1 = require("./CommandMenu");
 const inpVal = __importStar(require("./InputValidation"));
 const factoryMethod_1 = require("./designPatterns/factoryMethod");
@@ -42,8 +47,6 @@ const adapter_1 = require("./designPatterns/adapter");
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
-const fs = require('fs');
-const dataPath = 'flatData.json';
 const validStates = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
     'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
@@ -231,7 +234,7 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)((0, adapter_1.adapterExample)(adapter_1.adapterFunctions.CelsiusToFahrenheitAdapter), TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.blue);
                 await (0, TextPrinter_1.typeText)("\nFinally, we can use our new adapter by creating a sensor set at 20 degrees celsius:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)(`const celsiusSensor = new CelsiusSensor(20);\nconst adapter = new CelsiusToFahrenheitAdapter(celsiusSensor);`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
-                await (0, TextPrinter_1.typeText)("\nRunning adapter.getFahrenheit() we get: " + (0, adapter_1.adapterExample)(adapter_1.adapterFunctions.result), TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\n\nRunning adapter.getFahrenheit() we get: " + (0, adapter_1.adapterExample)(adapter_1.adapterFunctions.result), TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             });
             await adapterPatternMenu.start();
         });
@@ -431,16 +434,17 @@ async function checkData() {
     const emptyData = {
         "nameData": "",
     };
-    if (!fs.existsSync(dataPath)) {
-        fs.writeFileSync(dataPath, JSON.stringify(emptyData), 'utf8');
+    if (!fs_1.default.existsSync(App_1.dataPath)) {
+        fs_1.default.writeFileSync(App_1.dataPath, JSON.stringify(emptyData), 'utf8');
         await askForName();
     }
     else {
-        let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        let dataBank = JSON.parse(fs_1.default.readFileSync(App_1.dataPath, 'utf8'));
         name = dataBank.nameData[0];
         fullName = dataBank.nameData.join(" ");
         nameData = dataBank.nameData;
-        await (0, TextPrinter_1.typeText)("\nWelcome back, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        (0, asciArt_1.printTitle)();
+        await (0, TextPrinter_1.typeText)("\n\nWelcome back, " + name + "!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
     }
 }
 exports.checkData = checkData;
@@ -458,9 +462,9 @@ async function askForName() {
     nameData = nameArray;
     let nameLimit = 10; //char limit for first names
     const charBlackList = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '{', '}'];
-    let dataBank = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    let dataBank = JSON.parse(fs_1.default.readFileSync(App_1.dataPath, 'utf8'));
     dataBank.nameData = nameData;
-    fs.writeFileSync(dataPath, JSON.stringify(dataBank));
+    fs_1.default.writeFileSync(App_1.dataPath, JSON.stringify(dataBank));
     //check for blank input
     if (nameArray[0].trim() == "") {
         name = "Recruiter";
