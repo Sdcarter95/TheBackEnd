@@ -167,20 +167,67 @@ async function menu_designPatterns() {
             await factoryPatternMenu.start();
         });
         creationalPatternMenu.addOption("Builder", async () => {
-            let characterBuilder = new builder_1.MovieCharacterBuilder();
-            characterBuilder.setName("Indiana Jones");
-            characterBuilder.setGenra("Adventure");
-            characterBuilder.setQuote("It belongs in a museum!");
-            characterBuilder.setClothing("Fadora");
-            let indy = characterBuilder.build();
-            indy.describe();
+            const builderPattern = new CommandMenu_1.CommandMenu();
+            builderPattern.setMenuMessage("The builder design pattern separates the construction of a complex object from its representation, allowing the caller to customise its representation.");
+            builderPattern.setMenuQuestion("Want to know more?");
+            builderPattern.addOption("Run an example", async () => {
+                await (0, TextPrinter_1.typeText)("\nSuppose you had a database of movie characters and were trying to add a new entry. There are many elements that define these characters, and frontloading a function call with arguments would be messy. Instead, you decide to use a builder pattern!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\n First, you boil down the archetypal elements of a movie character into a movieCharacter() Class:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nEvery character has\n1. A Name\n2. A genre of film\n3. A famous quote\n4. A piece of clothing they wear.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                let characterBuilder = new builder_1.MovieCharacterBuilder();
+                characterBuilder.setName("Indiana Jones");
+                characterBuilder.setGenra("Adventure");
+                characterBuilder.setQuote("It belongs in a museum!");
+                characterBuilder.setClothing("Fedora");
+                let indy = characterBuilder.build();
+                await (0, TextPrinter_1.typeText)("\nExample: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(indy.description() + "\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\nNow you try!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nGive the name of a famouse movie character:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const charName = await getUserInput();
+                await (0, TextPrinter_1.typeText)("\nWhat Genra movie are they in?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const charGenra = await getUserInput();
+                await (0, TextPrinter_1.typeText)("\nWhat's a famouse quote?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const charQuote = await getUserInput();
+                await (0, TextPrinter_1.typeText)("\nWhat is a clothing item they wear?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const charClothes = await getUserInput();
+                await (0, TextPrinter_1.typeText)("\nGreat! now lets build them:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(`\ncharacterBuilder.setName(${charName});\ncharacterBuilder.setGenra(${charGenra});\ncharacterBuilder.setQuote(${charQuote});\ncharacterBuilder.setClothing(${charClothes});\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                characterBuilder.setName(charName);
+                characterBuilder.setGenra(charGenra);
+                characterBuilder.setQuote(charQuote);
+                characterBuilder.setClothing(charClothes);
+                let character = characterBuilder.build();
+                await (0, TextPrinter_1.typeText)("\nAnd we're left with: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(character.description(), TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+            });
+            builderPattern.addOption("When to use a Builder pattern?", async () => {
+                await (0, TextPrinter_1.typeText)("\nThe builder design pattern is best used in situations where you need to create complex objects that have many optional components or configurations. It's particularly useful when you want to enhance the readability of your code when dealing with object creation.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nImagine the number of variables you might have to deal with inside the constructer of a 'sandwich' object. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nThe builder pattern allows us to handle its construction simply: \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nmyBLT = new Sanwich();\nmyBLT.add(Bacon);\nmyBLT.add(Lettuce);\nmyBLT.add(Tomato);\nmtBLT.build();\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\nAnd just like that you have a delicious BLT sandwich!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            });
+            await builderPattern.start();
         });
         await creationalPatternMenu.start();
     });
     //TODO: add structural and Behavioral options
     // dpMenu.addOption("Structural", async () => {
+    //     const structuralPatternMenu = new CommandMenu();
+    //     structuralPatternMenu.setMenuMessage("");
+    //     structuralPatternMenu.setMenuQuestion("");
+    //     structuralPatternMenu.addOption("", async () => {
+    //     })
+    //     structuralPatternMenu.start();
     // });
     // dpMenu.addOption("Behavioral", async () => {
+    //     const behavioralPatternMenu = new CommandMenu();
+    //     behavioralPatternMenu.setMenuMessage("");
+    //     behavioralPatternMenu.setMenuQuestion("");
+    //     behavioralPatternMenu.addOption("", async () => {
+    //     })
+    //     behavioralPatternMenu.start();
     // });
     await dpMenu.start();
 }

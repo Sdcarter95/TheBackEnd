@@ -158,24 +158,77 @@ export async function menu_designPatterns() {
 
         });
         creationalPatternMenu.addOption("Builder", async () => {
-            let characterBuilder = new MovieCharacterBuilder();
-            characterBuilder.setName("Indiana Jones");
-            characterBuilder.setGenra("Adventure");
-            characterBuilder.setQuote("It belongs in a museum!");
-            characterBuilder.setClothing("Fadora");
+            const builderPattern = new CommandMenu();
+            builderPattern.setMenuMessage("The builder design pattern separates the construction of a complex object from its representation, allowing the caller to customise its representation.");
+            builderPattern.setMenuQuestion("Want to know more?");
+            builderPattern.addOption("Run an example", async () => {
+                await typeText("\nSuppose you had a database of movie characters and were trying to add a new entry. There are many elements that define these characters, and frontloading a function call with arguments would be messy. Instead, you decide to use a builder pattern!\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nFirst, you boil down the archetypal elements of a movie character into a movieCharacter() Class:\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nEvery character has\n1. A Name\n2. A genre of film\n3. A famous quote\n4. A piece of clothing they wear.\n", textSpeed.very_fast, false, textColor.cyan);
+                let characterBuilder = new MovieCharacterBuilder();
+                characterBuilder.setName("Indiana Jones");
+                characterBuilder.setGenra("Adventure");
+                characterBuilder.setQuote("It belongs in a museum!");
+                characterBuilder.setClothing("Fedora");
 
-            let indy = characterBuilder.build();
-            indy.describe();
+                let indy = characterBuilder.build();
+                await typeText("\nExample: ", textSpeed.very_fast, false, textColor.green);
+                await typeText(indy.description() + "\n", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\nNow you try!\n", textSpeed.very_fast, false, textColor.green);
+
+                await typeText("\nGive the name of a famouse movie character:\n", textSpeed.very_fast, false, textColor.green);
+                const charName = await getUserInput();
+                await typeText("\nWhat Genra movie are they in?\n", textSpeed.very_fast, false, textColor.green);
+                const charGenra = await getUserInput();
+                await typeText("\nWhat's a famouse quote?\n", textSpeed.very_fast, false, textColor.green);
+                const charQuote = await getUserInput();
+                await typeText("\nWhat is a clothing item they wear?\n", textSpeed.very_fast, false, textColor.green);
+                const charClothes = await getUserInput();
+
+                await typeText("\nGreat! now lets build them:\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(`\ncharacterBuilder.setName(${charName});\ncharacterBuilder.setGenra(${charGenra});\ncharacterBuilder.setQuote(${charQuote});\ncharacterBuilder.setClothing(${charClothes});\n`, textSpeed.very_fast, false, textColor.cyan);
+
+                characterBuilder.setName(charName);
+                characterBuilder.setGenra(charGenra);
+                characterBuilder.setQuote(charQuote);
+                characterBuilder.setClothing(charClothes);
+
+                let character = characterBuilder.build();
+                await typeText("\nAnd we're left with: " , textSpeed.very_fast, false, textColor.green);
+                await typeText(character.description(), textSpeed.very_fast, false, textColor.cyan);
+            });
+            builderPattern.addOption("When to use a Builder pattern?", async () => {
+                await typeText("\nThe builder design pattern is best used in situations where you need to create complex objects that have many optional components or configurations. It's particularly useful when you want to enhance the readability of your code when dealing with object creation.\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nImagine the number of variables you might have to deal with inside the constructer of a 'sandwich' object. \n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nThe builder pattern allows us to handle its construction simply: \n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nmyBLT = new Sanwich();\nmyBLT.add(Bacon);\nmyBLT.add(Lettuce);\nmyBLT.add(Tomato);\nmtBLT.build();\n", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\nAnd just like that you have a delicious BLT sandwich!\n", textSpeed.very_fast, false, textColor.green);
+            });
+            await builderPattern.start();
+
+
         })
         await creationalPatternMenu.start();
     });
 
     //TODO: add structural and Behavioral options
     // dpMenu.addOption("Structural", async () => {
+    //     const structuralPatternMenu = new CommandMenu();
+    //     structuralPatternMenu.setMenuMessage("");
+    //     structuralPatternMenu.setMenuQuestion("");
+    //     structuralPatternMenu.addOption("", async () => {
 
+    //     })
+    //     structuralPatternMenu.start();
     // });
     // dpMenu.addOption("Behavioral", async () => {
+    //     const behavioralPatternMenu = new CommandMenu();
+    //     behavioralPatternMenu.setMenuMessage("");
+    //     behavioralPatternMenu.setMenuQuestion("");
+    //     behavioralPatternMenu.addOption("", async () => {
 
+    //     })
+    //     behavioralPatternMenu.start();
     // });
     await dpMenu.start();
 }

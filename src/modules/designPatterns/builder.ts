@@ -7,9 +7,12 @@ class MovieCharacter {
     clothing?: string;
     // ... any other game character attributes
   
-    describe() {
-      console.log(`Character: ${this.name}, Genra: ${this.genra}, Quote: ${this.quote}, Clothing: ${this.clothing}`);
+    description(): string {
+      const discription: string = (`${this.name} is a famouse ${this.genra} character. They're known for wearing their signature ${this.clothing}.\n "${this.quote}" -\x1b[3m${this.name}\x1b[0m`);
+      return discription;
     }
+
+
   }
   
   // Step 2: Create the Builder Interface and Class
@@ -19,7 +22,7 @@ class MovieCharacter {
     setGenra(genra: string): void;
     setQuote(quote: string): void;
     setClothing(clothing: string): void;
-    // ... other setter methods
+    
     build(): MovieCharacter;
   }
   
