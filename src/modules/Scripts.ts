@@ -14,6 +14,7 @@ import { CommandMenu } from './CommandMenu';
 import * as inpVal from './InputValidation';
 import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
 import { MovieCharacterBuilder } from './designPatterns/builder';
+import { adapterExample, adapterFunctions } from './designPatterns/adapter';
 
 
 let name = "Recruiter";
@@ -211,16 +212,34 @@ export async function menu_designPatterns() {
         await creationalPatternMenu.start();
     });
 
-    //TODO: add structural and Behavioral options
-    // dpMenu.addOption("Structural", async () => {
-    //     const structuralPatternMenu = new CommandMenu();
-    //     structuralPatternMenu.setMenuMessage("");
-    //     structuralPatternMenu.setMenuQuestion("");
-    //     structuralPatternMenu.addOption("", async () => {
+    
+    dpMenu.addOption("Structural", async () => {
+        const structuralPatternMenu = new CommandMenu();
+        structuralPatternMenu.setMenuMessage("Structural patterns focus on how classes and objects can be composed to form larger structures. They are concerned with the composition of classes and objects to create more efficient, flexible, and maintainable software systems.");
+        structuralPatternMenu.setMenuQuestion("Which Structural Patterns would you like to know about?");
+        structuralPatternMenu.addOption("Adapter", async () => {
+            const adapterPatternMenu = new CommandMenu();
+            adapterPatternMenu.setMenuMessage("Simply put, adapters allow incompatible objects to collaborate. It's often used to make existing classes work with others without modifying their source code.");
+            adapterPatternMenu.setMenuQuestion("Want to know more about adapters?");
+            adapterPatternMenu.addOption("Run an example", async () => {
+                await typeText("\nLet's assume you have the following 3rd party interface and class implementation that returns a temperature in celsius:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(adapterExample(adapterFunctions.CelsiusTemperature) + "\n\n", textSpeed.uber_speed, false, textColor.cyan);
+                await typeText(adapterExample(adapterFunctions.CelsiusSensor), textSpeed.uber_speed, false, textColor.cyan);
+                await typeText("\nNow we'll create a new interface for Fahrenheit:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(adapterExample(adapterFunctions.FahrenheitTemperature), textSpeed.uber_speed, false, textColor.blue);
+                await typeText("\nAnd now we can create the adapter that will let a user check the temperature in Fahrenheit\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(adapterExample(adapterFunctions.CelsiusToFahrenheitAdapter), textSpeed.uber_speed, false, textColor.blue);
+                await typeText("\nFinally, we can use our new adapter by creating a sensor set at 20 degrees celsius:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(`const celsiusSensor = new CelsiusSensor(20);\nconst adapter = new CelsiusToFahrenheitAdapter(celsiusSensor);`, textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\n\nRunning adapter.getFahrenheit() we get: " + adapterExample(adapterFunctions.result), textSpeed.very_fast, false, textColor.green);
 
-    //     })
-    //     structuralPatternMenu.start();
-    // });
+            });
+            await adapterPatternMenu.start();
+        })
+        await structuralPatternMenu.start();
+    });
+
+    //TODO: add Behavioral options
     // dpMenu.addOption("Behavioral", async () => {
     //     const behavioralPatternMenu = new CommandMenu();
     //     behavioralPatternMenu.setMenuMessage("");

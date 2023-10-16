@@ -1,5 +1,7 @@
-// Step 1: Create the Product Class
 
+/**
+ * This class holds character information for use in the character builder.
+ */
 class MovieCharacter {
     name?: string;
     genra?: string;
@@ -15,8 +17,9 @@ class MovieCharacter {
 
   }
   
-  // Step 2: Create the Builder Interface and Class
-  
+  /**
+   * The interface for characterBuilder can serve as the basis for many character builder classes.
+   */
   interface CharacterBuilder {
     setName(name: string): void;
     setGenra(genra: string): void;
@@ -26,6 +29,9 @@ class MovieCharacter {
     build(): MovieCharacter;
   }
   
+  /**
+   * Builder class for constructing an object of type MovieCharacter.
+   */
   export class MovieCharacterBuilder implements CharacterBuilder {
     private character: MovieCharacter;
   

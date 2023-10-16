@@ -38,6 +38,7 @@ const CommandMenu_1 = require("./CommandMenu");
 const inpVal = __importStar(require("./InputValidation"));
 const factoryMethod_1 = require("./designPatterns/factoryMethod");
 const builder_1 = require("./designPatterns/builder");
+const adapter_1 = require("./designPatterns/adapter");
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
@@ -172,7 +173,7 @@ async function menu_designPatterns() {
             builderPattern.setMenuQuestion("Want to know more?");
             builderPattern.addOption("Run an example", async () => {
                 await (0, TextPrinter_1.typeText)("\nSuppose you had a database of movie characters and were trying to add a new entry. There are many elements that define these characters, and frontloading a function call with arguments would be messy. Instead, you decide to use a builder pattern!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)("\n First, you boil down the archetypal elements of a movie character into a movieCharacter() Class:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nFirst, you boil down the archetypal elements of a movie character into a movieCharacter() Class:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("\nEvery character has\n1. A Name\n2. A genre of film\n3. A famous quote\n4. A piece of clothing they wear.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 let characterBuilder = new builder_1.MovieCharacterBuilder();
                 characterBuilder.setName("Indiana Jones");
@@ -212,15 +213,31 @@ async function menu_designPatterns() {
         });
         await creationalPatternMenu.start();
     });
-    //TODO: add structural and Behavioral options
-    // dpMenu.addOption("Structural", async () => {
-    //     const structuralPatternMenu = new CommandMenu();
-    //     structuralPatternMenu.setMenuMessage("");
-    //     structuralPatternMenu.setMenuQuestion("");
-    //     structuralPatternMenu.addOption("", async () => {
-    //     })
-    //     structuralPatternMenu.start();
-    // });
+    dpMenu.addOption("Structural", async () => {
+        const structuralPatternMenu = new CommandMenu_1.CommandMenu();
+        structuralPatternMenu.setMenuMessage("Structural patterns focus on how classes and objects can be composed to form larger structures. They are concerned with the composition of classes and objects to create more efficient, flexible, and maintainable software systems.");
+        structuralPatternMenu.setMenuQuestion("Which Structural Patterns would you like to know about?");
+        structuralPatternMenu.addOption("Adapter", async () => {
+            const adapterPatternMenu = new CommandMenu_1.CommandMenu();
+            adapterPatternMenu.setMenuMessage("Simply put, adapters allow incompatible objects to collaborate. It's often used to make existing classes work with others without modifying their source code.");
+            adapterPatternMenu.setMenuQuestion("Want to know more about adapters?");
+            adapterPatternMenu.addOption("Run an example", async () => {
+                await (0, TextPrinter_1.typeText)("\nLet's assume you have the following 3rd party interface and class implementation that returns a temperature in celsius:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)((0, adapter_1.adapterExample)(adapter_1.adapterFunctions.CelsiusTemperature) + "\n\n", TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)((0, adapter_1.adapterExample)(adapter_1.adapterFunctions.CelsiusSensor), TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\nNow we'll create a new interface for Fahrenheit:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)((0, adapter_1.adapterExample)(adapter_1.adapterFunctions.FahrenheitTemperature), TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.blue);
+                await (0, TextPrinter_1.typeText)("\nAnd now we can create the adapter that will let a user check the temperature in Fahrenheit\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)((0, adapter_1.adapterExample)(adapter_1.adapterFunctions.CelsiusToFahrenheitAdapter), TextPrinter_1.textSpeed.uber_speed, false, TextPrinter_1.textColor.blue);
+                await (0, TextPrinter_1.typeText)("\nFinally, we can use our new adapter by creating a sensor set at 20 degrees celsius:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(`const celsiusSensor = new CelsiusSensor(20);\nconst adapter = new CelsiusToFahrenheitAdapter(celsiusSensor);`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\nRunning adapter.getFahrenheit() we get: " + (0, adapter_1.adapterExample)(adapter_1.adapterFunctions.result), TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            });
+            await adapterPatternMenu.start();
+        });
+        await structuralPatternMenu.start();
+    });
+    //TODO: add Behavioral options
     // dpMenu.addOption("Behavioral", async () => {
     //     const behavioralPatternMenu = new CommandMenu();
     //     behavioralPatternMenu.setMenuMessage("");

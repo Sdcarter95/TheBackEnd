@@ -1,7 +1,9 @@
 "use strict";
-// Step 1: Create the Product Class
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieCharacterBuilder = void 0;
+/**
+ * This class holds character information for use in the character builder.
+ */
 class MovieCharacter {
     // ... any other game character attributes
     description() {
@@ -9,6 +11,9 @@ class MovieCharacter {
         return discription;
     }
 }
+/**
+ * Builder class for constructing an object of type MovieCharacter.
+ */
 class MovieCharacterBuilder {
     constructor() {
         this.character = new MovieCharacter();
