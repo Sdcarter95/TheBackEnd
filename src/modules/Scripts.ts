@@ -16,7 +16,8 @@ import * as inpVal from './InputValidation';
 import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
 import { MovieCharacterBuilder } from './designPatterns/builder';
 import { adapterExample, adapterFunctions } from './designPatterns/adapter';
-
+import { BasicCoffee, Coffee, AddMilk, AddSugar} from './designPatterns/decorator';
+import { type } from 'os';
 
 let name = "Recruiter";
 let fullName = "Recruiter";
@@ -194,7 +195,7 @@ export async function menu_designPatterns() {
                 characterBuilder.setClothing(charClothes);
 
                 let character = characterBuilder.build();
-                await typeText("\nAnd we're left with: " , textSpeed.very_fast, false, textColor.green);
+                await typeText("\nAnd we're left with: ", textSpeed.very_fast, false, textColor.green);
                 await typeText(character.description(), textSpeed.very_fast, false, textColor.cyan);
             });
             builderPattern.addOption("When to use a Builder pattern?", async () => {
@@ -211,7 +212,7 @@ export async function menu_designPatterns() {
         await creationalPatternMenu.start();
     });
 
-    
+
     dpMenu.addOption("Structural", async () => {
         const structuralPatternMenu = new CommandMenu();
         structuralPatternMenu.setMenuMessage("Structural patterns focus on how classes and objects can be composed to form larger structures. They are concerned with the composition of classes and objects to create more efficient, flexible, and maintainable software systems.");
@@ -234,6 +235,47 @@ export async function menu_designPatterns() {
 
             });
             await adapterPatternMenu.start();
+        });
+        structuralPatternMenu.addOption("Decorater", async () => {
+            const decoratorPatternMenu = new CommandMenu();
+            decoratorPatternMenu.setMenuMessage(`Decoraters are very useful for adding functionalities to objects without altering their structure. If that sounds familiar, you might be remembering the Builder Creational Pattern. The differenece is decorators are used to modify behaviors of an object dynamically at runtime.`);
+            decoratorPatternMenu.setMenuQuestion("Would you like to know more about decoraters?");
+            decoratorPatternMenu.addOption("Run an example", async () => {
+                await typeText("\nLet’s suppose you’re creating an ordering system for a coffee shop. First, let’s create an interface to represent information associated with a cup of coffee:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(`interface Coffee {\n    cost(): number;\n    description(): string;\n\n}`, textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\n\nWe have the cost of the coffee and its description. Now we'll use our new interface to create a plain cup of black coffee:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(BasicCoffee.toString() + "\n", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\nThis looks great but we now face a design problem. There are so many variations of a cup of coffee, that creating a different class for each possible permutation would leave us inundated with mostly redundant code. There would be a class for coffee with milk, coffee with sugar and chocolate, coffee with milk and chocolate but no sugar. Each would have their own associated costs and descriptions!\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("Our solution is to use decoraters:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(`\nabstract class CoffeeDecorater implements Coffee {\n    constructor(protected coffee: Coffee) {\n    cost() {\n        return this.coffee.cost();\n}\n\n    description() {\n        return this.coffee.description();\n    }\n}\n`, textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\nNow, we can create decoraters for our different options:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText(AddMilk.toString() + "\n\n", textSpeed.very_fast, false, textColor.cyan);
+                await typeText(AddSugar.toString() + "\n\n", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\nFinally, lets make some drinks!\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nconst myCoffee: Coffee = new BasicCoffee();\n", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\n\nHere, we can use ", textSpeed.very_fast, false, textColor.green);
+                await typeText("myCoffee.description() ", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("to get ", textSpeed.very_fast, false, textColor.green);
+                const myCoffee: Coffee = new BasicCoffee();
+                await typeText('"' + myCoffee.description() + '"', textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\n\nNow we'll use our decoraters for our add-ons:\n\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("const coffeeMilk: Coffee = new AddMilk(myCoffee);\nconst sweetCoffeeMilk: Coffee = new AddSugar(coffeeMilk);", textSpeed.very_fast, false, textColor.cyan);
+                const coffeeMilk: Coffee = new AddMilk(myCoffee);
+                const sweetCoffeeMilk: Coffee = new AddSugar(coffeeMilk);
+                await typeText("\n\nWe can use ", textSpeed.very_fast, false, textColor.green);
+                await typeText("sweetCoffeeMilk.description() ", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("to get ", textSpeed.very_fast, false, textColor.green);
+                await typeText(sweetCoffeeMilk.description(), textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\n\nAnd ", textSpeed.very_fast, false, textColor.green);
+                await typeText("sweetCoffeeMilk.cost() ", textSpeed.very_fast, false, textColor.cyan);
+                await typeText("to get ", textSpeed.very_fast, false, textColor.green);
+                await typeText("$" +sweetCoffeeMilk.cost().toString(), textSpeed.very_fast, false, textColor.cyan);
+                await typeText("\n\nThat’s some expensive coffee!", textSpeed.very_fast, false, textColor.green);
+            });
+            decoratorPatternMenu.addOption("When to use a decorater", async () => {
+                await typeText("you should consider using them when you need to add metadata, behavior, or additional functionality to your code in a modular and maintainable way. They can be particularly useful for cross-cutting concerns, validation, and customization for applications and APIs.", textSpeed.very_fast, false, textColor.green);
+            });
+            await decoratorPatternMenu.start();
         })
         await structuralPatternMenu.start();
     });
