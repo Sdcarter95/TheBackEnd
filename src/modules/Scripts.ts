@@ -43,7 +43,7 @@ export async function menu_sorts() {
         mergeSortMenu.setMenuMessage("Merge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots). \n\nIt retains relative positions of identical values, and so is useful when stability is paramount.");
         mergeSortMenu.setMenuQuestion("Would you like to know more?");
         mergeSortMenu.addOption("Show me in action", async () => {
-            await typeText(`\nAnd we're left with your sorted name: ${mergeSort(name.toLocaleLowerCase())}`, textSpeed.very_fast, false, textColor.green);
+            await typeText(`\nAnd we're left with your alphabetically sorted name: ${mergeSort(name.toLocaleLowerCase())}`, textSpeed.very_fast, false, textColor.green);
         });
         mergeSortMenu.addOption("When to use mergesort?", async () => {
             await typeText("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", textSpeed.very_fast, false, textColor.green);
@@ -100,7 +100,7 @@ export async function menu_sorts() {
         quickSortMenu.addOption("Show me in action", async () => {
             await typeText("\nIf we were to sort you name alphabetically using quicksort, it would go like this:\n", textSpeed.very_fast, false, textColor.green);
             const sortedName: string = quickSort(fullName.toLowerCase().replace(/ /g, ''));
-            await typeText("\nAnd now we're left with your new, better sorted name! ", textSpeed.very_fast, false, textColor.green);
+            await typeText("\nAnd now we're left with your new, alphabetically sorted name! ", textSpeed.very_fast, false, textColor.green);
             await typeText(" I think " + sortedName + " fits you better anyway.", textSpeed.very_fast, false, textColor.green);
         });
         quickSortMenu.addOption("When to use quicksort?", async () => {
@@ -136,7 +136,7 @@ export async function menu_designPatterns() {
                 await typeText("\nSuppose you’re running a furniture shop. You open a furniture catalog and spot a nice oak chair that would look great in the window.\n", textSpeed.very_fast, false, textColor.green);
                 await typeText("\nYou call the factory where it’s made and ask for the oak chair. As the client, you don’t know nor are you concerned with the manufacturing details of the chair; You don’t know where they source their oak, how the chair is constructed, or the tools needed for said construction.\n", textSpeed.very_fast, false, textColor.green);
                 await typeText("\nNow the factory rep who gets your call doesn’t know everything either. They have a blueprint for the model chair you want: it has four legs, arm rests and a swivel. They outsource the construction to experts.\n", textSpeed.very_fast, false, textColor.green);
-                await typeText("\nSo the factory rep sends the blueprint to the workshop with a note that they need it done in oak. The workshop knows all the tools of the woodworking trade. They use their spokeshaves, saws, and sandpaper to construct the chair. \n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nSo the factory rep sends the blueprint to the workshop with a note that the client needs a chair made of oak. The workshop knows all the tools of the woodworking trade. They use their spokeshaves, saws, and sandpaper to construct the chair. \n", textSpeed.very_fast, false, textColor.green);
                 await typeText("\nA sudo code interpretation of these events might go like this: \n", textSpeed.very_fast, false, textColor.green);
                 await typeText("\n1. The client uses the chair factory: ", textSpeed.very_fast, false, textColor.green);
                 await typeText("let myOakChair = chairFactory.createChair(woodType.oak);\n", textSpeed.very_fast, false, textColor.cyan);
@@ -168,7 +168,7 @@ export async function menu_designPatterns() {
                 await typeText("\nEvery character has\n1. A Name\n2. A genre of film\n3. A famous quote\n4. A piece of clothing they wear.\n", textSpeed.very_fast, false, textColor.cyan);
                 let characterBuilder = new MovieCharacterBuilder();
                 characterBuilder.setName("Indiana Jones");
-                characterBuilder.setGenra("Adventure");
+                characterBuilder.setGenra("Action-Adventure");
                 characterBuilder.setQuote("It belongs in a museum!");
                 characterBuilder.setClothing("Fedora");
 
@@ -177,17 +177,17 @@ export async function menu_designPatterns() {
                 await typeText(indy.description() + "\n", textSpeed.very_fast, false, textColor.cyan);
                 await typeText("\nNow you try!\n", textSpeed.very_fast, false, textColor.green);
 
-                await typeText("\nGive the name of a famouse movie character:\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nGive the name of a famous movie character:\n", textSpeed.very_fast, false, textColor.green);
                 const charName = await getUserInput();
-                await typeText("\nWhat Genra movie are they in?\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nWhat Genre movie are they in?\n", textSpeed.very_fast, false, textColor.green);
                 const charGenra = await getUserInput();
-                await typeText("\nWhat's a famouse quote?\n", textSpeed.very_fast, false, textColor.green);
+                await typeText("\nWhat's a famous quote?\n", textSpeed.very_fast, false, textColor.green);
                 const charQuote = await getUserInput();
                 await typeText("\nWhat is a clothing item they wear?\n", textSpeed.very_fast, false, textColor.green);
                 const charClothes = await getUserInput();
 
                 await typeText("\nGreat! now lets build them:\n", textSpeed.very_fast, false, textColor.green);
-                await typeText(`\ncharacterBuilder.setName(${charName});\ncharacterBuilder.setGenra(${charGenra});\ncharacterBuilder.setQuote(${charQuote});\ncharacterBuilder.setClothing(${charClothes});\n`, textSpeed.very_fast, false, textColor.cyan);
+                await typeText(`\ncharacterBuilder.setName(${charName});\ncharacterBuilder.setGenre(${charGenra});\ncharacterBuilder.setQuote(${charQuote});\ncharacterBuilder.setClothing(${charClothes});\n`, textSpeed.very_fast, false, textColor.cyan);
 
                 characterBuilder.setName(charName);
                 characterBuilder.setGenra(charGenra);
@@ -299,7 +299,7 @@ export async function menu_designPatterns() {
 export async function menu_input() {
     const inputMenu = new CommandMenu();
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.")
-    inputMenu.setMenuQuestion("What would you liek to know?")
+    inputMenu.setMenuQuestion("What would you like to know?")
     inputMenu.addOption("Run an example", async () => {
         await example_inputValidation();
     })
@@ -317,19 +317,19 @@ export async function menu_input() {
             await typeText("\n\nWhitelisting is used in this code whenever you are asked to select a number!\n", textSpeed.very_fast, true, textColor.green);
         })
         validationTypesMenu.addOption("Length Check Validation", async () => {
-            await typeText("\nLength Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long.\n", textSpeed.very_fast, true, textColor.green);
+            await typeText("\nLength Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long requires a length check.\n", textSpeed.very_fast, true, textColor.green);
         })
         validationTypesMenu.addOption("Range Check Validation", async () => {
-            await typeText("\nRange checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150.\n", textSpeed.very_fast, true, textColor.green);
+            await typeText("\nRange checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150 requires a range check.\n", textSpeed.very_fast, true, textColor.green);
         })
         validationTypesMenu.addOption("Type Check Validation:", async () => {
-            await typeText("\nType checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format.\n", textSpeed.very_fast, true, textColor.green);
+            await typeText("\nType checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format would use a type check.\n", textSpeed.very_fast, true, textColor.green);
         })
         validationTypesMenu.addOption("Pattern Matching Validation:", async () => {
-            await typeText("\nPattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD.\n", textSpeed.very_fast, true, textColor.green);
+            await typeText("\nPattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD would call for pattern matching validation.\n", textSpeed.very_fast, true, textColor.green);
         })
         validationTypesMenu.addOption("List Check Validation:", async () => {
-            await typeText("\nList checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state\n", textSpeed.very_fast, true, textColor.green);
+            await typeText("\nList checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state might use a list check.\n", textSpeed.very_fast, true, textColor.green);
         })
         await validationTypesMenu.start();
     })
