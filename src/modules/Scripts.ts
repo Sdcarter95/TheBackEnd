@@ -294,10 +294,10 @@ export async function menu_designPatterns() {
                 await typeText("First, we create an interface that represents our strategy:\n\n",textSpeed.very_fast,false,textColor.green);
                 await typeText(`interface PaymentStrategy {\n    pay(amount: number): void;\n}\n\n`,textSpeed.very_fast,false,textColor.cyan);
                 await typeText("Now we can implement our interface with separate classes for each payment method:\n\n",textSpeed.very_fast,false,textColor.green);
-                await typeText(CreditCardPayment.toString() + "\n\n",textSpeed.very_fast,false,textColor.cyan);
-                await typeText(PayPalPayment.toString() + "\n\n",textSpeed.very_fast,false,textColor.cyan);
+                await typeText("export class CreditCardPayment implements PaymentStrategy {\n    pay(amount: number) {\n        console.log(`Paid ${amount} dollars with a credit card.`);\n    }\n}\n\n",textSpeed.very_fast,false,textColor.cyan);
+                await typeText("export class PayPalPayment implements PaymentStrategy {\n    pay(amount: number) {\n        console.log(`Paid ${amount} dollars using PayPal.`);\n    }\n}\n",textSpeed.very_fast,false,textColor.cyan);
                 await typeText("\n\nWith our two strategies coded, we can make a shopping cart class that makes use of the strategy interface:\n\n",textSpeed.very_fast,false,textColor.green);
-                await typeText(ShoppingCart.toString(),textSpeed.very_fast,false,textColor.cyan);
+                await typeText("export class ShoppingCart {\n    private paymentStrategy: PaymentStrategy;\n    constructor(paymentStrategy: PaymentStrategy) {\n        this.paymentStrategy = paymentStrategy;\n    }\n    checkout(amount: number) {\n        this.paymentStrategy.pay(amount);\n    }}",textSpeed.very_fast,false,textColor.cyan);
                 await typeText("\n\nFinally, our client code can pick which strategy to implement at runtime:\n\n",textSpeed.very_fast,false,textColor.green);
                 await typeText("const cart1 = new ShoppingCart(new CreditCardPayment());\ncart1.checkout(100);",textSpeed.very_fast,false,textColor.cyan);
                 const cart1 = new ShoppingCart(new CreditCardPayment());
@@ -313,8 +313,14 @@ export async function menu_designPatterns() {
         await behavioralPatternsMenu.start();
     });
 
-    dpMenu.addOption("When to choose each type?", async() => {
-
+    dpMenu.addOption("Explain the differences", async() => {
+        await typeText("\nCreational Patterns:\n",textSpeed.very_fast,false,textColor.cyan);
+        await typeText("Creational design patterns primarily revolve around object creation mechanisms. They are concerned with how objects are instantiated while abstracting away the specifics of their creation process. Examples of creational design patterns include the Singleton pattern, Factory Method, and Builder pattern.\n\n",textSpeed.very_fast,false,textColor.cyan);
+        await typeText("Structural Patterns:\n",textSpeed.very_fast,false,textColor.red);
+        await typeText("In contrast, structural design patterns deal with how classes and objects are composed to create larger and more complex structures. These patterns focus on defining relationships between objects, allowing for the construction of intricate systems. Some well-known structural design patterns include the Adapter pattern, Bridge pattern, and Composite pattern.\n\n",textSpeed.very_fast,false,textColor.red);
+        await typeText("Behavioral Patterns:\n",textSpeed.very_fast,false,textColor.blue);
+        await typeText("Behavioral design patterns, on the other hand, concentrate on specifying how objects interact and communicate with one another. They address the responsibilities and collaboration between objects, facilitating effective communication within a software system. Prominent examples of behavioral design patterns comprise the Observer pattern, Strategy pattern, and Command pattern.\n\n",textSpeed.very_fast,false,textColor.blue);
+        await typeText("In summary, creational patterns deal with object creation, structural patterns focus on object composition, and behavioral patterns address object interaction and communication.\n",textSpeed.very_fast,false,textColor.green);
     });
     await dpMenu.start();
 }
