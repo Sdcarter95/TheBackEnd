@@ -16,8 +16,8 @@ import * as inpVal from './InputValidation';
 import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
 import { MovieCharacterBuilder } from './designPatterns/builder';
 import { adapterExample, adapterFunctions } from './designPatterns/adapter';
-import { BasicCoffee, Coffee, AddMilk, AddSugar} from './designPatterns/decorator';
-import { type } from 'os';
+import { BasicCoffee, Coffee, AddMilk, AddSugar } from './designPatterns/decorator';
+import { CreditCardPayment, PayPalPayment, ShoppingCart } from './designPatterns/strategy';
 
 let name = "Recruiter";
 let fullName = "Recruiter";
@@ -269,7 +269,7 @@ export async function menu_designPatterns() {
                 await typeText("\n\nAnd ", textSpeed.very_fast, false, textColor.green);
                 await typeText("sweetCoffeeMilk.cost() ", textSpeed.very_fast, false, textColor.cyan);
                 await typeText("to get ", textSpeed.very_fast, false, textColor.green);
-                await typeText("$" +sweetCoffeeMilk.cost().toString(), textSpeed.very_fast, false, textColor.cyan);
+                await typeText("$" + sweetCoffeeMilk.cost().toString(), textSpeed.very_fast, false, textColor.cyan);
                 await typeText("\n\nThat’s some expensive coffee!", textSpeed.very_fast, false, textColor.green);
             });
             decoratorPatternMenu.addOption("When to use a decorater", async () => {
@@ -280,16 +280,42 @@ export async function menu_designPatterns() {
         await structuralPatternMenu.start();
     });
 
-    //TODO: add Behavioral options
-    // dpMenu.addOption("Behavioral", async () => {
-    //     const behavioralPatternMenu = new CommandMenu();
-    //     behavioralPatternMenu.setMenuMessage("");
-    //     behavioralPatternMenu.setMenuQuestion("");
-    //     behavioralPatternMenu.addOption("", async () => {
+    dpMenu.addOption("Behavioral", async () => {
+        const behavioralPatternsMenu = new CommandMenu();
+        behavioralPatternsMenu.setMenuMessage("Behavioral design patterns deal with the communication and interaction between objects and classes (As opposed to their creation). These patterns focus on how objects collaborate and delegate responsibilities among themselves to achieve a specific behavior, making the design more flexible and maintainable.");
+        behavioralPatternsMenu.setMenuQuestion("Which behavioral pattern would you like to know about?");
+        behavioralPatternsMenu.addOption("Strategy Pattern", async () => {
+            const strategyPattern = new CommandMenu();
+            strategyPattern.setMenuMessage("The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It allows clients to choose the appropriate algorithm at runtime.");
+            strategyPattern.setMenuQuestion("Would you like to know more?");
+            strategyPattern.addOption("Run an example", async () => {
+                await typeText("\nLet's assume you're putting together a shopping cart for your application.\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText("The client wants the end user to have multiple payment options when checking out. Since checking out is an action (or behavior), and the choice takes place at runtime, you decide to use a strategy pattern.\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText("First, we create an interface that represents our strategy:\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText(`interface PaymentStrategy {\n    pay(amount: number): void;\n}\n\n`,textSpeed.very_fast,false,textColor.cyan);
+                await typeText("Now we can implement our interface with separate classes for each payment method:\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText(CreditCardPayment.toString() + "\n\n",textSpeed.very_fast,false,textColor.cyan);
+                await typeText(PayPalPayment.toString() + "\n\n",textSpeed.very_fast,false,textColor.cyan);
+                await typeText("\n\nWith our two strategies coded, we can make a shopping cart class that makes use of the strategy interface:\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText(ShoppingCart.toString(),textSpeed.very_fast,false,textColor.cyan);
+                await typeText("\n\nFinally, our client code can pick which strategy to implement at runtime:\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText("const cart1 = new ShoppingCart(new CreditCardPayment());\ncart1.checkout(100);",textSpeed.very_fast,false,textColor.cyan);
+                const cart1 = new ShoppingCart(new CreditCardPayment());
+                await typeText("\n\nAnd we get the result: ",textSpeed.very_fast,false,textColor.green);
+                cart1.checkout(100);
+            });
+            strategyPattern.addOption("When to use a strategy pattern?", async () => {
+                await typeText("\nYou should use a strategy pattern when you need to manage multiple interchangeable algorithms or behaviors in your application.",textSpeed.very_fast,false,textColor.green);
+                await typeText("\n\nSimply put, the strategy pattern helps choose which algorithm to pick at runtime. ",textSpeed.very_fast,false,textColor.green);
+            }); 
+            await strategyPattern.start();
+        });
+        await behavioralPatternsMenu.start();
+    });
 
-    //     })
-    //     behavioralPatternMenu.start();
-    // });
+    dpMenu.addOption("When to choose each type?", async() => {
+
+    });
     await dpMenu.start();
 }
 

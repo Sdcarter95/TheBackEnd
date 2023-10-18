@@ -45,6 +45,7 @@ const factoryMethod_1 = require("./designPatterns/factoryMethod");
 const builder_1 = require("./designPatterns/builder");
 const adapter_1 = require("./designPatterns/adapter");
 const decorator_1 = require("./designPatterns/decorator");
+const strategy_1 = require("./designPatterns/strategy");
 let name = "Recruiter";
 let fullName = "Recruiter";
 let nameData = ['R', 'e', 'c', 'r', 'u,', 'i', 't', 'e', 'r'];
@@ -67,7 +68,7 @@ async function menu_sorts() {
         mergeSortMenu.setMenuMessage("Merge sort has a great best-case time complexity of nlogn, and allows for more deterministic/reliable time predictions when compared to quicksort (which uses random pivots). \n\nIt retains relative positions of identical values, and so is useful when stability is paramount.");
         mergeSortMenu.setMenuQuestion("Would you like to know more?");
         mergeSortMenu.addOption("Show me in action", async () => {
-            await (0, TextPrinter_1.typeText)(`\nAnd we're left with your sorted name: ${(0, SortingAlgs_1.mergeSort)(name.toLocaleLowerCase())}`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)(`\nAnd we're left with your alphabetically sorted name: ${(0, SortingAlgs_1.mergeSort)(name.toLocaleLowerCase())}`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
         });
         mergeSortMenu.addOption("When to use mergesort?", async () => {
             await (0, TextPrinter_1.typeText)("\n\nSay you, me, and some other grumpy people are waiting at the dmv. First we take everyone’s names and ask what they need:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -115,7 +116,7 @@ async function menu_sorts() {
         quickSortMenu.addOption("Show me in action", async () => {
             await (0, TextPrinter_1.typeText)("\nIf we were to sort you name alphabetically using quicksort, it would go like this:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             const sortedName = (0, SortingAlgs_1.quickSort)(fullName.toLowerCase().replace(/ /g, ''));
-            await (0, TextPrinter_1.typeText)("\nAnd now we're left with your new, better sorted name! ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nAnd now we're left with your new, alphabetically sorted name! ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             await (0, TextPrinter_1.typeText)(" I think " + sortedName + " fits you better anyway.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
         });
         quickSortMenu.addOption("When to use quicksort?", async () => {
@@ -150,7 +151,7 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)("\nSuppose you’re running a furniture shop. You open a furniture catalog and spot a nice oak chair that would look great in the window.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("\nYou call the factory where it’s made and ask for the oak chair. As the client, you don’t know nor are you concerned with the manufacturing details of the chair; You don’t know where they source their oak, how the chair is constructed, or the tools needed for said construction.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("\nNow the factory rep who gets your call doesn’t know everything either. They have a blueprint for the model chair you want: it has four legs, arm rests and a swivel. They outsource the construction to experts.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)("\nSo the factory rep sends the blueprint to the workshop with a note that they need it done in oak. The workshop knows all the tools of the woodworking trade. They use their spokeshaves, saws, and sandpaper to construct the chair. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nSo the factory rep sends the blueprint to the workshop with a note that the client needs a chair made of oak. The workshop knows all the tools of the woodworking trade. They use their spokeshaves, saws, and sandpaper to construct the chair. \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("\nA sudo code interpretation of these events might go like this: \n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("\n1. The client uses the chair factory: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("let myOakChair = chairFactory.createChair(woodType.oak);\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
@@ -181,23 +182,23 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)("\nEvery character has\n1. A Name\n2. A genre of film\n3. A famous quote\n4. A piece of clothing they wear.\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 let characterBuilder = new builder_1.MovieCharacterBuilder();
                 characterBuilder.setName("Indiana Jones");
-                characterBuilder.setGenra("Adventure");
+                characterBuilder.setGenra("Action-Adventure");
                 characterBuilder.setQuote("It belongs in a museum!");
                 characterBuilder.setClothing("Fedora");
                 let indy = characterBuilder.build();
                 await (0, TextPrinter_1.typeText)("\nExample: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)(indy.description() + "\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 await (0, TextPrinter_1.typeText)("\nNow you try!\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)("\nGive the name of a famouse movie character:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nGive the name of a famous movie character:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 const charName = await getUserInput();
-                await (0, TextPrinter_1.typeText)("\nWhat Genra movie are they in?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nWhat Genre movie are they in?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 const charGenra = await getUserInput();
-                await (0, TextPrinter_1.typeText)("\nWhat's a famouse quote?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\nWhat's a famous quote?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 const charQuote = await getUserInput();
                 await (0, TextPrinter_1.typeText)("\nWhat is a clothing item they wear?\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 const charClothes = await getUserInput();
                 await (0, TextPrinter_1.typeText)("\nGreat! now lets build them:\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)(`\ncharacterBuilder.setName(${charName});\ncharacterBuilder.setGenra(${charGenra});\ncharacterBuilder.setQuote(${charQuote});\ncharacterBuilder.setClothing(${charClothes});\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)(`\ncharacterBuilder.setName(${charName});\ncharacterBuilder.setGenre(${charGenra});\ncharacterBuilder.setQuote(${charQuote});\ncharacterBuilder.setClothing(${charClothes});\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 characterBuilder.setName(charName);
                 characterBuilder.setGenra(charGenra);
                 characterBuilder.setQuote(charQuote);
@@ -276,20 +277,46 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)("\n\nThat’s some expensive coffee!", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             });
             decoratorPatternMenu.addOption("When to use a decorater", async () => {
+                await (0, TextPrinter_1.typeText)("you should consider using them when you need to add metadata, behavior, or additional functionality to your code in a modular and maintainable way. They can be particularly useful for cross-cutting concerns, validation, and customization for applications and APIs.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             });
             await decoratorPatternMenu.start();
         });
         await structuralPatternMenu.start();
     });
-    //TODO: add Behavioral options
-    // dpMenu.addOption("Behavioral", async () => {
-    //     const behavioralPatternMenu = new CommandMenu();
-    //     behavioralPatternMenu.setMenuMessage("");
-    //     behavioralPatternMenu.setMenuQuestion("");
-    //     behavioralPatternMenu.addOption("", async () => {
-    //     })
-    //     behavioralPatternMenu.start();
-    // });
+    dpMenu.addOption("Behavioral", async () => {
+        const behavioralPatternsMenu = new CommandMenu_1.CommandMenu();
+        behavioralPatternsMenu.setMenuMessage("Behavioral design patterns deal with the communication and interaction between objects and classes (As opposed to their creation). These patterns focus on how objects collaborate and delegate responsibilities among themselves to achieve a specific behavior, making the design more flexible and maintainable.");
+        behavioralPatternsMenu.setMenuQuestion("Which behavioral pattern would you like to know about?");
+        behavioralPatternsMenu.addOption("Strategy Pattern", async () => {
+            const strategyPattern = new CommandMenu_1.CommandMenu();
+            strategyPattern.setMenuMessage("The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It allows clients to choose the appropriate algorithm at runtime.");
+            strategyPattern.setMenuQuestion("Would you like to know more?");
+            strategyPattern.addOption("Run an example", async () => {
+                await (0, TextPrinter_1.typeText)("\nLet's assume you're putting together a shopping cart for your application.\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("The client wants the end user to have multiple payment options when checking out. Since checking out is an action (or behavior), and the choice takes place at runtime, you decide to use a strategy pattern.\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("First, we create an interface that represents our strategy:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(`interface PaymentStrategy {\n    pay(amount: number): void;\n}\n\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("Now we can implement our interface with separate classes for each payment method:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(strategy_1.CreditCardPayment.toString() + "\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)(strategy_1.PayPalPayment.toString() + "\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\n\nWith our two strategies coded, we can make a shopping cart class that makes use of the strategy interface:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(strategy_1.ShoppingCart.toString(), TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\n\nFinally, our client code can pick which strategy to implement at runtime:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("const cart1 = new ShoppingCart(new CreditCardPayment());\ncart1.checkout(100);", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                const cart1 = new strategy_1.ShoppingCart(new strategy_1.CreditCardPayment());
+                await (0, TextPrinter_1.typeText)("\n\nAnd we get the result: ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                cart1.checkout(100);
+            });
+            strategyPattern.addOption("When to use a strategy pattern?", async () => {
+                await (0, TextPrinter_1.typeText)("\nYou should use a strategy pattern when you need to manage multiple interchangeable algorithms or behaviors in your application.", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("\n\nSimply put, the strategy pattern helps choose which algorithm to pick at runtime. ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+            });
+            await strategyPattern.start();
+        });
+        await behavioralPatternsMenu.start();
+    });
+    dpMenu.addOption("When to choose each type?", async () => {
+    });
     await dpMenu.start();
 }
 exports.menu_designPatterns = menu_designPatterns;
@@ -299,7 +326,7 @@ exports.menu_designPatterns = menu_designPatterns;
 async function menu_input() {
     const inputMenu = new CommandMenu_1.CommandMenu();
     inputMenu.setMenuMessage("Handling input is one of the most important aspects of a user interface. Invalid input, whether entered purposely or by mistake accounts for most of the code in place for decision fields.");
-    inputMenu.setMenuQuestion("What would you liek to know?");
+    inputMenu.setMenuQuestion("What would you like to know?");
     inputMenu.addOption("Run an example", async () => {
         await example_inputValidation();
     });
@@ -316,19 +343,19 @@ async function menu_input() {
             await (0, TextPrinter_1.typeText)("\n\nWhitelisting is used in this code whenever you are asked to select a number!\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Length Check Validation", async () => {
-            await (0, TextPrinter_1.typeText)("\nLength Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nLength Checks Validation checks whether the length of the data is within acceptable limits. For example, validating that a password is at least 8 characters long requires a length check.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Range Check Validation", async () => {
-            await (0, TextPrinter_1.typeText)("\nRange checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nRange checks involve verifying that a value falls within an acceptable range. For instance, ensuring that an age field contains a value between 0 and 150 requires a range check.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Type Check Validation:", async () => {
-            await (0, TextPrinter_1.typeText)("\nType checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nType checks involve verifying that the data entered is of the correct data type. For example, ensuring that a field meant for numerical values only contains numbers, and a field meant for email addresses contains a valid email format would use a type check.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("Pattern Matching Validation:", async () => {
-            await (0, TextPrinter_1.typeText)("\nPattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nPattern matching checks use regular expressions or patterns to validate data. For example, validating that a date is in the format YYYY-MM-DD would call for pattern matching validation.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         validationTypesMenu.addOption("List Check Validation:", async () => {
-            await (0, TextPrinter_1.typeText)("\nList checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
+            await (0, TextPrinter_1.typeText)("\nList checks involve validating that the entered data matches an item from a predefined list. For instance, validating that a state code corresponds to a valid U.S. state might use a list check.\n", TextPrinter_1.textSpeed.very_fast, true, TextPrinter_1.textColor.green);
         });
         await validationTypesMenu.start();
     });
