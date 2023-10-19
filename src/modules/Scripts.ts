@@ -310,6 +310,23 @@ export async function menu_designPatterns() {
             }); 
             await strategyPattern.start();
         });
+        behavioralPatternsMenu.addOption("Iterator Pattern", async () => {
+            const iteratorPatternMenu = new CommandMenu();
+            iteratorPatternMenu.setMenuMessage("");
+            iteratorPatternMenu.setMenuQuestion("");
+            iteratorPatternMenu.addOption("Run an Example", async() => {
+                typeText("",textSpeed.very_fast,false,textColor.green);
+                typeText("",textSpeed.very_fast,false,textColor.green);
+                typeText("",textSpeed.very_fast,false,textColor.green);
+                //interface for the example
+                interface student{
+                    name: string,
+                    grade: string,
+                    
+                }
+            });
+            await iteratorPatternMenu.start();
+        })
         await behavioralPatternsMenu.start();
     });
 
