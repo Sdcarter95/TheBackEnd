@@ -298,7 +298,7 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)(`interface PaymentStrategy {\n    pay(amount: number): void;\n}\n\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 await (0, TextPrinter_1.typeText)("Now we can implement our interface with separate classes for each payment method:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("export class CreditCardPayment implements PaymentStrategy {\n    pay(amount: number) {\n        console.log(`Paid ${amount} dollars with a credit card.`);\n    }\n}\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
-                await (0, TextPrinter_1.typeText)("export class PayPalPayment implements PaymentStrategy {\n    pay(amount: number) {\n        console.log(`Paid ${amount} dollars using PayPal.`);\n    }\n\n\n}", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("export class PayPalPayment implements PaymentStrategy {\n    pay(amount: number) {\n        console.log(`Paid ${amount} dollars using PayPal.`);\n    }\n}\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 await (0, TextPrinter_1.typeText)("\n\nWith our two strategies coded, we can make a shopping cart class that makes use of the strategy interface:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("export class ShoppingCart {\n    private paymentStrategy: PaymentStrategy;\n    constructor(paymentStrategy: PaymentStrategy) {\n        this.paymentStrategy = paymentStrategy;\n    }\n    checkout(amount: number) {\n        this.paymentStrategy.pay(amount);\n    }}", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 await (0, TextPrinter_1.typeText)("\n\nFinally, our client code can pick which strategy to implement at runtime:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -312,6 +312,27 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)("\n\nSimply put, the strategy pattern helps choose which algorithm to pick at runtime. ", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
             });
             await strategyPattern.start();
+        });
+        behavioralPatternsMenu.addOption("Iterator Pattern", async () => {
+            const iteratorPatternMenu = new CommandMenu_1.CommandMenu();
+            iteratorPatternMenu.setMenuMessage("Iterators are ubiquitous in programming and allow you to traverse lists and collections easily and with security.");
+            iteratorPatternMenu.setMenuQuestion("Want to know more about Itorators?");
+            iteratorPatternMenu.addOption("When to use an Iterator Pattern?", async () => {
+                await (0, TextPrinter_1.typeText)("\nIterators are extremely useful for accessing elements of a collection sequentially without exposing the underlying details of the collection. It involves creating an iterator object, which keeps track of the current position within the collection and provides methods to access the next element.\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("Luckily, languages such as typeScript provides built-in support for iterators and iterables, so you don't need to create your own custom iterator in most cases. TypeScript leverages JavaScript's native iterator and iterable mechanisms.\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)("As an example, we could create an array of students like this:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(`interface student{\n    name: string,\n    grade: string,\n}\n\n\nconst roster: student[] = [];\nroster.push({name:"Seth", grade:"B"});\nroster.push({name: name, grade:"A"});`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)("\n\nNow, the client can iterate through our array like this:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                await (0, TextPrinter_1.typeText)(`for(const member of roster){\n    console.log(member.name + ", Grade: " + member.grade);\n}\n\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)(`We're left with this output:\n\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+                const roster = [];
+                roster.push({ name: "Seth", grade: "B" });
+                roster.push({ name: name, grade: "A" });
+                for (const member of roster) {
+                    console.log(member.name + ", Grade: " + member.grade);
+                }
+            });
+            await iteratorPatternMenu.start();
         });
         await behavioralPatternsMenu.start();
     });

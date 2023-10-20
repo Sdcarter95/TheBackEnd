@@ -312,18 +312,30 @@ export async function menu_designPatterns() {
         });
         behavioralPatternsMenu.addOption("Iterator Pattern", async () => {
             const iteratorPatternMenu = new CommandMenu();
-            iteratorPatternMenu.setMenuMessage("");
-            iteratorPatternMenu.setMenuQuestion("");
-            iteratorPatternMenu.addOption("Run an Example", async() => {
-                typeText("",textSpeed.very_fast,false,textColor.green);
-                typeText("",textSpeed.very_fast,false,textColor.green);
-                typeText("",textSpeed.very_fast,false,textColor.green);
+            iteratorPatternMenu.setMenuMessage("Iterators are ubiquitous in programming and allow you to traverse lists and collections easily and with security.");
+            iteratorPatternMenu.setMenuQuestion("Want to know more about Itorators?");
+            iteratorPatternMenu.addOption("When to use an Iterator Pattern?", async() => {
+                await typeText("\nIterators are extremely useful for accessing elements of a collection sequentially without exposing the underlying details of the collection. It involves creating an iterator object, which keeps track of the current position within the collection and provides methods to access the next element.\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText("Luckily, languages such as typeScript provides built-in support for iterators and iterables, so you don't need to create your own custom iterator in most cases. TypeScript leverages JavaScript's native iterator and iterable mechanisms.\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText("As an example, we could create an array of students like this:\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText(`interface student{\n    name: string,\n    grade: string,\n}\n\n\nconst roster: student[] = [];\nroster.push({name:"Seth", grade:"B"});\nroster.push({name: name, grade:"A"});`,textSpeed.very_fast,false,textColor.cyan);
+                await typeText("\n\nNow, the client can iterate through our array like this:\n\n",textSpeed.very_fast,false,textColor.green);
+                await typeText(`for(const member of roster){\n    console.log(member.name + ", Grade: " + member.grade);\n}\n\n`,textSpeed.very_fast,false,textColor.cyan);
+                await typeText(`We're left with this output:\n\n`,textSpeed.very_fast,false,textColor.green);
                 //interface for the example
                 interface student{
                     name: string,
                     grade: string,
                     
                 }
+                const roster: student[] = [];
+                roster.push({name:"Seth", grade:"B"});
+                roster.push({name: name, grade:"A"});
+
+                for(const member of roster){
+                    console.log(member.name + ", Grade: " + member.grade);
+                }
+                
             });
             await iteratorPatternMenu.start();
         })
