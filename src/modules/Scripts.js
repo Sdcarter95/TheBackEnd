@@ -32,7 +32,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.askForName = exports.checkData = exports.message_intro = exports.menu_input = exports.menu_designPatterns = exports.menu_sorts = void 0;
+exports.askForName = exports.checkData = exports.message_intro = exports.menu_bestPractices = exports.menu_input = exports.menu_designPatterns = exports.menu_sorts = void 0;
 const readline = __importStar(require("readline"));
 const fs_1 = __importDefault(require("fs"));
 const asciArt_1 = require("./constants/asciArt");
@@ -321,7 +321,7 @@ async function menu_designPatterns() {
                 await (0, TextPrinter_1.typeText)("\nIterators are extremely useful for accessing elements of a collection sequentially without exposing the underlying details of the collection. It involves creating an iterator object, which keeps track of the current position within the collection and provides methods to access the next element.\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("Luckily, languages such as typeScript provides built-in support for iterators and iterables, so you don't need to create your own custom iterator in most cases. TypeScript leverages JavaScript's native iterator and iterable mechanisms.\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)("As an example, we could create an array of students like this:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
-                await (0, TextPrinter_1.typeText)(`interface student{\n    name: string,\n    grade: string,\n}\n\n\nconst roster: student[] = [];\nroster.push({name:"Seth", grade:"B"});\nroster.push({name: name, grade:"A"});`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
+                await (0, TextPrinter_1.typeText)(`interface student{\n    name: string,\n    grade: string,\n}\n\n\nconst roster: student[] = [];\nroster.push({name:"Seth", grade:"B"});\nroster.push({name: ${name}, grade:"A"});`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 await (0, TextPrinter_1.typeText)("\n\nNow, the client can iterate through our array like this:\n\n", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
                 await (0, TextPrinter_1.typeText)(`for(const member of roster){\n    console.log(member.name + ", Grade: " + member.grade);\n}\n\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.cyan);
                 await (0, TextPrinter_1.typeText)(`We're left with this output:\n\n`, TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
@@ -390,6 +390,22 @@ async function menu_input() {
     await inputMenu.start();
 }
 exports.menu_input = menu_input;
+async function menu_bestPractices() {
+    const bestPracticeMenu = new CommandMenu_1.CommandMenu();
+    bestPracticeMenu.setMenuMessage("");
+    bestPracticeMenu.setMenuQuestion("");
+    bestPracticeMenu.addOption("Directory Formatting", async () => {
+        const directoryFormatMenu = new CommandMenu_1.CommandMenu();
+        directoryFormatMenu.setMenuMessage("");
+        directoryFormatMenu.setMenuQuestion("");
+        directoryFormatMenu.addOption("", async () => {
+            await (0, TextPrinter_1.typeText)("", TextPrinter_1.textSpeed.very_fast, false, TextPrinter_1.textColor.green);
+        });
+        await directoryFormatMenu.start();
+    });
+    await bestPracticeMenu.start();
+}
+exports.menu_bestPractices = menu_bestPractices;
 /**
  * This example lets the user pick form feilds to enter, and then explains the input validation needed to process the input.
  */

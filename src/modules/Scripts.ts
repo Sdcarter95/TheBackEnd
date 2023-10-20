@@ -17,7 +17,7 @@ import { ShapeFactory, shapes } from './designPatterns/factoryMethod';
 import { MovieCharacterBuilder } from './designPatterns/builder';
 import { adapterExample, adapterFunctions } from './designPatterns/adapter';
 import { BasicCoffee, Coffee, AddMilk, AddSugar } from './designPatterns/decorator';
-import { CreditCardPayment, PayPalPayment, ShoppingCart } from './designPatterns/strategy';
+import { CreditCardPayment, ShoppingCart } from './designPatterns/strategy';
 
 let name = "Recruiter";
 let fullName = "Recruiter";
@@ -318,7 +318,7 @@ export async function menu_designPatterns() {
                 await typeText("\nIterators are extremely useful for accessing elements of a collection sequentially without exposing the underlying details of the collection. It involves creating an iterator object, which keeps track of the current position within the collection and provides methods to access the next element.\n\n",textSpeed.very_fast,false,textColor.green);
                 await typeText("Luckily, languages such as typeScript provides built-in support for iterators and iterables, so you don't need to create your own custom iterator in most cases. TypeScript leverages JavaScript's native iterator and iterable mechanisms.\n\n",textSpeed.very_fast,false,textColor.green);
                 await typeText("As an example, we could create an array of students like this:\n\n",textSpeed.very_fast,false,textColor.green);
-                await typeText(`interface student{\n    name: string,\n    grade: string,\n}\n\n\nconst roster: student[] = [];\nroster.push({name:"Seth", grade:"B"});\nroster.push({name: name, grade:"A"});`,textSpeed.very_fast,false,textColor.cyan);
+                await typeText(`interface student{\n    name: string,\n    grade: string,\n}\n\n\nconst roster: student[] = [];\nroster.push({name:"Seth", grade:"B"});\nroster.push({name: ${name}, grade:"A"});`,textSpeed.very_fast,false,textColor.cyan);
                 await typeText("\n\nNow, the client can iterate through our array like this:\n\n",textSpeed.very_fast,false,textColor.green);
                 await typeText(`for(const member of roster){\n    console.log(member.name + ", Grade: " + member.grade);\n}\n\n`,textSpeed.very_fast,false,textColor.cyan);
                 await typeText(`We're left with this output:\n\n`,textSpeed.very_fast,false,textColor.green);
@@ -395,6 +395,74 @@ export async function menu_input() {
         await validationTypesMenu.start();
     })
     await inputMenu.start();
+}
+
+/**
+ * This menue details some of the best practices used in software engineering.
+ */
+export async function menu_codeStandards() {
+    const codeStandardsMenu = new CommandMenu();
+    codeStandardsMenu.setMenuMessage("Coding standards (or coding conventions) are a set of rules, practices, and guidelines that developers follow when writing source code for a software project. These standards are essential for maintaining code quality, consistency, and readability across the entire codebase.");
+    codeStandardsMenu.setMenuQuestion("Would you like to know about one of the following standards?");
+    codeStandardsMenu.addOption("Directory Formatting", async () => {
+        const directoryFormatMenu = new CommandMenu();
+        directoryFormatMenu.setMenuMessage("");
+        directoryFormatMenu.setMenuQuestion("");
+        directoryFormatMenu.addOption("", async () => {
+            await typeText("", textSpeed.very_fast, false, textColor.green);  
+        });
+        await directoryFormatMenu.start();
+    });
+    codeStandardsMenu.addOption("", async () => {
+
+    });
+    codeStandardsMenu.addOption("", async () => {
+
+    });
+    codeStandardsMenu.addOption("", async () => {
+
+    });
+    codeStandardsMenu.addOption("", async () => {
+
+    });
+
+    /**Naming Conventions:
+
+Coding standards define rules for naming variables, functions, classes, and other program elements. These rules ensure that names are descriptive and follow a consistent style.
+Indentation and Formatting:
+
+Coding standards specify rules for code indentation, line length, and code structure. Consistent formatting improves code readability and maintainability.
+Comments and Documentation:
+
+Coding standards encourage developers to include meaningful comments and documentation in their code. This helps other team members understand the code's purpose and functionality.
+Variable and Constant Naming:
+
+Standards provide guidelines for naming variables and constants to make their purpose clear. Common conventions include using camelCase or snake_case for variables and using uppercase for constants.
+Function and Method Naming:
+
+Coding standards define conventions for naming functions and methods. Descriptive names should reflect the function's purpose.
+Error Handling:
+
+Coding standards often include guidelines for error handling, such as using meaningful error messages and proper exception handling techniques.
+Code Modularity and Readability:
+
+Standards promote modular code design and readability. Developers should break code into smaller, manageable functions and use meaningful variable names.
+Consistent Use of Language Features:
+
+Coding standards guide developers in the appropriate use of language features, such as loops, conditionals, and data types.
+File and Directory Structure:
+
+Standards may provide recommendations for organizing source code files and directories within a project to ensure a logical and consistent structure.
+Version Control and Git Practices:
+
+Some coding standards include practices related to version control systems like Git, such as commit message conventions and branching strategies.
+Security Practices:
+
+Coding standards may include security-related guidelines to prevent common vulnerabilities, such as SQL injection, cross-site scripting (XSS), and authentication issues.
+Testing and Quality Assurance:
+
+Standards often address unit testing and quality assurance practices to ensure code reliability and maintainability. */
+    await codeStandardsMenu.start();
 }
 
 /**
